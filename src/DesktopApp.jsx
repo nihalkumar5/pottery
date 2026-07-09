@@ -132,7 +132,7 @@ function DesktopApp() {
           <li><a href="#shop">Shop</a></li>
           <li><a href="#collections">Collections</a></li>
           <li><a href="#about">About</a></li>
-          {!user && <li><a href="#" onClick={(e) => { e.preventDefault(); openTrackOrder(); }}>Track Order</a></li>}
+          <li><a href="#" onClick={(e) => { e.preventDefault(); user ? setIsAuthOpen(true) : openTrackOrder(); }}>Track Order</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); setIsAuthOpen(true); }}>{user ? 'My Account' : 'Sign In'}</a></li>
         </ul>
         <div className="cart-icon" onClick={toggleCart}>
@@ -406,7 +406,7 @@ function DesktopApp() {
             <div className="premium-footer-links">
               <h3>Support</h3>
               <ul>
-                <li><a href="#" onClick={(e) => { e.preventDefault(); openTrackOrder(); }}>Track Order</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); user ? setIsAuthOpen(true) : openTrackOrder(); }}>Track Order</a></li>
                 <li><a href="#">Shipping & Returns</a></li>
                 <li><a href="#">Care Guide</a></li>
                 <li><a href="#">Contact Us</a></li>

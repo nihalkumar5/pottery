@@ -305,7 +305,7 @@ export default function MobileApp() {
           <div>
             <h3 className="font-serif text-xl mb-6 text-white/90">Support</h3>
             <ul className="flex flex-col gap-4 text-sm text-white/60">
-              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); setIsTrackOrderOpen(true); }}>Track Order</a></li>
+              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); user ? setIsProfileOpen(true) : setIsTrackOrderOpen(true); }}>Track Order</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Shipping & Returns</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Care Guide</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Contact Us</a></li>
@@ -357,7 +357,7 @@ export default function MobileApp() {
                 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2, duration: 0.5 }}
                 href="#" 
                 className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
-                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); setIsTrackOrderOpen(true); }}
+                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); user ? setIsProfileOpen(true) : setIsTrackOrderOpen(true); }}
               >
                 <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">02</span>
                 Track Order
@@ -690,7 +690,7 @@ export default function MobileApp() {
           <span className="text-[10px] font-medium tracking-wide">Explore</span>
         </div>
         
-        <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => setIsTrackOrderOpen(true)}>
+        <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => user ? setIsProfileOpen(true) : setIsTrackOrderOpen(true)}>
           <PackageSearch className="w-5 h-5" />
           <span className="text-[10px] font-medium tracking-wide">Track</span>
         </div>
