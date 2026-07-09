@@ -18,13 +18,27 @@ const REVIEWS = [
 ];
 
 export default function MobileApp() {
-  const { products, cart, addToCart, cartTotal, submitOrder, trackOrder, user, login, logout, register } = useShop();
+  const { products, cart, addToCart, cartTotal, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
   
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  // User Orders
+  const [userOrders, setUserOrders] = useState([]);
+  const [isLoadingOrders, setIsLoadingOrders] = useState(false);
+
+  useEffect(() => {
+    if (user && isProfileOpen) {
+      setIsLoadingOrders(true);
+      fetchUserOrders(user.email).then(orders => {
+        setUserOrders(orders);
+        setIsLoadingOrders(false);
+      });
+    }
+  }, [user, isProfileOpen]);
 
   // Auth States
   const [isLoginMode, setIsLoginMode] = useState(true);
@@ -120,7 +134,7 @@ export default function MobileApp() {
       <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isScrolled ? 'bg-background/80 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'}`}>
         <div className="flex items-center justify-between px-6">
           <Menu className="w-6 h-6 text-primary cursor-pointer" onClick={() => setIsMenuOpen(true)} />
-          <h1 className="font-serif text-2xl tracking-widest font-bold">TIERRA</h1>
+          <h1 className="font-serif text-2xl tracking-widest font-bold">CLAY & CRAFT</h1>
           <div className="w-6" /> {/* Spacer for centering */}
         </div>
       </nav>
@@ -267,20 +281,47 @@ export default function MobileApp() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-primary text-white/60 py-16 px-6 pb-20">
-        <h2 className="font-serif text-2xl text-white tracking-widest font-bold mb-10">TIERRA</h2>
-        <div className="grid grid-cols-2 gap-8 mb-12">
-          <div className="flex flex-col gap-4">
-            <a href="#" className="hover:text-white transition-colors">Shop</a>
-            <a href="#" className="hover:text-white transition-colors">About</a>
-          </div>
-          <div className="flex flex-col gap-4">
-            <a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); setIsTrackOrderOpen(true); }}>Track Order</a>
-            <a href="#" className="hover:text-white transition-colors">Instagram</a>
+      {/* Premium Footer */}
+      <footer className="bg-[#2F2A25] text-white pt-20 pb-32 px-6">
+        <div className="mb-16">
+          <h2 className="font-serif text-3xl mb-4">Join our community</h2>
+          <p className="text-white/60 text-sm mb-6 max-w-[280px]">Subscribe to receive updates on new collections, exclusive offers, and the stories behind our craft.</p>
+          <div className="flex gap-2">
+            <input type="email" placeholder="Your email address" className="bg-transparent border-b border-white/20 pb-2 flex-1 text-white placeholder-white/40 focus:outline-none focus:border-white transition-colors rounded-none" />
+            <button className="text-sm font-medium tracking-widest uppercase border-b border-white pb-2 hover:text-accent hover:border-accent transition-colors">Subscribe</button>
           </div>
         </div>
-        <p className="text-sm">© 2026 Tierra Ceramics. All rights reserved.</p>
+
+        <div className="grid grid-cols-2 gap-12 mb-16">
+          <div>
+            <h3 className="font-serif text-xl mb-6 text-white/90">Shop</h3>
+            <ul className="flex flex-col gap-4 text-sm text-white/60">
+              <li><a href="#" className="hover:text-white transition-colors">All Collections</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Tableware</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Vases</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Gifts</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-serif text-xl mb-6 text-white/90">Support</h3>
+            <ul className="flex flex-col gap-4 text-sm text-white/60">
+              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); setIsTrackOrderOpen(true); }}>Track Order</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Shipping & Returns</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Care Guide</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center pt-10 border-t border-white/10 text-center">
+          <h2 className="font-serif text-2xl tracking-widest font-bold mb-6">CLAY & CRAFT</h2>
+          <div className="flex gap-6 mb-8 text-white/60">
+            <a href="#" className="hover:text-white transition-colors text-sm">Instagram</a>
+            <a href="#" className="hover:text-white transition-colors text-sm">Pinterest</a>
+            <a href="#" className="hover:text-white transition-colors text-sm">Journal</a>
+          </div>
+          <p className="text-[10px] tracking-wider uppercase text-white/40">© 2026 Clay & Craft. All rights reserved.</p>
+        </div>
       </footer>
 
       {/* Modals & Overlays */}
@@ -352,7 +393,7 @@ export default function MobileApp() {
                   <a href="#" className="text-white no-underline hover:text-accent transition-colors">Pinterest</a>
                 </div>
               </div>
-              <h1 className="font-serif text-xl tracking-widest font-bold text-white/20">TIERRA</h1>
+              <h1 className="font-serif text-xl tracking-widest font-bold text-white/20">CLAY & CRAFT</h1>
             </motion.div>
           </motion.div>
         )}
@@ -428,7 +469,7 @@ export default function MobileApp() {
                 <div className="h-full flex flex-col items-center justify-center text-center">
                   <CheckCircle className="w-16 h-16 text-accent mb-6" />
                   <h3 className="font-serif text-3xl mb-4">Order Placed!</h3>
-                  <p className="text-secondary mb-8">Thank you for shopping with Tierra. We will prepare your handcrafted ceramics shortly.</p>
+                  <p className="text-secondary mb-8">Thank you for shopping with Clay & Craft. We will prepare your handcrafted ceramics shortly.</p>
                   <button 
                     className="w-full bg-primary text-white py-4 rounded-xl font-medium tracking-wide"
                     onClick={() => { setIsCheckoutOpen(false); setOrderSuccess(false); }}
@@ -516,12 +557,35 @@ export default function MobileApp() {
                     <User className="w-10 h-10 text-secondary" />
                   </div>
                   <h3 className="font-serif text-3xl mb-2">Welcome, {user.displayName || user.username}</h3>
-                  <p className="text-secondary mb-10">{user.email}</p>
+                  <p className="text-secondary mb-8">{user.email}</p>
                   
-                  <div className="w-full max-w-sm flex flex-col gap-4">
-                    <button onClick={() => { setIsProfileOpen(false); setIsTrackOrderOpen(true); }} className="w-full bg-background text-primary py-4 rounded-xl font-medium tracking-wide border border-gray-200">
-                      Track My Orders
-                    </button>
+                  <div className="w-full text-left mb-8 max-h-[40vh] overflow-y-auto">
+                    <h4 className="font-serif text-xl mb-4">Your Recent Orders</h4>
+                    {isLoadingOrders ? (
+                      <p className="text-sm text-secondary">Loading orders...</p>
+                    ) : userOrders.length > 0 ? (
+                      <div className="flex flex-col gap-4">
+                        {userOrders.map(order => (
+                          <div key={order.id} className="bg-[#fdfbf9] border border-gray-100 p-4 rounded-2xl">
+                            <div className="flex justify-between items-center mb-2">
+                              <strong className="font-serif">Order #{order.id}</strong>
+                              <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full ${
+                                order.status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
+                              }`}>{order.status}</span>
+                            </div>
+                            <div className="text-xs text-secondary flex justify-between">
+                              <span>{new Date(order.date_created).toLocaleDateString()}</span>
+                              <span>₹{order.total}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-secondary">You haven't placed any orders yet.</p>
+                    )}
+                  </div>
+
+                  <div className="w-full max-w-sm flex flex-col gap-3">
                     <button onClick={() => logout()} className="w-full bg-red-50 text-red-600 py-4 rounded-xl font-medium tracking-wide border border-red-100">
                       Sign Out
                     </button>
@@ -530,7 +594,7 @@ export default function MobileApp() {
               ) : (
                 <form onSubmit={handleAuthSubmit} className="flex flex-col gap-4 mb-8 mt-10">
                   <div className="text-center mb-8">
-                    <h3 className="font-serif text-3xl mb-2">{isLoginMode ? 'Welcome Back' : 'Join Tierra'}</h3>
+                    <h3 className="font-serif text-3xl mb-2">{isLoginMode ? 'Welcome Back' : 'Join Clay & Craft'}</h3>
                     <p className="text-secondary">Enter your details to continue.</p>
                   </div>
                   

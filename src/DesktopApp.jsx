@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useShop } from './ShopContext';
 
 function DesktopApp() {
-  const { products, cart, addToCart, removeFromCart, cartTotal, submitOrder, trackOrder, user, login, logout, register } = useShop();
+  const { products, cart, addToCart, removeFromCart, cartTotal, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -33,6 +33,20 @@ function DesktopApp() {
   const [trackResult, setTrackResult] = useState(null);
   const [isTrackLoading, setIsTrackLoading] = useState(false);
   const [trackError, setTrackError] = useState('');
+  
+  // User Orders
+  const [userOrders, setUserOrders] = useState([]);
+  const [isLoadingOrders, setIsLoadingOrders] = useState(false);
+
+  useEffect(() => {
+    if (user && isAuthOpen) {
+      setIsLoadingOrders(true);
+      fetchUserOrders(user.email).then(orders => {
+        setUserOrders(orders);
+        setIsLoadingOrders(false);
+      });
+    }
+  }, [user, isAuthOpen]);
 
   const toggleCart = () => setIsCartOpen(!isCartOpen);
 
@@ -113,12 +127,12 @@ function DesktopApp() {
   return (
     <div className="desktop-root">
       <nav className="navbar">
-        <div className="logo">TIERRA</div>
+        <div className="logo">CLAY & CRAFT</div>
         <ul className="nav-links">
           <li><a href="#shop">Shop</a></li>
           <li><a href="#collections">Collections</a></li>
           <li><a href="#about">About</a></li>
-          <li><a href="#" onClick={(e) => { e.preventDefault(); openTrackOrder(); }}>Track Order</a></li>
+          {!user && <li><a href="#" onClick={(e) => { e.preventDefault(); openTrackOrder(); }}>Track Order</a></li>}
           <li><a href="#" onClick={(e) => { e.preventDefault(); setIsAuthOpen(true); }}>{user ? 'My Account' : 'Sign In'}</a></li>
         </ul>
         <div className="cart-icon" onClick={toggleCart}>
@@ -168,7 +182,7 @@ function DesktopApp() {
           {orderSuccess ? (
             <div className="order-success">
               <h3>Order Placed Successfully!</h3>
-              <p>Thank you for shopping with Tierra. We will prepare your handcrafted ceramics shortly.</p>
+              <p>Thank you for shopping with Clay & Craft. We will prepare your handcrafted ceramics shortly.</p>
               <button className="btn-primary" onClick={closeCheckout} style={{marginTop: '2rem'}}>Continue Shopping</button>
             </div>
           ) : (
@@ -259,11 +273,32 @@ function DesktopApp() {
           <button className="close-modal" onClick={() => setIsAuthOpen(false)}>&times;</button>
           
           {user ? (
-            <div className="order-success" style={{textAlign: 'center', padding: '2rem 0'}}>
+            <div className="order-success" style={{textAlign: 'center', padding: '2rem 0', maxHeight: '70vh', overflowY: 'auto'}}>
               <h3>Welcome, {user.displayName || user.username}</h3>
               <p style={{color: 'var(--color-secondary)'}}>{user.email}</p>
-              <div style={{display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '2rem'}}>
-                <button className="btn-primary" onClick={() => { setIsAuthOpen(false); openTrackOrder(); }}>Track Orders</button>
+              
+              <div style={{textAlign: 'left', margin: '2rem 0'}}>
+                <h4>Your Recent Orders</h4>
+                {isLoadingOrders ? (
+                  <p style={{marginTop: '1rem'}}>Loading orders...</p>
+                ) : userOrders.length > 0 ? (
+                  <ul style={{listStyle: 'none', padding: 0, marginTop: '1rem'}}>
+                    {userOrders.map(order => (
+                      <li key={order.id} style={{padding: '1.5rem', border: '1px solid #eee', marginBottom: '1rem', borderRadius: '8px', background: '#fdfbf9'}}>
+                        <strong>Order #{order.id}</strong> - {new Date(order.date_created).toLocaleDateString()}
+                        <span className={`track-status-badge status-${order.status}`} style={{float: 'right', fontSize: '12px'}}>{order.status}</span>
+                        <div style={{marginTop: '0.5rem', fontSize: '14px', color: 'var(--color-secondary)'}}>
+                          Total: ₹{order.total} | Payment: {order.payment_method_title}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p style={{marginTop: '1rem'}}>You haven't placed any orders yet.</p>
+                )}
+              </div>
+              
+              <div style={{display: 'flex', gap: '1rem', justifyContent: 'center'}}>
                 <button className="btn-checkout" style={{background: '#8A6545'}} onClick={() => logout()}>Sign Out</button>
               </div>
             </div>
@@ -271,7 +306,7 @@ function DesktopApp() {
             <>
               <div className="checkout-header">
                 <h2>{isLoginMode ? 'Sign In' : 'Create Account'}</h2>
-                <p>{isLoginMode ? 'Welcome back to Tierra' : 'Join our community'}</p>
+                <p>{isLoginMode ? 'Welcome back to Clay & Craft' : 'Join our community'}</p>
               </div>
               <form onSubmit={handleAuthSubmit}>
                 {isLoginMode ? (
@@ -347,32 +382,46 @@ function DesktopApp() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="footer-content">
-          <div className="footer-col">
-            <h3>TIERRA</h3>
-            <p>Earthy, premium pottery crafted with intention.</p>
+      {/* Premium Footer */}
+      <footer className="premium-footer">
+        <div className="premium-footer-top">
+          <div className="premium-footer-newsletter">
+            <h2>Join our community</h2>
+            <p>Subscribe to receive updates on new collections, exclusive offers, and the stories behind our craft.</p>
+            <div className="newsletter-input-group">
+              <input type="email" placeholder="Your email address" />
+              <button>Subscribe</button>
+            </div>
           </div>
-          <div className="footer-col">
-            <h4>Shop</h4>
-            <ul>
-              <li><a href="#">All Products</a></li>
-              <li><a href="#">Vases</a></li>
-              <li><a href="#">Tableware</a></li>
-            </ul>
-          </div>
-          <div className="footer-col">
-            <h4>Connect</h4>
-            <ul>
-              <li><a href="#">Instagram</a></li>
-              <li><a href="#">Pinterest</a></li>
-              <li><a href="#">Contact</a></li>
-            </ul>
+          <div className="premium-footer-links-wrapper">
+            <div className="premium-footer-links">
+              <h3>Shop</h3>
+              <ul>
+                <li><a href="#">All Collections</a></li>
+                <li><a href="#">Tableware</a></li>
+                <li><a href="#">Vases</a></li>
+                <li><a href="#">Gifts</a></li>
+              </ul>
+            </div>
+            <div className="premium-footer-links">
+              <h3>Support</h3>
+              <ul>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); openTrackOrder(); }}>Track Order</a></li>
+                <li><a href="#">Shipping & Returns</a></li>
+                <li><a href="#">Care Guide</a></li>
+                <li><a href="#">Contact Us</a></li>
+              </ul>
+            </div>
           </div>
         </div>
-        <div className="footer-bottom">
-          <p>&copy; 2026 Pottery Store. All rights reserved.</p>
+        <div className="premium-footer-bottom">
+          <h2 className="premium-footer-brand">CLAY & CRAFT</h2>
+          <div className="premium-footer-socials">
+            <a href="#">Instagram</a>
+            <a href="#">Pinterest</a>
+            <a href="#">Journal</a>
+          </div>
+          <p className="premium-footer-copyright">© 2026 Clay & Craft. All rights reserved.</p>
         </div>
       </footer>
     </div>

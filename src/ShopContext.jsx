@@ -117,6 +117,35 @@ export const ShopProvider = ({ children }) => {
     }
   };
 
+  // Fetch Logged In User's Orders
+  const fetchUserOrders = async (userEmail) => {
+    try {
+      const customerRes = await axios.get('https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/wc/v3/customers', {
+        params: {
+          email: userEmail,
+          consumer_key: import.meta.env.VITE_WC_CONSUMER_KEY,
+          consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET
+        }
+      });
+      
+      if (customerRes.data.length === 0) return [];
+      const customerId = customerRes.data[0].id;
+      
+      const ordersRes = await axios.get('https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/wc/v3/orders', {
+        params: {
+          customer: customerId,
+          consumer_key: import.meta.env.VITE_WC_CONSUMER_KEY,
+          consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET
+        }
+      });
+      
+      return ordersRes.data;
+    } catch (error) {
+      console.error("Failed to fetch user orders:", error);
+      return [];
+    }
+  };
+
   // JWT Auth Methods
   const login = async (username, password) => {
     try {
@@ -194,6 +223,7 @@ export const ShopProvider = ({ children }) => {
       cartTotal,
       submitOrder,
       trackOrder,
+      fetchUserOrders,
       user,
       token,
       login,
