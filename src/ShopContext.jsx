@@ -172,7 +172,15 @@ export const ShopProvider = ({ children }) => {
         return true;
       }
     } catch (error) {
-      throw new Error(error.response?.data?.message || 'Registration failed.');
+      console.error("Registration Error:", error);
+      console.error("Error Response:", error.response);
+      
+      let errorMsg = 'Registration failed due to a network or CORS error.';
+      if (error.response && error.response.data && error.response.data.message) {
+        // Strip HTML tags from WordPress error messages
+        errorMsg = error.response.data.message.replace(/<[^>]*>?/gm, '');
+      }
+      throw new Error(errorMsg);
     }
   };
 
