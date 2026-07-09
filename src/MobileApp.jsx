@@ -1,276 +1,222 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, Search, Heart, ShoppingBag, User, ArrowRight, Star } from 'lucide-react';
 
-const MOCK_PRODUCTS = [
-  { id: 1, name: 'Mate Plate', price: 80, image: '/assets/vase.png' },
-  { id: 2, name: 'Temmoku', price: 80, image: '/assets/vase.png' },
-  { id: 3, name: 'Calico', price: 80, image: '/assets/vase.png' },
-  { id: 4, name: 'Tonmoi', price: 80, image: '/assets/vase.png' }
+const CATEGORIES = [
+  { name: 'Mugs', img: '/assets/vase.png' },
+  { name: 'Bowls', img: '/assets/vase.png' },
+  { name: 'Plates', img: '/assets/vase.png' },
+  { name: 'Vases', img: '/assets/vase.png' },
+  { name: 'Kitchen Essentials', img: '/assets/vase.png' },
 ];
 
-function MobileApp() {
-  const [currentScreen, setCurrentScreen] = useState('splash');
-  const [products, setProducts] = useState(MOCK_PRODUCTS);
-  const [cart, setCart] = useState([]);
-  
-  // Modals & Overlays
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-  const [isTrackOrderOpen, setIsTrackOrderOpen] = useState(false);
-  
-  // Forms
-  const [formData, setFormData] = useState({ firstName:'', lastName:'', email:'', address:'', city:'', postcode:'' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [orderSuccess, setOrderSuccess] = useState(false);
-  
-  // Track
-  const [trackOrderId, setTrackOrderId] = useState('');
-  const [trackOrderEmail, setTrackOrderEmail] = useState('');
-  const [trackResult, setTrackResult] = useState(null);
-  const [isTrackLoading, setIsTrackLoading] = useState(false);
+const BEST_SELLERS = [
+  { id: 1, name: 'Mate Plate', desc: 'Matte White Glaze', rating: 4.9, price: 80, image: '/assets/vase.png' },
+  { id: 2, name: 'Temmoku Bowl', desc: 'Dark Earth Finish', rating: 4.8, price: 120, image: '/assets/vase.png' },
+  { id: 3, name: 'Artisan Mug', desc: 'Hand-thrown Ceramic', rating: 5.0, price: 45, image: '/assets/vase.png' },
+];
+
+const REVIEWS = [
+  { id: 1, name: 'Sarah M.', text: 'The most beautiful mugs I own. The craftsmanship is incredible.', rating: 5 },
+  { id: 2, name: 'James K.', text: 'Fast shipping and stunning quality. A premium unboxing experience.', rating: 5 },
+  { id: 3, name: 'Elena R.', text: 'Perfectly balanced plates that make every dinner feel special.', rating: 5 },
+];
+
+export default function MobileApp() {
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get('https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/wc/v3/products', {
-          params: {
-            consumer_key: import.meta.env.VITE_WC_CONSUMER_KEY,
-            consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET
-          }
-        });
-        const fetchedProducts = response.data.map(p => ({
-          id: p.id, name: p.name, price: parseFloat(p.price || 0), 
-          image: p.images.length > 0 ? p.images[0].src : '/assets/vase.png',
-          description: p.description ? p.description.replace(/<[^>]+>/g, '') : 'Dinnerware plates keeps heat and all valuable properties of product.'
-        }));
-        if (fetchedProducts.length > 0) setProducts(fetchedProducts);
-      } catch (error) {
-        console.error("Error fetching products", error);
-      }
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
     };
-    fetchProducts();
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const addToCart = (product) => {
-    setCart([...cart, product]);
-    setSelectedProduct(null);
-    setIsCartOpen(true);
-  };
-
-  const removeFromCart = (index) => {
-    const newCart = [...cart]; newCart.splice(index, 1); setCart(newCart);
-  };
-
-  const handleCheckoutSubmit = async (e) => {
-    e.preventDefault(); setIsSubmitting(true);
-    const orderData = {
-      payment_method: 'cod', payment_method_title: 'Cash on Delivery', set_paid: false, status: 'processing',
-      billing: { first_name: formData.firstName, last_name: formData.lastName, address_1: formData.address, city: formData.city, postcode: formData.postcode, country: 'IN', email: formData.email },
-      line_items: cart.map(item => ({ product_id: item.id, quantity: 1 }))
-    };
-    try {
-      await axios.post('https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/wc/v3/orders', orderData, {
-        params: { consumer_key: import.meta.env.VITE_WC_CONSUMER_KEY, consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET }
-      });
-      setOrderSuccess(true); setCart([]);
-    } catch (error) {
-      alert("Failed to place order.");
-    } finally { setIsSubmitting(false); }
-  };
-
-  const handleTrackOrderSubmit = async (e) => {
-    e.preventDefault(); setIsTrackLoading(true); setTrackResult(null);
-    try {
-      const response = await axios.get(`https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/wc/v3/orders/${trackOrderId}`, {
-        params: { consumer_key: import.meta.env.VITE_WC_CONSUMER_KEY, consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET }
-      });
-      const order = response.data;
-      if (order.billing.email.toLowerCase() === trackOrderEmail.toLowerCase()) setTrackResult(order);
-      else alert('Order found, but the email address does not match.');
-    } catch (error) {
-      alert('Order not found. Please check your Order ID.');
-    } finally { setIsTrackLoading(false); }
-  };
-
-  const cartTotal = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
-
-  // Reusable Icons
-  const MenuIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h8" /></svg>;
-  const UserIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>;
-  const CartIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>;
-  const HeartIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>;
-  const BackIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>;
-  const SearchIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>;
-
   return (
-    <div className="mobile-root">
-      {/* SCREEN 1: SPLASH */}
-      {currentScreen === 'splash' && (
-        <div className="splash-screen">
-          <div className="app-header">
-            <div onClick={() => setIsTrackOrderOpen(true)}><MenuIcon /></div>
-            <UserIcon />
-          </div>
-          <div className="splash-top-wave">
-            <h1>Shape Inspired</h1>
-            <p>by nature</p>
-          </div>
-          <div className="splash-bottom">
-            <button className="btn-pill" onClick={() => setCurrentScreen('shop')}>START SHOP</button>
+    <div className="mobile-root font-sans bg-background text-primary min-h-screen">
+      {/* Sticky Navigation */}
+      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-background/80 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'}`}>
+        <div className="flex items-center justify-between px-6">
+          <Menu className="w-6 h-6 text-primary cursor-pointer" />
+          <h1 className="font-serif text-2xl tracking-widest font-bold">TIERRA</h1>
+          <div className="flex gap-4">
+            <Search className="w-5 h-5 text-primary cursor-pointer" />
+            <ShoppingBag className="w-5 h-5 text-primary cursor-pointer" />
           </div>
         </div>
-      )}
+      </nav>
 
-      {/* SCREEN 2: SHOP CATALOG */}
-      {currentScreen === 'shop' && (
-        <div className="shop-screen">
-          <div className="app-header">
-            <div onClick={() => setCurrentScreen('splash')}><MenuIcon /></div>
-            <div style={{position:'relative'}} onClick={() => setIsCartOpen(true)}>
-              <CartIcon />
-              {cart.length > 0 && <span style={{position:'absolute', top:'-5px', right:'-5px', background:'red', color:'white', borderRadius:'50%', width:'16px', height:'16px', fontSize:'10px', display:'flex', alignItems:'center', justifyContent:'center'}}>{cart.length}</span>}
-            </div>
-          </div>
-          
-          <div className="search-bar">
-            <SearchIcon />
-            <input type="text" placeholder="Search" />
-          </div>
+      {/* Hero Section */}
+      <section className="relative h-screen flex flex-col justify-end pb-24 overflow-hidden">
+        <motion.div 
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 10, ease: "easeOut" }}
+          className="absolute inset-0 z-0"
+        >
+          <img src="/assets/hero.png" alt="Pottery Artisan" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+        </motion.div>
+        
+        <div className="relative z-10 px-6 text-white text-center">
+          <motion.h2 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="font-serif text-4xl leading-tight mb-4"
+          >
+            Handcrafted Pottery<br />That Brings Warmth Home
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-sm font-light text-white/90 mb-8 max-w-sm mx-auto"
+          >
+            Every bowl, mug, and vase is shaped by skilled artisans using natural clay and timeless techniques.
+          </motion.p>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="flex flex-col gap-4"
+          >
+            <button className="bg-white text-primary py-4 px-8 rounded-full font-semibold text-sm tracking-wide shadow-lg w-full">Shop Collection</button>
+            <button className="bg-transparent text-white border border-white/50 py-4 px-8 rounded-full font-semibold text-sm tracking-wide w-full backdrop-blur-sm">Our Story</button>
+          </motion.div>
+        </div>
+      </section>
 
-          <div className="category-tabs">
-            <div className="tab active">Mate Plate</div>
-            <div className="tab">Glossy Cup</div>
-            <div className="tab">Organic Ceramic</div>
+      {/* Trust Section */}
+      <section className="py-16 px-6 bg-white">
+        <div className="grid grid-cols-1 gap-6">
+          <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-background/50">
+            <User className="w-8 h-8 text-accent mb-4" />
+            <h3 className="font-serif text-xl mb-2">Handmade by Skilled Artisans</h3>
+            <p className="text-secondary text-sm">Crafted with precision and years of heritage.</p>
           </div>
+          <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-background/50">
+            <Heart className="w-8 h-8 text-accent mb-4" />
+            <h3 className="font-serif text-xl mb-2">Sustainable Natural Clay</h3>
+            <p className="text-secondary text-sm">Sourced ethically from the earth.</p>
+          </div>
+          <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-background/50">
+            <ShoppingBag className="w-8 h-8 text-accent mb-4" />
+            <h3 className="font-serif text-xl mb-2">Worldwide Shipping</h3>
+            <p className="text-secondary text-sm">Delivered safely to your doorstep.</p>
+          </div>
+        </div>
+      </section>
 
-          <div className="grid">
-            {products.map(product => (
-              <div key={product.id} className="product-card" onClick={() => setSelectedProduct(product)}>
-                <div className="card-img-wrap">
-                  <img src={product.image} alt={product.name} />
-                  <div className="heart-icon"><HeartIcon /></div>
+      {/* Featured Categories */}
+      <section className="py-16 pl-6">
+        <h2 className="font-serif text-3xl mb-8 pr-6">Shop by Category</h2>
+        <div className="flex gap-4 overflow-x-auto pb-8 pr-6 scrollbar-hide">
+          {CATEGORIES.map((cat, i) => (
+            <motion.div 
+              whileHover={{ y: -5 }}
+              key={i} 
+              className="min-w-[200px] flex-shrink-0 cursor-pointer group"
+            >
+              <div className="w-full h-[250px] rounded-3xl overflow-hidden mb-4 relative">
+                <img src={cat.img} alt={cat.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
+              </div>
+              <div className="flex items-center justify-between">
+                <h3 className="font-serif text-xl">{cat.name}</h3>
+                <ArrowRight className="w-5 h-5 text-accent opacity-0 -translate-x-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Best Sellers */}
+      <section className="py-16 px-6 bg-background">
+        <h2 className="font-serif text-3xl mb-8">Best Sellers</h2>
+        <div className="flex flex-col gap-8">
+          {BEST_SELLERS.map((item) => (
+            <div key={item.id} className="bg-white rounded-3xl p-4 shadow-sm flex items-center gap-4">
+              <div className="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 bg-background">
+                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-1 mb-1">
+                  <Star className="w-3 h-3 fill-accent text-accent" />
+                  <span className="text-xs text-secondary">{item.rating}</span>
                 </div>
-                <div className="card-info">
-                  <h3>{product.name}</h3>
-                  <span className="price">₹{product.price}</span>
+                <h4 className="font-serif text-lg leading-tight mb-1">{item.name}</h4>
+                <p className="text-xs text-secondary mb-2">{item.desc}</p>
+                <div className="flex items-center justify-between">
+                  <span className="font-medium">${item.price}</span>
+                  <button className="bg-primary text-white p-2 rounded-full shadow-md">
+                    <ShoppingBag className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
-            ))}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Brand Story */}
+      <section className="py-20 bg-white text-center px-6">
+        <div className="w-full h-80 rounded-[40px] overflow-hidden mb-10">
+          <img src="/assets/hero.png" alt="Artisan working" className="w-full h-full object-cover" />
+        </div>
+        <h2 className="font-serif text-3xl mb-4">Made Slowly.<br/>Crafted with Purpose.</h2>
+        <p className="text-secondary text-sm leading-relaxed mb-8 max-w-sm mx-auto">
+          We believe in the beauty of imperfection. Every piece in our collection is handcrafted in small batches using traditional wheel-throwing and hand-building techniques.
+        </p>
+        <button className="border-b border-primary pb-1 font-medium text-sm">Read Our Story</button>
+      </section>
+
+      {/* Reviews */}
+      <section className="py-16 bg-background pl-6">
+        <h2 className="font-serif text-3xl mb-8 pr-6">Loved by Customers</h2>
+        <div className="flex gap-6 overflow-x-auto pb-8 pr-6 scrollbar-hide">
+          {REVIEWS.map((review) => (
+            <div key={review.id} className="min-w-[280px] bg-white p-6 rounded-3xl shadow-sm">
+              <div className="flex gap-1 mb-4">
+                {[...Array(review.rating)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+                ))}
+              </div>
+              <p className="text-primary text-sm italic mb-6">"{review.text}"</p>
+              <h4 className="font-serif text-lg">{review.name}</h4>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Newsletter */}
+      <section className="py-24 px-6 text-center bg-white">
+        <h2 className="font-serif text-3xl mb-4">Join Our Journey</h2>
+        <p className="text-secondary text-sm mb-8">Receive stories, new collections and exclusive releases.</p>
+        <div className="flex flex-col gap-4">
+          <input type="email" placeholder="Email Address" className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent font-sans" />
+          <button className="w-full bg-primary text-white py-4 rounded-xl font-medium tracking-wide">Subscribe</button>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-primary text-white/60 py-16 px-6 pb-32">
+        <h2 className="font-serif text-2xl text-white tracking-widest font-bold mb-10">TIERRA</h2>
+        <div className="grid grid-cols-2 gap-8 mb-12">
+          <div className="flex flex-col gap-4">
+            <a href="#" className="hover:text-white transition-colors">Shop</a>
+            <a href="#" className="hover:text-white transition-colors">About</a>
+            <a href="#" className="hover:text-white transition-colors">Contact</a>
+          </div>
+          <div className="flex flex-col gap-4">
+            <a href="#" className="hover:text-white transition-colors">Shipping</a>
+            <a href="#" className="hover:text-white transition-colors">Returns</a>
+            <a href="#" className="hover:text-white transition-colors">Instagram</a>
           </div>
         </div>
-      )}
-
-      {/* SCREEN 3: PRODUCT DETAIL (Slides up/in) */}
-      <div className={`product-detail-view ${selectedProduct ? 'open' : ''}`}>
-        {selectedProduct && (
-          <>
-            <div className="detail-img-area">
-              <img src={selectedProduct.image} alt={selectedProduct.name} />
-              <div className="detail-header">
-                <button className="icon-btn" onClick={() => setSelectedProduct(null)}><BackIcon /></button>
-                <button className="icon-btn"><HeartIcon /></button>
-              </div>
-            </div>
-            <div className="detail-content">
-              <div>
-                <h1 className="detail-title">{selectedProduct.name}</h1>
-                <p className="detail-category">Mate Plate</p>
-                <div className="swatches">
-                  <span>Colors</span>
-                  <div className="swatch active" style={{background: '#F9F8F6'}}></div>
-                  <div className="swatch" style={{background: '#E6D5C3'}}></div>
-                  <div className="swatch" style={{background: '#8F8B88'}}></div>
-                  <div className="swatch" style={{background: '#7B808F'}}></div>
-                </div>
-                <p className="detail-desc">{selectedProduct.description || 'Dinnerware plates keeps heat and all valuable properties of product.'}</p>
-              </div>
-              <div className="detail-bottom">
-                <span className="detail-price">₹{selectedProduct.price}</span>
-                <button className="btn-add" onClick={() => addToCart(selectedProduct)}>ADD TO CARD</button>
-              </div>
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* MODAL: CART */}
-      <div className={`slide-up-modal ${isCartOpen ? 'open' : ''}`}>
-        <div className="modal-content">
-          <button className="modal-close" onClick={() => setIsCartOpen(false)}>&times;</button>
-          <h2 className="modal-title">Your Cart</h2>
-          {cart.length === 0 ? <p>Your cart is empty.</p> : (
-            <>
-              {cart.map((item, i) => (
-                <div key={i} className="cart-item">
-                  <img src={item.image} className="cart-item-img" alt={item.name}/>
-                  <div className="cart-item-info">
-                    <h4>{item.name}</h4>
-                    <p>₹{item.price.toFixed(2)}</p>
-                    <button className="cart-remove" onClick={() => removeFromCart(i)}>Remove</button>
-                  </div>
-                </div>
-              ))}
-              <div className="cart-total">
-                <span>Total</span>
-                <span>₹{cartTotal}</span>
-              </div>
-              <button className="btn-block" onClick={() => { setIsCartOpen(false); setIsCheckoutOpen(true); }}>Proceed to Checkout</button>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* MODAL: CHECKOUT */}
-      <div className={`slide-up-modal ${isCheckoutOpen ? 'open' : ''}`}>
-        <div className="modal-content">
-          <button className="modal-close" onClick={() => {setIsCheckoutOpen(false); setOrderSuccess(false);}}>&times;</button>
-          {orderSuccess ? (
-            <div className="order-success">
-              <h2 className="modal-title" style={{color:'#8B5A2B'}}>Order Placed!</h2>
-              <p>Your beautiful pottery is on its way. Track it anytime via the menu.</p>
-            </div>
-          ) : (
-            <>
-              <h2 className="modal-title">Checkout</h2>
-              <form onSubmit={handleCheckoutSubmit}>
-                <input type="text" className="form-input" placeholder="First Name" required name="firstName" onChange={e=>setFormData({...formData, firstName: e.target.value})} />
-                <input type="email" className="form-input" placeholder="Email Address" required name="email" onChange={e=>setFormData({...formData, email: e.target.value})} />
-                <input type="text" className="form-input" placeholder="Shipping Address" required name="address" onChange={e=>setFormData({...formData, address: e.target.value})} />
-                <input type="text" className="form-input" placeholder="City" required name="city" onChange={e=>setFormData({...formData, city: e.target.value})} />
-                <button type="submit" className="btn-block" disabled={isSubmitting}>
-                  {isSubmitting ? 'Processing...' : `Place Order (₹${cartTotal})`}
-                </button>
-              </form>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* MODAL: TRACK ORDER */}
-      <div className={`slide-up-modal ${isTrackOrderOpen ? 'open' : ''}`}>
-        <div className="modal-content">
-          <button className="modal-close" onClick={() => {setIsTrackOrderOpen(false); setTrackResult(null);}}>&times;</button>
-          <h2 className="modal-title">Track Order</h2>
-          <form onSubmit={handleTrackOrderSubmit}>
-            <input type="text" className="form-input" placeholder="Order ID" required value={trackOrderId} onChange={e=>setTrackOrderId(e.target.value)} />
-            <input type="email" className="form-input" placeholder="Email Address" required value={trackOrderEmail} onChange={e=>setTrackOrderEmail(e.target.value)} />
-            <button type="submit" className="btn-block" disabled={isTrackLoading}>
-              {isTrackLoading ? 'Searching...' : 'Track'}
-            </button>
-          </form>
-          {trackResult && (
-            <div className="track-result">
-              <h4 style={{marginBottom: '0.5rem'}}>Order #{trackResult.id}</h4>
-              <p>Placed: {new Date(trackResult.date_created).toLocaleDateString()}</p>
-              <div className={`track-badge status-${trackResult.status}`}>Status: {trackResult.status}</div>
-            </div>
-          )}
-        </div>
-      </div>
-
+        <p className="text-sm">© 2026 Tierra Ceramics. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
-
-export default MobileApp;
