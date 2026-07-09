@@ -99,33 +99,44 @@ export default function MobileApp() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative h-screen flex flex-col justify-end pb-24 overflow-hidden">
+      <section className="relative h-screen flex flex-col justify-center pt-20 pb-32 overflow-hidden">
         <motion.div 
           initial={{ scale: 1.1 }} animate={{ scale: 1 }} transition={{ duration: 10, ease: "easeOut" }}
           className="absolute inset-0 z-0"
         >
           <img src="/assets/hero.png" alt="Pottery Artisan" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+          <div className="absolute inset-0 bg-black/40"></div>
         </motion.div>
         
-        <div className="relative z-10 px-6 text-white text-center">
+        <div className="relative z-10 px-8 text-white text-center mt-auto mb-12">
           <motion.h2 
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
-            className="font-serif text-4xl leading-tight mb-4"
+            className="font-serif text-5xl leading-[1.1] tracking-tight mb-6"
           >
-            Handcrafted Pottery<br />That Brings Warmth Home
+            Formed by Earth.<br />
+            <span className="italic text-white/90 font-light">Finished by hand.</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-sm font-light text-white/90 mb-8 max-w-sm mx-auto"
+            className="text-sm font-light text-white/80 mb-10 max-w-sm mx-auto leading-relaxed tracking-wide"
           >
-            Every bowl, mug, and vase is shaped by skilled artisans using natural clay and timeless techniques.
+            Every piece is shaped by skilled artisans using natural clay and timeless techniques.
           </motion.p>
           <motion.div 
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-4 items-center"
           >
-            <button className="bg-white text-primary py-4 px-8 rounded-full font-semibold text-sm tracking-wide shadow-lg w-full">Shop Collection</button>
+            <button 
+              onClick={() => {
+                const shopSection = document.getElementById('shop');
+                if (shopSection) {
+                  shopSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="bg-white text-primary py-4 px-10 rounded-full font-medium text-sm tracking-widest shadow-xl hover:scale-105 transition-transform uppercase"
+            >
+              Shop Collection
+            </button>
           </motion.div>
         </div>
       </section>
@@ -166,7 +177,7 @@ export default function MobileApp() {
       </section>
 
       {/* WooCommerce Products */}
-      <section className="py-16 px-6 bg-background">
+      <section id="shop" className="py-16 px-6 bg-background">
         <h2 className="font-serif text-3xl mb-8">Our Collection</h2>
         <div className="flex flex-col gap-8">
           {products.map((item) => (
