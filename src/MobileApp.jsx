@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, Search, Heart, ShoppingBag, User, ArrowRight, Star } from 'lucide-react';
+import { Menu, Search, Heart, ShoppingBag, User, ArrowRight, Star, X, CheckCircle } from 'lucide-react';
 
 const CATEGORIES = [
   { name: 'Mugs', img: '/assets/vase.png' },
@@ -24,6 +24,10 @@ const REVIEWS = [
 
 export default function MobileApp() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [cart, setCart] = useState([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,16 +37,31 @@ export default function MobileApp() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+    setSelectedProduct(null); // Close details if open
+    setIsCartOpen(true); // Open cart to show it was added
+  };
+
+  const cartTotal = cart.reduce((sum, item) => sum + item.price, 0);
+
   return (
-    <div className="mobile-root font-sans bg-background text-primary min-h-screen">
+    <div className="mobile-root font-sans bg-background text-primary min-h-screen relative overflow-hidden">
       {/* Sticky Navigation */}
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-background/80 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'}`}>
+      <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isScrolled ? 'bg-background/80 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'}`}>
         <div className="flex items-center justify-between px-6">
-          <Menu className="w-6 h-6 text-primary cursor-pointer" />
+          <Menu className="w-6 h-6 text-primary cursor-pointer" onClick={() => setIsMenuOpen(true)} />
           <h1 className="font-serif text-2xl tracking-widest font-bold">TIERRA</h1>
           <div className="flex gap-4">
             <Search className="w-5 h-5 text-primary cursor-pointer" />
-            <ShoppingBag className="w-5 h-5 text-primary cursor-pointer" />
+            <div className="relative cursor-pointer" onClick={() => setIsCartOpen(true)}>
+              <ShoppingBag className="w-5 h-5 text-primary" />
+              {cart.length > 0 && (
+                <span className="absolute -top-1 -right-1 bg-accent text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
+                  {cart.length}
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </nav>
@@ -112,7 +131,7 @@ export default function MobileApp() {
       {/* Featured Categories */}
       <section className="py-16 pl-6">
         <h2 className="font-serif text-3xl mb-8 pr-6">Shop by Category</h2>
-        <div className="flex gap-4 overflow-x-auto pb-8 pr-6 scrollbar-hide">
+        <div className="flex gap-4 overflow-x-auto pb-8 pr-6 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {CATEGORIES.map((cat, i) => (
             <motion.div 
               whileHover={{ y: -5 }}
@@ -137,7 +156,11 @@ export default function MobileApp() {
         <h2 className="font-serif text-3xl mb-8">Best Sellers</h2>
         <div className="flex flex-col gap-8">
           {BEST_SELLERS.map((item) => (
-            <div key={item.id} className="bg-white rounded-3xl p-4 shadow-sm flex items-center gap-4">
+            <div 
+              key={item.id} 
+              onClick={() => setSelectedProduct(item)}
+              className="bg-white rounded-3xl p-4 shadow-sm flex items-center gap-4 cursor-pointer"
+            >
               <div className="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 bg-background">
                 <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
               </div>
@@ -150,7 +173,10 @@ export default function MobileApp() {
                 <p className="text-xs text-secondary mb-2">{item.desc}</p>
                 <div className="flex items-center justify-between">
                   <span className="font-medium">${item.price}</span>
-                  <button className="bg-primary text-white p-2 rounded-full shadow-md">
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); addToCart(item); }}
+                    className="bg-primary text-white p-2 rounded-full shadow-md active:scale-90 transition-transform"
+                  >
                     <ShoppingBag className="w-4 h-4" />
                   </button>
                 </div>
@@ -175,7 +201,7 @@ export default function MobileApp() {
       {/* Reviews */}
       <section className="py-16 bg-background pl-6">
         <h2 className="font-serif text-3xl mb-8 pr-6">Loved by Customers</h2>
-        <div className="flex gap-6 overflow-x-auto pb-8 pr-6 scrollbar-hide">
+        <div className="flex gap-6 overflow-x-auto pb-8 pr-6 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {REVIEWS.map((review) => (
             <div key={review.id} className="min-w-[280px] bg-white p-6 rounded-3xl shadow-sm">
               <div className="flex gap-1 mb-4">
@@ -201,7 +227,7 @@ export default function MobileApp() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-primary text-white/60 py-16 px-6 pb-32">
+      <footer className="bg-primary text-white/60 py-16 px-6 pb-20">
         <h2 className="font-serif text-2xl text-white tracking-widest font-bold mb-10">TIERRA</h2>
         <div className="grid grid-cols-2 gap-8 mb-12">
           <div className="flex flex-col gap-4">
@@ -217,6 +243,131 @@ export default function MobileApp() {
         </div>
         <p className="text-sm">© 2026 Tierra Ceramics. All rights reserved.</p>
       </footer>
+
+      {/* Modals & Overlays */}
+      <AnimatePresence>
+        {/* Menu Overlay */}
+        {isMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-background z-50 flex flex-col p-6"
+          >
+            <div className="flex justify-between items-center mb-12">
+              <h2 className="font-serif text-2xl font-bold tracking-widest">MENU</h2>
+              <X className="w-8 h-8 cursor-pointer" onClick={() => setIsMenuOpen(false)} />
+            </div>
+            <div className="flex flex-col gap-8 text-2xl font-serif">
+              <a href="#" className="hover:text-accent transition-colors">Shop</a>
+              <a href="#" className="hover:text-accent transition-colors">Collections</a>
+              <a href="#" className="hover:text-accent transition-colors">Our Story</a>
+              <a href="#" className="hover:text-accent transition-colors">Journal</a>
+              <a href="#" className="hover:text-accent transition-colors">Track Order</a>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Cart Overlay */}
+        {isCartOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-end"
+            onClick={() => setIsCartOpen(false)}
+          >
+            <motion.div 
+              initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white w-[90%] max-w-[400px] h-full shadow-2xl flex flex-col"
+            >
+              <div className="p-6 border-b border-gray-100 flex justify-between items-center">
+                <h2 className="font-serif text-2xl">Your Cart ({cart.length})</h2>
+                <X className="w-6 h-6 cursor-pointer text-gray-500" onClick={() => setIsCartOpen(false)} />
+              </div>
+              <div className="flex-1 overflow-y-auto p-6">
+                {cart.length === 0 ? (
+                  <div className="h-full flex flex-col items-center justify-center text-secondary">
+                    <ShoppingBag className="w-12 h-12 mb-4 opacity-20" />
+                    <p>Your cart is empty.</p>
+                  </div>
+                ) : (
+                  <div className="flex flex-col gap-6">
+                    {cart.map((item, idx) => (
+                      <div key={idx} className="flex gap-4 items-center">
+                        <img src={item.image} alt={item.name} className="w-20 h-20 rounded-xl object-cover bg-background" />
+                        <div className="flex-1">
+                          <h4 className="font-serif text-lg">{item.name}</h4>
+                          <p className="text-secondary font-medium">${item.price}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {cart.length > 0 && (
+                <div className="p-6 border-t border-gray-100 bg-background/30">
+                  <div className="flex justify-between font-serif text-xl mb-6">
+                    <span>Total</span>
+                    <span>${cartTotal}</span>
+                  </div>
+                  <button className="w-full bg-primary text-white py-4 rounded-xl font-medium tracking-wide flex items-center justify-center gap-2">
+                    Checkout <ArrowRight className="w-5 h-5" />
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+
+        {/* Product Details Sheet */}
+        {selectedProduct && (
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex flex-col justify-end"
+            onClick={() => setSelectedProduct(null)}
+          >
+            <motion.div 
+              initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white w-full rounded-t-[40px] flex flex-col max-h-[90vh] overflow-hidden"
+            >
+              <div className="relative h-72 w-full bg-background flex-shrink-0">
+                <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
+                <button 
+                  onClick={() => setSelectedProduct(null)}
+                  className="absolute top-6 right-6 bg-white/80 backdrop-blur-md p-2 rounded-full shadow-sm"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              
+              <div className="p-8 flex-1 overflow-y-auto">
+                <div className="flex justify-between items-start mb-2">
+                  <h2 className="font-serif text-3xl">{selectedProduct.name}</h2>
+                  <span className="font-medium text-xl">${selectedProduct.price}</span>
+                </div>
+                <div className="flex items-center gap-1 mb-6">
+                  <Star className="w-4 h-4 fill-accent text-accent" />
+                  <span className="text-sm font-medium">{selectedProduct.rating} Rating</span>
+                </div>
+                <p className="text-secondary leading-relaxed mb-8">
+                  {selectedProduct.desc}. Handcrafted in our studio using natural clay. Microwave and dishwasher safe, though hand-washing is recommended to prolong its beautiful finish.
+                </p>
+                <div className="flex items-center gap-2 text-sm text-green-700 font-medium mb-8 bg-green-50 p-4 rounded-2xl">
+                  <CheckCircle className="w-5 h-5" /> In Stock & Ready to Ship
+                </div>
+                
+                <button 
+                  onClick={() => addToCart(selectedProduct)}
+                  className="w-full bg-primary text-white py-4 rounded-xl font-medium tracking-wide flex items-center justify-center gap-2"
+                >
+                  <ShoppingBag className="w-5 h-5" /> Add to Cart
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
