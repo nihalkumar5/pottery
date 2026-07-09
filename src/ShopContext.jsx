@@ -120,26 +120,20 @@ export const ShopProvider = ({ children }) => {
   // Fetch Logged In User's Orders
   const fetchUserOrders = async (userEmail) => {
     try {
-      const customerRes = await axios.get('https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/wc/v3/customers', {
-        params: {
-          email: userEmail,
-          consumer_key: import.meta.env.VITE_WC_CONSUMER_KEY,
-          consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET
-        }
-      });
-      
-      if (customerRes.data.length === 0) return [];
-      const customerId = customerRes.data[0].id;
-      
+      // Use the 'search' parameter to find orders by email. 
+      // This ensures we also find guest orders placed before the user created their account!
       const ordersRes = await axios.get('https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/wc/v3/orders', {
         params: {
-          customer: customerId,
+          search: userEmail,
           consumer_key: import.meta.env.VITE_WC_CONSUMER_KEY,
           consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET
         }
       });
       
-      return ordersRes.data;
+      // Filter the results to make sure we only show orders where the billing email exactly matches
+      const validOrders = ordersRes.data.filter(order => order.billing.email.toLowerCase() === userEmail.toLowerCase());
+      
+      return validOrders;
     } catch (error) {
       console.error("Failed to fetch user orders:", error);
       return [];
