@@ -1,0 +1,18 @@
+/* Global Resets */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+  .desktop-root {
+    @import 'desktop';
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-root {
+    @import 'mobile';
+  }
+}
