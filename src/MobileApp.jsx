@@ -89,22 +89,12 @@ export default function MobileApp() {
 
   return (
     <div className="mobile-root font-sans bg-background text-primary min-h-screen relative overflow-hidden">
-      {/* Sticky Navigation */}
+      {/* Sticky Top Navigation */}
       <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isScrolled ? 'bg-background/80 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'}`}>
         <div className="flex items-center justify-between px-6">
           <Menu className="w-6 h-6 text-primary cursor-pointer" onClick={() => setIsMenuOpen(true)} />
           <h1 className="font-serif text-2xl tracking-widest font-bold">TIERRA</h1>
-          <div className="flex gap-4">
-            <PackageSearch className="w-5 h-5 text-primary cursor-pointer" onClick={() => setIsTrackOrderOpen(true)} />
-            <div className="relative cursor-pointer" onClick={() => setIsCartOpen(true)}>
-              <ShoppingBag className="w-5 h-5 text-primary" />
-              {cart.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-accent text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
-                  {cart.length}
-                </span>
-              )}
-            </div>
-          </div>
+          <div className="w-6" /> {/* Spacer for centering */}
         </div>
       </nav>
 
@@ -466,6 +456,39 @@ export default function MobileApp() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Premium Floating Bottom Navigation */}
+      <motion.div 
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+        transition={{ delay: 0.5, type: "spring", stiffness: 260, damping: 20 }}
+        className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-[400px] bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-full py-4 px-8 z-40 flex justify-between items-center"
+      >
+        <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+          <Search className="w-5 h-5" />
+          <span className="text-[10px] font-medium tracking-wide">Explore</span>
+        </div>
+        
+        <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => setIsTrackOrderOpen(true)}>
+          <PackageSearch className="w-5 h-5" />
+          <span className="text-[10px] font-medium tracking-wide">Track</span>
+        </div>
+        
+        <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors relative" onClick={() => setIsCartOpen(true)}>
+          <ShoppingBag className="w-5 h-5" />
+          <span className="text-[10px] font-medium tracking-wide">Bag</span>
+          {cart.length > 0 && (
+            <span className="absolute -top-2 -right-2 bg-accent text-white text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full shadow-sm">
+              {cart.length}
+            </span>
+          )}
+        </div>
+        
+        <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => setIsMenuOpen(true)}>
+          <User className="w-5 h-5" />
+          <span className="text-[10px] font-medium tracking-wide">Profile</span>
+        </div>
+      </motion.div>
     </div>
   );
 }
