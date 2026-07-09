@@ -262,17 +262,71 @@ export default function MobileApp() {
         {isMenuOpen && (
           <motion.div 
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-background z-50 flex flex-col p-6"
+            transition={{ duration: 0.4 }}
+            className="fixed inset-0 bg-primary z-50 flex flex-col p-8 text-white overflow-hidden"
           >
-            <div className="flex justify-between items-center mb-12">
-              <h2 className="font-serif text-2xl font-bold tracking-widest">MENU</h2>
-              <X className="w-8 h-8 cursor-pointer" onClick={() => setIsMenuOpen(false)} />
+            <div className="flex justify-between items-center mb-16">
+              <h2 className="font-sans text-xs tracking-[0.2em] font-medium text-white/50 uppercase">Navigation</h2>
+              <button 
+                onClick={() => setIsMenuOpen(false)}
+                className="w-12 h-12 flex items-center justify-center rounded-full border border-white/20 hover:bg-white/10 transition-colors"
+              >
+                <X className="w-5 h-5 text-white" />
+              </button>
             </div>
-            <div className="flex flex-col gap-8 text-2xl font-serif">
-              <a href="#" className="hover:text-accent transition-colors" onClick={() => setIsMenuOpen(false)}>Shop</a>
-              <a href="#" className="hover:text-accent transition-colors" onClick={() => { setIsMenuOpen(false); setIsTrackOrderOpen(true); }}>Track Order</a>
-              <a href="#" className="hover:text-accent transition-colors">Our Story</a>
+            
+            <div className="flex flex-col gap-10 mt-8">
+              <motion.a 
+                initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1, duration: 0.5 }}
+                href="#" 
+                className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
+                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); }}
+              >
+                <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">01</span>
+                Shop
+              </motion.a>
+              <motion.a 
+                initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2, duration: 0.5 }}
+                href="#" 
+                className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
+                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); setIsTrackOrderOpen(true); }}
+              >
+                <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">02</span>
+                Track Order
+              </motion.a>
+              <motion.a 
+                initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.5 }}
+                href="#" 
+                className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
+                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); }}
+              >
+                <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">03</span>
+                Our Story
+              </motion.a>
+              <motion.a 
+                initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4, duration: 0.5 }}
+                href="#" 
+                className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
+                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); }}
+              >
+                <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">04</span>
+                Contact
+              </motion.a>
             </div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.5 }}
+              className="mt-auto pt-10 border-t border-white/10 flex justify-between items-end pb-8"
+            >
+              <div className="flex flex-col gap-2">
+                <span className="text-[10px] uppercase tracking-widest text-white/40">Follow Us</span>
+                <div className="flex gap-6 font-medium text-sm">
+                  <a href="#" className="text-white no-underline hover:text-accent transition-colors">Instagram</a>
+                  <a href="#" className="text-white no-underline hover:text-accent transition-colors">Pinterest</a>
+                </div>
+              </div>
+              <h1 className="font-serif text-xl tracking-widest font-bold text-white/20">TIERRA</h1>
+            </motion.div>
           </motion.div>
         )}
 
