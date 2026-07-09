@@ -111,7 +111,7 @@ export default function MobileApp() {
         <div className="relative z-10 px-8 text-white text-center">
           <motion.h2 
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
-            className="font-serif text-5xl leading-[1.1] tracking-tight mb-6"
+            className="font-serif text-4xl leading-[1.2] tracking-tight mb-6"
           >
             Formed by Earth.<br />
             <span className="italic text-white/90 font-light">Finished by hand.</span>
