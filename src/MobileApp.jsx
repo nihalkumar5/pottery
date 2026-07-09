@@ -282,19 +282,19 @@ export default function MobileApp() {
       </section>
 
       {/* Premium Footer */}
-      <footer className="bg-[#2F2A25] text-white pt-20 pb-32 px-6">
-        <div className="mb-16">
-          <h2 className="font-serif text-3xl mb-4">Join our community</h2>
-          <p className="text-white/60 text-sm mb-6 max-w-[280px]">Subscribe to receive updates on new collections, exclusive offers, and the stories behind our craft.</p>
-          <div className="flex gap-2">
-            <input type="email" placeholder="Your email address" className="bg-transparent border-b border-white/20 pb-2 flex-1 text-white placeholder-white/40 focus:outline-none focus:border-white transition-colors rounded-none" />
-            <button className="text-sm font-medium tracking-widest uppercase border-b border-white pb-2 hover:text-accent hover:border-accent transition-colors">Subscribe</button>
+      <footer className="bg-[#2F2A25] text-white pt-16 pb-32 px-8 rounded-t-3xl mt-4">
+        <div className="mb-14">
+          <h2 className="font-serif text-3xl mb-3">Join our community</h2>
+          <p className="text-white/60 text-sm mb-6 leading-relaxed">Subscribe to receive updates on new collections, exclusive offers, and stories behind our craft.</p>
+          <div className="flex w-full border-b border-white/30 pb-2 items-center">
+            <input type="email" placeholder="Your email address" className="bg-transparent flex-1 text-white placeholder-white/40 focus:outline-none appearance-none rounded-none text-base" />
+            <button className="text-sm font-medium tracking-widest uppercase hover:text-accent transition-colors ml-4 whitespace-nowrap">Subscribe</button>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-12 mb-16">
+        <div className="grid grid-cols-2 gap-8 mb-16">
           <div>
-            <h3 className="font-serif text-xl mb-6 text-white/90">Shop</h3>
+            <h3 className="font-serif text-lg tracking-wide mb-5 text-white/90">Shop</h3>
             <ul className="flex flex-col gap-4 text-sm text-white/60">
               <li><a href="#" className="hover:text-white transition-colors">All Collections</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Tableware</a></li>
@@ -303,7 +303,7 @@ export default function MobileApp() {
             </ul>
           </div>
           <div>
-            <h3 className="font-serif text-xl mb-6 text-white/90">Support</h3>
+            <h3 className="font-serif text-lg tracking-wide mb-5 text-white/90">Support</h3>
             <ul className="flex flex-col gap-4 text-sm text-white/60">
               <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); user ? setIsProfileOpen(true) : setIsTrackOrderOpen(true); }}>Track Order</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Shipping & Returns</a></li>
@@ -314,13 +314,13 @@ export default function MobileApp() {
         </div>
 
         <div className="flex flex-col items-center pt-10 border-t border-white/10 text-center">
-          <h2 className="font-serif text-2xl tracking-widest font-bold mb-6">CLAY & CRAFT</h2>
-          <div className="flex gap-6 mb-8 text-white/60">
-            <a href="#" className="hover:text-white transition-colors text-sm">Instagram</a>
-            <a href="#" className="hover:text-white transition-colors text-sm">Pinterest</a>
-            <a href="#" className="hover:text-white transition-colors text-sm">Journal</a>
+          <h2 className="font-serif text-xl tracking-[0.3em] font-bold mb-6">CLAY & CRAFT</h2>
+          <div className="flex gap-8 mb-8 text-white/60">
+            <a href="#" className="hover:text-white transition-colors text-xs tracking-widest uppercase">Instagram</a>
+            <a href="#" className="hover:text-white transition-colors text-xs tracking-widest uppercase">Pinterest</a>
+            <a href="#" className="hover:text-white transition-colors text-xs tracking-widest uppercase">Journal</a>
           </div>
-          <p className="text-[10px] tracking-wider uppercase text-white/40">© 2026 Clay & Craft. All rights reserved.</p>
+          <p className="text-[10px] tracking-widest uppercase text-white/30">© 2026 Clay & Craft. All rights reserved.</p>
         </div>
       </footer>
 
