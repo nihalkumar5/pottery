@@ -1,2 +1,12 @@
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/theme";
+@import "tailwindcss/utilities";
+
+@theme {
+  --color-background: #F8F5F1;
+  --color-primary: #2F2A25;
+  --color-secondary: #6E665E;
+  --color-accent: #B68D5A;
+  --color-clay: #8A6545;
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Inter", sans-serif;
+}
