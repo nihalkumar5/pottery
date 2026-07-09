@@ -27,6 +27,14 @@ function App() {
     postcode: ''
   });
 
+  // Track Order States
+  const [isTrackOrderOpen, setIsTrackOrderOpen] = useState(false);
+  const [trackOrderId, setTrackOrderId] = useState('');
+  const [trackOrderEmail, setTrackOrderEmail] = useState('');
+  const [trackResult, setTrackResult] = useState(null);
+  const [isTrackLoading, setIsTrackLoading] = useState(false);
+  const [trackError, setTrackError] = useState('');
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -125,6 +133,43 @@ function App() {
 
   const cartTotal = cart.reduce((total, item) => total + item.price, 0).toFixed(2);
 
+  const openTrackOrder = () => setIsTrackOrderOpen(true);
+  
+  const closeTrackOrder = () => {
+    setIsTrackOrderOpen(false);
+    setTrackResult(null);
+    setTrackError('');
+    setTrackOrderId('');
+    setTrackOrderEmail('');
+  };
+
+  const handleTrackOrderSubmit = async (e) => {
+    e.preventDefault();
+    setIsTrackLoading(true);
+    setTrackError('');
+    setTrackResult(null);
+
+    try {
+      const response = await axios.get(`https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/wc/v3/orders/${trackOrderId}`, {
+        params: {
+          consumer_key: import.meta.env.VITE_WC_CONSUMER_KEY,
+          consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET
+        }
+      });
+      
+      const order = response.data;
+      if (order.billing.email.toLowerCase() === trackOrderEmail.toLowerCase()) {
+        setTrackResult(order);
+      } else {
+        setTrackError('Order found, but the email address does not match.');
+      }
+    } catch (error) {
+      setTrackError('Order not found. Please check your Order ID.');
+    } finally {
+      setIsTrackLoading(false);
+    }
+  };
+
   return (
     <>
       <nav className="navbar">
@@ -133,6 +178,7 @@ function App() {
           <li><a href="#shop">Shop</a></li>
           <li><a href="#collections">Collections</a></li>
           <li><a href="#about">About</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); openTrackOrder(); }}>Track Order</a></li>
         </ul>
         <div className="cart-icon" onClick={toggleCart}>
           Cart ({cart.length})
@@ -224,6 +270,44 @@ function App() {
                 </button>
               </form>
             </>
+          )}
+        </div>
+      </div>
+
+      {/* Track Order Modal */}
+      <div className={`checkout-modal-overlay ${isTrackOrderOpen ? 'open' : ''}`}>
+        <div className="checkout-modal">
+          <button className="close-modal" onClick={closeTrackOrder}>&times;</button>
+          
+          <div className="checkout-header">
+            <h2>Track Your Order</h2>
+            <p>Enter your Order ID and Email to view the real-time status.</p>
+          </div>
+          
+          <form onSubmit={handleTrackOrderSubmit}>
+            <div className="form-group">
+              <label>Order ID (e.g. 19)</label>
+              <input type="text" required className="form-input" value={trackOrderId} onChange={e => setTrackOrderId(e.target.value)} />
+            </div>
+            <div className="form-group">
+              <label>Billing Email</label>
+              <input type="email" required className="form-input" value={trackOrderEmail} onChange={e => setTrackOrderEmail(e.target.value)} />
+            </div>
+            <button type="submit" className="btn-checkout" disabled={isTrackLoading}>
+              {isTrackLoading ? 'Searching...' : 'Track Order'}
+            </button>
+          </form>
+
+          {trackError && <p style={{color: 'red', marginTop: '1rem'}}>{trackError}</p>}
+          
+          {trackResult && (
+            <div className="track-result">
+              <h3>Order #{trackResult.id}</h3>
+              <p>Placed on: {new Date(trackResult.date_created).toLocaleDateString()}</p>
+              <div className={`track-status-badge status-${trackResult.status}`}>
+                Status: {trackResult.status}
+              </div>
+            </div>
           )}
         </div>
       </div>
