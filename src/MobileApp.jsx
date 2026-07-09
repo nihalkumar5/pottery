@@ -236,14 +236,12 @@ export default function MobileApp() {
                   <ShoppingBag className="w-4 h-4" />
                 </button>
               </div>
-              <div className="px-1 flex-1 flex flex-col">
-                <h4 className="font-serif text-[0.95rem] leading-snug mb-1.5 line-clamp-2 pr-2">{item.name}</h4>
-                <div className="flex items-center justify-between mt-auto pt-1">
-                  <span className="font-medium text-sm tracking-wide">₹{item.price.toFixed(2)}</span>
-                  <div className="flex items-center gap-1">
-                    <Star className="w-3 h-3 fill-accent text-accent" />
-                    <span className="text-[10px] text-secondary font-medium">{item.rating}</span>
-                  </div>
+              <div className="px-1 flex-1 flex flex-col mt-1">
+                <h4 className="font-serif text-[0.95rem] leading-snug line-clamp-2 text-[#2C2A29] mb-1">{item.name}</h4>
+                <div className="mt-auto">
+                  <span className="font-sans text-[11px] tracking-widest text-[#82634F] font-medium uppercase">
+                    INR {item.price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </span>
                 </div>
               </div>
             </div>
