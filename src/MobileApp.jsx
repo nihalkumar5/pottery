@@ -282,7 +282,7 @@ export default function MobileApp() {
       </section>
 
       {/* Premium Footer */}
-      <footer className="bg-[#2F2A25] text-white pt-16 pb-32 px-8 rounded-t-3xl mt-4">
+      <footer className="bg-[#82634F] text-white pt-16 pb-32 px-8 rounded-t-3xl mt-4">
         <div className="mb-14">
           <h2 className="font-serif text-3xl mb-3">Join our community</h2>
           <p className="text-white/60 text-sm mb-6 leading-relaxed">Subscribe to receive updates on new collections, exclusive offers, and stories behind our craft.</p>
@@ -296,19 +296,19 @@ export default function MobileApp() {
           <div>
             <h3 className="font-serif text-lg tracking-wide mb-5 text-white/90">Shop</h3>
             <ul className="flex flex-col gap-4 text-sm text-white/60">
-              <li><a href="#" className="hover:text-white transition-colors">All Collections</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Tableware</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Vases</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Gifts</a></li>
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors">All Collections</a></li>
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors">Tableware</a></li>
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors">Vases</a></li>
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors">Gifts</a></li>
             </ul>
           </div>
           <div>
             <h3 className="font-serif text-lg tracking-wide mb-5 text-white/90">Support</h3>
             <ul className="flex flex-col gap-4 text-sm text-white/60">
-              <li><a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); user ? setIsProfileOpen(true) : setIsTrackOrderOpen(true); }}>Track Order</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Shipping & Returns</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Care Guide</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Contact Us</a></li>
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); user ? setIsProfileOpen(true) : setIsTrackOrderOpen(true); }}>Track Order</a></li>
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors">Shipping & Returns</a></li>
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors">Care Guide</a></li>
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors">Contact Us</a></li>
             </ul>
           </div>
         </div>
@@ -316,9 +316,9 @@ export default function MobileApp() {
         <div className="flex flex-col items-center pt-10 border-t border-white/10 text-center">
           <h2 className="font-serif text-xl tracking-[0.3em] font-bold mb-6">CLAY & CRAFT</h2>
           <div className="flex gap-8 mb-8 text-white/60">
-            <a href="#" className="hover:text-white transition-colors text-xs tracking-widest uppercase">Instagram</a>
-            <a href="#" className="hover:text-white transition-colors text-xs tracking-widest uppercase">Pinterest</a>
-            <a href="#" className="hover:text-white transition-colors text-xs tracking-widest uppercase">Journal</a>
+            <a href="#" className="text-white/80 hover:text-white transition-colors text-xs tracking-widest uppercase">Instagram</a>
+            <a href="#" className="text-white/80 hover:text-white transition-colors text-xs tracking-widest uppercase">Pinterest</a>
+            <a href="#" className="text-white/80 hover:text-white transition-colors text-xs tracking-widest uppercase">Journal</a>
           </div>
           <p className="text-[10px] tracking-widest uppercase text-white/30">© 2026 Clay & Craft. All rights reserved.</p>
         </div>
