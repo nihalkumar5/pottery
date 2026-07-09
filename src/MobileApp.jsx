@@ -534,10 +534,13 @@ export default function MobileApp() {
                     <p className="text-secondary">Enter your details to continue.</p>
                   </div>
                   
-                  <input type="text" name="username" placeholder="Username" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={authForm.username} onChange={handleAuthChange} />
-                  
-                  {!isLoginMode && (
-                    <input type="email" name="email" placeholder="Email Address" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={authForm.email} onChange={handleAuthChange} />
+                  {isLoginMode ? (
+                    <input type="email" name="username" placeholder="Email Address" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={authForm.username} onChange={handleAuthChange} />
+                  ) : (
+                    <>
+                      <input type="text" name="username" placeholder="Username" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={authForm.username} onChange={handleAuthChange} />
+                      <input type="email" name="email" placeholder="Email Address" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={authForm.email} onChange={handleAuthChange} />
+                    </>
                   )}
                   
                   <input type="password" name="password" placeholder="Password" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={authForm.password} onChange={handleAuthChange} />

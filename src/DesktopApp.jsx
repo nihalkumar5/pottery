@@ -274,15 +274,22 @@ function DesktopApp() {
                 <p>{isLoginMode ? 'Welcome back to Tierra' : 'Join our community'}</p>
               </div>
               <form onSubmit={handleAuthSubmit}>
-                <div className="form-group">
-                  <label>Username</label>
-                  <input type="text" name="username" required className="form-input" value={authForm.username} onChange={handleAuthChange} />
-                </div>
-                {!isLoginMode && (
+                {isLoginMode ? (
                   <div className="form-group">
                     <label>Email Address</label>
-                    <input type="email" name="email" required className="form-input" value={authForm.email} onChange={handleAuthChange} />
+                    <input type="email" name="username" required className="form-input" value={authForm.username} onChange={handleAuthChange} />
                   </div>
+                ) : (
+                  <>
+                    <div className="form-group">
+                      <label>Username</label>
+                      <input type="text" name="username" required className="form-input" value={authForm.username} onChange={handleAuthChange} />
+                    </div>
+                    <div className="form-group">
+                      <label>Email Address</label>
+                      <input type="email" name="email" required className="form-input" value={authForm.email} onChange={handleAuthChange} />
+                    </div>
+                  </>
                 )}
                 <div className="form-group">
                   <label>Password</label>
