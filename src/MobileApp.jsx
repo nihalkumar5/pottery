@@ -239,8 +239,8 @@ export default function MobileApp() {
               <div className="px-1 flex-1 flex flex-col mt-1">
                 <h4 className="font-serif text-[0.95rem] leading-snug line-clamp-2 text-[#2C2A29] mb-1">{item.name}</h4>
                 <div className="mt-auto">
-                  <span className="font-sans text-[11px] tracking-widest text-[#82634F] font-medium uppercase">
-                    INR {item.price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  <span className="font-sans text-[13px] tracking-wide text-[#2C2A29] font-medium">
+                    ₹ {item.price.toLocaleString('en-IN')}
                   </span>
                 </div>
               </div>
