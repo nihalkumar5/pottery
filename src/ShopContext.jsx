@@ -21,6 +21,13 @@ const MOCK_PRODUCTS = [
 export const ShopProvider = ({ children }) => {
   const [products, setProducts] = useState(MOCK_PRODUCTS);
   const [cart, setCart] = useState([]);
+  
+  // Auth State
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('tierra_user');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+  const [token, setToken] = useState(() => localStorage.getItem('tierra_token') || null);
 
   // Fetch products on load
   useEffect(() => {
@@ -110,6 +117,65 @@ export const ShopProvider = ({ children }) => {
     }
   };
 
+  // JWT Auth Methods
+  const login = async (username, password) => {
+    try {
+      const response = await axios.post('https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/jwt-auth/v1/token', {
+        username,
+        password
+      });
+      
+      const { token, user_email, user_nicename, user_display_name } = response.data;
+      
+      const userData = {
+        email: user_email,
+        username: user_nicename,
+        displayName: user_display_name
+      };
+
+      setToken(token);
+      setUser(userData);
+      
+      localStorage.setItem('tierra_token', token);
+      localStorage.setItem('tierra_user', JSON.stringify(userData));
+      
+      return true;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Login failed. Please check your credentials.');
+    }
+  };
+
+  const logout = () => {
+    setToken(null);
+    setUser(null);
+    localStorage.removeItem('tierra_token');
+    localStorage.removeItem('tierra_user');
+  };
+
+  const register = async (email, password, username) => {
+    try {
+      // Create user using WooCommerce Customers API (requires Consumer Keys)
+      const response = await axios.post('https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/wc/v3/customers', {
+        email,
+        password,
+        username,
+      }, {
+        params: {
+          consumer_key: import.meta.env.VITE_WC_CONSUMER_KEY,
+          consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET
+        }
+      });
+      
+      // Auto-login after successful registration
+      if (response.data.id) {
+        await login(username, password);
+        return true;
+      }
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Registration failed.');
+    }
+  };
+
   return (
     <ShopContext.Provider value={{
       products,
@@ -119,7 +185,12 @@ export const ShopProvider = ({ children }) => {
       removeFromCart,
       cartTotal,
       submitOrder,
-      trackOrder
+      trackOrder,
+      user,
+      token,
+      login,
+      logout,
+      register
     }}>
       {children}
     </ShopContext.Provider>

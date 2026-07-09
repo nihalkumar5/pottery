@@ -18,12 +18,19 @@ const REVIEWS = [
 ];
 
 export default function MobileApp() {
-  const { products, cart, addToCart, cartTotal, submitOrder, trackOrder } = useShop();
+  const { products, cart, addToCart, cartTotal, submitOrder, trackOrder, user, login, logout, register } = useShop();
   
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  // Auth States
+  const [isLoginMode, setIsLoginMode] = useState(true);
+  const [authForm, setAuthForm] = useState({ username: '', email: '', password: '' });
+  const [authError, setAuthError] = useState('');
+  const [isAuthLoading, setIsAuthLoading] = useState(false);
 
   // Mobile Checkout States
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -86,6 +93,26 @@ export default function MobileApp() {
       setIsTrackLoading(false);
     }
   };
+
+  const handleAuthSubmit = async (e) => {
+    e.preventDefault();
+    setIsAuthLoading(true);
+    setAuthError('');
+    try {
+      if (isLoginMode) {
+        await login(authForm.username, authForm.password);
+      } else {
+        await register(authForm.email, authForm.password, authForm.username);
+      }
+      setIsProfileOpen(false); // close after success
+    } catch (error) {
+      setAuthError(error.message);
+    } finally {
+      setIsAuthLoading(false);
+    }
+  };
+
+  const handleAuthChange = (e) => setAuthForm({ ...authForm, [e.target.name]: e.target.value });
 
   return (
     <div className="mobile-root font-sans bg-background text-primary min-h-screen relative overflow-hidden">
@@ -471,6 +498,68 @@ export default function MobileApp() {
           </motion.div>
         )}
 
+        {/* Profile / Auth Overlay */}
+        {isProfileOpen && (
+          <motion.div 
+            initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 bg-white z-50 flex flex-col"
+          >
+            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-background">
+              <h2 className="font-serif text-2xl">{user ? 'My Account' : (isLoginMode ? 'Sign In' : 'Create Account')}</h2>
+              <X className="w-6 h-6 cursor-pointer text-gray-500" onClick={() => setIsProfileOpen(false)} />
+            </div>
+            <div className="flex-1 overflow-y-auto p-6 bg-white flex flex-col">
+              {user ? (
+                <div className="flex flex-col items-center justify-center flex-1 text-center">
+                  <div className="w-24 h-24 bg-background rounded-full flex items-center justify-center mb-6 shadow-inner border border-gray-100">
+                    <User className="w-10 h-10 text-secondary" />
+                  </div>
+                  <h3 className="font-serif text-3xl mb-2">Welcome, {user.displayName || user.username}</h3>
+                  <p className="text-secondary mb-10">{user.email}</p>
+                  
+                  <div className="w-full max-w-sm flex flex-col gap-4">
+                    <button onClick={() => { setIsProfileOpen(false); setIsTrackOrderOpen(true); }} className="w-full bg-background text-primary py-4 rounded-xl font-medium tracking-wide border border-gray-200">
+                      Track My Orders
+                    </button>
+                    <button onClick={() => logout()} className="w-full bg-red-50 text-red-600 py-4 rounded-xl font-medium tracking-wide border border-red-100">
+                      Sign Out
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={handleAuthSubmit} className="flex flex-col gap-4 mb-8 mt-10">
+                  <div className="text-center mb-8">
+                    <h3 className="font-serif text-3xl mb-2">{isLoginMode ? 'Welcome Back' : 'Join Tierra'}</h3>
+                    <p className="text-secondary">Enter your details to continue.</p>
+                  </div>
+                  
+                  <input type="text" name="username" placeholder="Username" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={authForm.username} onChange={handleAuthChange} />
+                  
+                  {!isLoginMode && (
+                    <input type="email" name="email" placeholder="Email Address" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={authForm.email} onChange={handleAuthChange} />
+                  )}
+                  
+                  <input type="password" name="password" placeholder="Password" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={authForm.password} onChange={handleAuthChange} />
+                  
+                  {authError && <p className="text-red-500 text-sm text-center bg-red-50 p-3 rounded-lg">{authError}</p>}
+                  
+                  <button type="submit" disabled={isAuthLoading} className="w-full bg-primary text-white py-4 rounded-xl font-medium tracking-wide flex justify-center mt-4">
+                    {isAuthLoading ? 'Processing...' : (isLoginMode ? 'Sign In' : 'Create Account')}
+                  </button>
+                  
+                  <p className="text-center text-sm text-secondary mt-6">
+                    {isLoginMode ? "Don't have an account? " : "Already have an account? "}
+                    <button type="button" onClick={() => { setIsLoginMode(!isLoginMode); setAuthError(''); }} className="text-accent font-medium hover:underline">
+                      {isLoginMode ? 'Sign Up' : 'Sign In'}
+                    </button>
+                  </p>
+                </form>
+              )}
+            </div>
+          </motion.div>
+        )}
+
         {/* Product Details Sheet */}
         {selectedProduct && (
           <motion.div 
@@ -549,7 +638,7 @@ export default function MobileApp() {
           )}
         </div>
         
-        <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => setIsMenuOpen(true)}>
+        <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => setIsProfileOpen(true)}>
           <User className="w-5 h-5" />
           <span className="text-[10px] font-medium tracking-wide">Profile</span>
         </div>
