@@ -77,6 +77,7 @@ function App() {
       payment_method: 'cod',
       payment_method_title: 'Cash on Delivery',
       set_paid: false,
+      status: 'processing', // This forces the order to show up in the "Orders awaiting processing" widget!
       billing: {
         first_name: formData.firstName,
         last_name: formData.lastName,
