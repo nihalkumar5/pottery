@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import DesktopApp from './DesktopApp';
 import MobileApp from './MobileApp';
+import { ShopProvider } from './ShopContext';
 
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -15,9 +16,9 @@ function App() {
   }, []);
 
   return (
-    <>
+    <ShopProvider>
       {isMobile ? <MobileApp /> : <DesktopApp />}
-    </>
+    </ShopProvider>
   );
 }
 

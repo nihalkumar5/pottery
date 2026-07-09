@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, Search, Heart, ShoppingBag, User, ArrowRight, Star, X, CheckCircle } from 'lucide-react';
+import { Menu, Search, Heart, ShoppingBag, User, ArrowRight, Star, X, CheckCircle, PackageSearch } from 'lucide-react';
+import { useShop } from './ShopContext';
 
 const CATEGORIES = [
   { name: 'Mugs', img: '/assets/vase.png' },
@@ -10,12 +11,6 @@ const CATEGORIES = [
   { name: 'Kitchen Essentials', img: '/assets/vase.png' },
 ];
 
-const BEST_SELLERS = [
-  { id: 1, name: 'Mate Plate', desc: 'Matte White Glaze', rating: 4.9, price: 80, image: '/assets/vase.png' },
-  { id: 2, name: 'Temmoku Bowl', desc: 'Dark Earth Finish', rating: 4.8, price: 120, image: '/assets/vase.png' },
-  { id: 3, name: 'Artisan Mug', desc: 'Hand-thrown Ceramic', rating: 5.0, price: 45, image: '/assets/vase.png' },
-];
-
 const REVIEWS = [
   { id: 1, name: 'Sarah M.', text: 'The most beautiful mugs I own. The craftsmanship is incredible.', rating: 5 },
   { id: 2, name: 'James K.', text: 'Fast shipping and stunning quality. A premium unboxing experience.', rating: 5 },
@@ -23,11 +18,28 @@ const REVIEWS = [
 ];
 
 export default function MobileApp() {
+  const { products, cart, addToCart, cartTotal, submitOrder, trackOrder } = useShop();
+  
   const [isScrolled, setIsScrolled] = useState(false);
-  const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
+  // Mobile Checkout States
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '', lastName: '', email: '', address: '', city: '', postcode: ''
+  });
+
+  // Mobile Track Order States
+  const [isTrackOrderOpen, setIsTrackOrderOpen] = useState(false);
+  const [trackOrderId, setTrackOrderId] = useState('');
+  const [trackOrderEmail, setTrackOrderEmail] = useState('');
+  const [trackResult, setTrackResult] = useState(null);
+  const [isTrackLoading, setIsTrackLoading] = useState(false);
+  const [trackError, setTrackError] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,13 +49,43 @@ export default function MobileApp() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const addToCart = (product) => {
-    setCart([...cart, product]);
+  const handleAddToCart = (product) => {
+    addToCart(product);
     setSelectedProduct(null); // Close details if open
     setIsCartOpen(true); // Open cart to show it was added
   };
 
-  const cartTotal = cart.reduce((sum, item) => sum + item.price, 0);
+  const handleInputChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleCheckoutSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      await submitOrder(formData);
+      setOrderSuccess(true);
+    } catch (error) {
+      const errMsg = error.response?.data?.message || error.message || 'Unknown error';
+      alert('Failed to place order: ' + errMsg);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleTrackOrderSubmit = async (e) => {
+    e.preventDefault();
+    setIsTrackLoading(true);
+    setTrackError('');
+    setTrackResult(null);
+
+    try {
+      const order = await trackOrder(trackOrderId, trackOrderEmail);
+      setTrackResult(order);
+    } catch (error) {
+      setTrackError(error.message);
+    } finally {
+      setIsTrackLoading(false);
+    }
+  };
 
   return (
     <div className="mobile-root font-sans bg-background text-primary min-h-screen relative overflow-hidden">
@@ -53,7 +95,7 @@ export default function MobileApp() {
           <Menu className="w-6 h-6 text-primary cursor-pointer" onClick={() => setIsMenuOpen(true)} />
           <h1 className="font-serif text-2xl tracking-widest font-bold">TIERRA</h1>
           <div className="flex gap-4">
-            <Search className="w-5 h-5 text-primary cursor-pointer" />
+            <PackageSearch className="w-5 h-5 text-primary cursor-pointer" onClick={() => setIsTrackOrderOpen(true)} />
             <div className="relative cursor-pointer" onClick={() => setIsCartOpen(true)}>
               <ShoppingBag className="w-5 h-5 text-primary" />
               {cart.length > 0 && (
@@ -69,9 +111,7 @@ export default function MobileApp() {
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col justify-end pb-24 overflow-hidden">
         <motion.div 
-          initial={{ scale: 1.1 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 10, ease: "easeOut" }}
+          initial={{ scale: 1.1 }} animate={{ scale: 1 }} transition={{ duration: 10, ease: "easeOut" }}
           className="absolute inset-0 z-0"
         >
           <img src="/assets/hero.png" alt="Pottery Artisan" className="w-full h-full object-cover" />
@@ -80,29 +120,22 @@ export default function MobileApp() {
         
         <div className="relative z-10 px-6 text-white text-center">
           <motion.h2 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
             className="font-serif text-4xl leading-tight mb-4"
           >
             Handcrafted Pottery<br />That Brings Warmth Home
           </motion.h2>
           <motion.p 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}
             className="text-sm font-light text-white/90 mb-8 max-w-sm mx-auto"
           >
             Every bowl, mug, and vase is shaped by skilled artisans using natural clay and timeless techniques.
           </motion.p>
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col gap-4"
           >
             <button className="bg-white text-primary py-4 px-8 rounded-full font-semibold text-sm tracking-wide shadow-lg w-full">Shop Collection</button>
-            <button className="bg-transparent text-white border border-white/50 py-4 px-8 rounded-full font-semibold text-sm tracking-wide w-full backdrop-blur-sm">Our Story</button>
           </motion.div>
         </div>
       </section>
@@ -120,11 +153,6 @@ export default function MobileApp() {
             <h3 className="font-serif text-xl mb-2">Sustainable Natural Clay</h3>
             <p className="text-secondary text-sm">Sourced ethically from the earth.</p>
           </div>
-          <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-background/50">
-            <ShoppingBag className="w-8 h-8 text-accent mb-4" />
-            <h3 className="font-serif text-xl mb-2">Worldwide Shipping</h3>
-            <p className="text-secondary text-sm">Delivered safely to your doorstep.</p>
-          </div>
         </div>
       </section>
 
@@ -133,11 +161,7 @@ export default function MobileApp() {
         <h2 className="font-serif text-3xl mb-8 pr-6">Shop by Category</h2>
         <div className="flex gap-4 overflow-x-auto pb-8 pr-6 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {CATEGORIES.map((cat, i) => (
-            <motion.div 
-              whileHover={{ y: -5 }}
-              key={i} 
-              className="min-w-[200px] flex-shrink-0 cursor-pointer group"
-            >
+            <motion.div whileHover={{ y: -5 }} key={i} className="min-w-[200px] flex-shrink-0 cursor-pointer group">
               <div className="w-full h-[250px] rounded-3xl overflow-hidden mb-4 relative">
                 <img src={cat.img} alt={cat.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
@@ -151,11 +175,11 @@ export default function MobileApp() {
         </div>
       </section>
 
-      {/* Best Sellers */}
+      {/* WooCommerce Products */}
       <section className="py-16 px-6 bg-background">
-        <h2 className="font-serif text-3xl mb-8">Best Sellers</h2>
+        <h2 className="font-serif text-3xl mb-8">Our Collection</h2>
         <div className="flex flex-col gap-8">
-          {BEST_SELLERS.map((item) => (
+          {products.map((item) => (
             <div 
               key={item.id} 
               onClick={() => setSelectedProduct(item)}
@@ -170,11 +194,11 @@ export default function MobileApp() {
                   <span className="text-xs text-secondary">{item.rating}</span>
                 </div>
                 <h4 className="font-serif text-lg leading-tight mb-1">{item.name}</h4>
-                <p className="text-xs text-secondary mb-2">{item.desc}</p>
+                <p className="text-xs text-secondary mb-2 line-clamp-1">{item.desc}</p>
                 <div className="flex items-center justify-between">
-                  <span className="font-medium">${item.price}</span>
+                  <span className="font-medium">₹{item.price.toFixed(2)}</span>
                   <button 
-                    onClick={(e) => { e.stopPropagation(); addToCart(item); }}
+                    onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
                     className="bg-primary text-white p-2 rounded-full shadow-md active:scale-90 transition-transform"
                   >
                     <ShoppingBag className="w-4 h-4" />
@@ -195,7 +219,6 @@ export default function MobileApp() {
         <p className="text-secondary text-sm leading-relaxed mb-8 max-w-sm mx-auto">
           We believe in the beauty of imperfection. Every piece in our collection is handcrafted in small batches using traditional wheel-throwing and hand-building techniques.
         </p>
-        <button className="border-b border-primary pb-1 font-medium text-sm">Read Our Story</button>
       </section>
 
       {/* Reviews */}
@@ -216,16 +239,6 @@ export default function MobileApp() {
         </div>
       </section>
 
-      {/* Newsletter */}
-      <section className="py-24 px-6 text-center bg-white">
-        <h2 className="font-serif text-3xl mb-4">Join Our Journey</h2>
-        <p className="text-secondary text-sm mb-8">Receive stories, new collections and exclusive releases.</p>
-        <div className="flex flex-col gap-4">
-          <input type="email" placeholder="Email Address" className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent font-sans" />
-          <button className="w-full bg-primary text-white py-4 rounded-xl font-medium tracking-wide">Subscribe</button>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="bg-primary text-white/60 py-16 px-6 pb-20">
         <h2 className="font-serif text-2xl text-white tracking-widest font-bold mb-10">TIERRA</h2>
@@ -233,11 +246,9 @@ export default function MobileApp() {
           <div className="flex flex-col gap-4">
             <a href="#" className="hover:text-white transition-colors">Shop</a>
             <a href="#" className="hover:text-white transition-colors">About</a>
-            <a href="#" className="hover:text-white transition-colors">Contact</a>
           </div>
           <div className="flex flex-col gap-4">
-            <a href="#" className="hover:text-white transition-colors">Shipping</a>
-            <a href="#" className="hover:text-white transition-colors">Returns</a>
+            <a href="#" className="hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); setIsTrackOrderOpen(true); }}>Track Order</a>
             <a href="#" className="hover:text-white transition-colors">Instagram</a>
           </div>
         </div>
@@ -257,11 +268,9 @@ export default function MobileApp() {
               <X className="w-8 h-8 cursor-pointer" onClick={() => setIsMenuOpen(false)} />
             </div>
             <div className="flex flex-col gap-8 text-2xl font-serif">
-              <a href="#" className="hover:text-accent transition-colors">Shop</a>
-              <a href="#" className="hover:text-accent transition-colors">Collections</a>
+              <a href="#" className="hover:text-accent transition-colors" onClick={() => setIsMenuOpen(false)}>Shop</a>
+              <a href="#" className="hover:text-accent transition-colors" onClick={() => { setIsMenuOpen(false); setIsTrackOrderOpen(true); }}>Track Order</a>
               <a href="#" className="hover:text-accent transition-colors">Our Story</a>
-              <a href="#" className="hover:text-accent transition-colors">Journal</a>
-              <a href="#" className="hover:text-accent transition-colors">Track Order</a>
             </div>
           </motion.div>
         )}
@@ -296,7 +305,7 @@ export default function MobileApp() {
                         <img src={item.image} alt={item.name} className="w-20 h-20 rounded-xl object-cover bg-background" />
                         <div className="flex-1">
                           <h4 className="font-serif text-lg">{item.name}</h4>
-                          <p className="text-secondary font-medium">${item.price}</p>
+                          <p className="text-secondary font-medium">₹{item.price.toFixed(2)}</p>
                         </div>
                       </div>
                     ))}
@@ -307,14 +316,103 @@ export default function MobileApp() {
                 <div className="p-6 border-t border-gray-100 bg-background/30">
                   <div className="flex justify-between font-serif text-xl mb-6">
                     <span>Total</span>
-                    <span>${cartTotal}</span>
+                    <span>₹{cartTotal.toFixed(2)}</span>
                   </div>
-                  <button className="w-full bg-primary text-white py-4 rounded-xl font-medium tracking-wide flex items-center justify-center gap-2">
-                    Checkout <ArrowRight className="w-5 h-5" />
+                  <button 
+                    onClick={() => { setIsCartOpen(false); setIsCheckoutOpen(true); }}
+                    className="w-full bg-primary text-white py-4 rounded-xl font-medium tracking-wide flex items-center justify-center gap-2"
+                  >
+                    Checkout Securely <ArrowRight className="w-5 h-5" />
                   </button>
                 </div>
               )}
             </motion.div>
+          </motion.div>
+        )}
+
+        {/* Checkout Full Screen Modal */}
+        {isCheckoutOpen && (
+          <motion.div 
+            initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 bg-white z-50 flex flex-col"
+          >
+            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-background">
+              <h2 className="font-serif text-2xl">Checkout</h2>
+              <X className="w-6 h-6 cursor-pointer text-gray-500" onClick={() => setIsCheckoutOpen(false)} />
+            </div>
+            <div className="flex-1 overflow-y-auto p-6 bg-white">
+              {orderSuccess ? (
+                <div className="h-full flex flex-col items-center justify-center text-center">
+                  <CheckCircle className="w-16 h-16 text-accent mb-6" />
+                  <h3 className="font-serif text-3xl mb-4">Order Placed!</h3>
+                  <p className="text-secondary mb-8">Thank you for shopping with Tierra. We will prepare your handcrafted ceramics shortly.</p>
+                  <button 
+                    className="w-full bg-primary text-white py-4 rounded-xl font-medium tracking-wide"
+                    onClick={() => { setIsCheckoutOpen(false); setOrderSuccess(false); }}
+                  >
+                    Continue Shopping
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleCheckoutSubmit} className="flex flex-col gap-4">
+                  <div className="flex justify-between font-serif text-xl mb-6 pb-6 border-b border-gray-100">
+                    <span>Total Amount:</span>
+                    <span>₹{cartTotal.toFixed(2)}</span>
+                  </div>
+                  
+                  <div className="flex gap-4">
+                    <input type="text" name="firstName" placeholder="First Name" required className="w-1/2 p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={formData.firstName} onChange={handleInputChange} />
+                    <input type="text" name="lastName" placeholder="Last Name" required className="w-1/2 p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={formData.lastName} onChange={handleInputChange} />
+                  </div>
+                  <input type="email" name="email" placeholder="Email Address" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={formData.email} onChange={handleInputChange} />
+                  <input type="text" name="address" placeholder="Shipping Address" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={formData.address} onChange={handleInputChange} />
+                  <div className="flex gap-4">
+                    <input type="text" name="city" placeholder="City" required className="w-2/3 p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={formData.city} onChange={handleInputChange} />
+                    <input type="text" name="postcode" placeholder="PIN" required className="w-1/3 p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={formData.postcode} onChange={handleInputChange} />
+                  </div>
+                  <button type="submit" disabled={isSubmitting} className="w-full bg-primary text-white py-4 rounded-xl font-medium tracking-wide mt-4 flex justify-center">
+                    {isSubmitting ? 'Processing...' : 'Place Order (Cash on Delivery)'}
+                  </button>
+                </form>
+              )}
+            </div>
+          </motion.div>
+        )}
+
+        {/* Track Order Full Screen Modal */}
+        {isTrackOrderOpen && (
+          <motion.div 
+            initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 bg-white z-50 flex flex-col"
+          >
+            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-background">
+              <h2 className="font-serif text-2xl">Track Order</h2>
+              <X className="w-6 h-6 cursor-pointer text-gray-500" onClick={() => { setIsTrackOrderOpen(false); setTrackResult(null); setTrackError(''); }} />
+            </div>
+            <div className="flex-1 overflow-y-auto p-6 bg-white">
+              <form onSubmit={handleTrackOrderSubmit} className="flex flex-col gap-4 mb-8">
+                <input type="text" placeholder="Order ID (e.g. 19)" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={trackOrderId} onChange={e => setTrackOrderId(e.target.value)} />
+                <input type="email" placeholder="Billing Email" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={trackOrderEmail} onChange={e => setTrackOrderEmail(e.target.value)} />
+                <button type="submit" disabled={isTrackLoading} className="w-full bg-accent text-white py-4 rounded-xl font-medium tracking-wide flex justify-center">
+                  {isTrackLoading ? 'Searching...' : 'Track My Order'}
+                </button>
+              </form>
+              
+              {trackError && <p className="text-red-500 text-center p-4 bg-red-50 rounded-xl">{trackError}</p>}
+              
+              {trackResult && (
+                <div className="bg-background p-6 rounded-2xl flex flex-col items-center text-center">
+                  <PackageSearch className="w-12 h-12 text-accent mb-4" />
+                  <h3 className="font-serif text-2xl mb-2">Order #{trackResult.id}</h3>
+                  <p className="text-secondary mb-6">Placed on: {new Date(trackResult.date_created).toLocaleDateString()}</p>
+                  <div className="bg-white px-6 py-2 rounded-full shadow-sm text-primary font-medium tracking-wide uppercase text-sm border border-gray-100">
+                    Status: {trackResult.status}
+                  </div>
+                </div>
+              )}
+            </div>
           </motion.div>
         )}
 
@@ -344,21 +442,21 @@ export default function MobileApp() {
               <div className="p-8 flex-1 overflow-y-auto">
                 <div className="flex justify-between items-start mb-2">
                   <h2 className="font-serif text-3xl">{selectedProduct.name}</h2>
-                  <span className="font-medium text-xl">${selectedProduct.price}</span>
+                  <span className="font-medium text-xl">₹{selectedProduct.price.toFixed(2)}</span>
                 </div>
                 <div className="flex items-center gap-1 mb-6">
                   <Star className="w-4 h-4 fill-accent text-accent" />
                   <span className="text-sm font-medium">{selectedProduct.rating} Rating</span>
                 </div>
                 <p className="text-secondary leading-relaxed mb-8">
-                  {selectedProduct.desc}. Handcrafted in our studio using natural clay. Microwave and dishwasher safe, though hand-washing is recommended to prolong its beautiful finish.
+                  {selectedProduct.desc}
                 </p>
                 <div className="flex items-center gap-2 text-sm text-green-700 font-medium mb-8 bg-green-50 p-4 rounded-2xl">
                   <CheckCircle className="w-5 h-5" /> In Stock & Ready to Ship
                 </div>
                 
                 <button 
-                  onClick={() => addToCart(selectedProduct)}
+                  onClick={() => handleAddToCart(selectedProduct)}
                   className="w-full bg-primary text-white py-4 rounded-xl font-medium tracking-wide flex items-center justify-center gap-2"
                 >
                   <ShoppingBag className="w-5 h-5" /> Add to Cart
