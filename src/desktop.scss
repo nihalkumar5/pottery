@@ -1,4 +1,4 @@
-:root {
+& {
   --color-bg: #F9F8F6; /* Warm off-white */
   --color-text: #2C2A29; /* Soft black */
   --color-accent: #8B5A2B; /* Earthy brown */
@@ -14,7 +14,7 @@
   box-sizing: border-box;
 }
 
-body {
+& {
   font-family: var(--font-primary);
   background-color: var(--color-bg);
   color: var(--color-text);

@@ -1,4 +1,4 @@
-:root {
+& {
   --color-bg: #EAE6DF; /* Premium subtle grey/beige */
   --color-text: #4A4A4A; 
   --color-text-light: #8E8E8E;
@@ -11,7 +11,7 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
+& {
   font-family: var(--font-primary);
   background-color: var(--color-bg);
   color: var(--color-text);
@@ -189,5 +189,5 @@ body {
 /* Desktop fallback */
 @media (min-width: 769px) {
   .splash-screen, .shop-screen, .product-detail-view { max-width: 450px; margin: 0 auto; box-shadow: 0 0 50px rgba(0,0,0,0.1); position: relative; overflow-x: hidden; }
-  body { background: #333; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  & { background: #333; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
 }
