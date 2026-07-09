@@ -108,7 +108,7 @@ export default function MobileApp() {
           <div className="absolute inset-0 bg-black/40"></div>
         </motion.div>
         
-        <div className="relative z-10 px-8 text-white text-center mt-auto mb-12">
+        <div className="relative z-10 px-8 text-white text-center">
           <motion.h2 
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
             className="font-serif text-5xl leading-[1.1] tracking-tight mb-6"
