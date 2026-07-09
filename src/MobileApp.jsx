@@ -220,31 +220,30 @@ export default function MobileApp() {
       {/* WooCommerce Products */}
       <section id="shop" className="py-16 px-6 bg-background">
         <h2 className="font-serif text-3xl mb-8">Our Collection</h2>
-        <div className="flex flex-col gap-8">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-8">
           {products.map((item) => (
             <div 
               key={item.id} 
               onClick={() => setSelectedProduct(item)}
-              className="bg-white rounded-3xl p-4 shadow-sm flex items-center gap-4 cursor-pointer"
+              className="cursor-pointer group flex flex-col"
             >
-              <div className="w-24 h-24 rounded-2xl overflow-hidden flex-shrink-0 bg-background">
-                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+              <div className="w-full aspect-[4/5] rounded-3xl overflow-hidden mb-4 relative bg-white shadow-sm">
+                <img src={item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <button 
+                  onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
+                  className="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md text-primary p-2.5 rounded-full shadow hover:bg-white transition-colors"
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                </button>
               </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-1 mb-1">
-                  <Star className="w-3 h-3 fill-accent text-accent" />
-                  <span className="text-xs text-secondary">{item.rating}</span>
-                </div>
-                <h4 className="font-serif text-lg leading-tight mb-1">{item.name}</h4>
-                <p className="text-xs text-secondary mb-2 line-clamp-1">{item.desc}</p>
-                <div className="flex items-center justify-between">
-                  <span className="font-medium">₹{item.price.toFixed(2)}</span>
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
-                    className="bg-primary text-white p-2 rounded-full shadow-md active:scale-90 transition-transform"
-                  >
-                    <ShoppingBag className="w-4 h-4" />
-                  </button>
+              <div className="px-1 flex-1 flex flex-col">
+                <h4 className="font-serif text-[0.95rem] leading-snug mb-1.5 line-clamp-2 pr-2">{item.name}</h4>
+                <div className="flex items-center justify-between mt-auto pt-1">
+                  <span className="font-medium text-sm tracking-wide">₹{item.price.toFixed(2)}</span>
+                  <div className="flex items-center gap-1">
+                    <Star className="w-3 h-3 fill-accent text-accent" />
+                    <span className="text-[10px] text-secondary font-medium">{item.rating}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -286,29 +285,29 @@ export default function MobileApp() {
         <div className="mb-14">
           <h2 className="font-serif text-3xl mb-3">Join our community</h2>
           <p className="text-white/60 text-sm mb-6 leading-relaxed">Subscribe to receive updates on new collections, exclusive offers, and stories behind our craft.</p>
-          <div className="flex w-full border-b border-white/30 pb-2 items-center">
-            <input type="email" placeholder="Your email address" className="bg-transparent flex-1 text-white placeholder-white/40 focus:outline-none appearance-none rounded-none text-base" />
-            <button className="text-sm font-medium tracking-widest uppercase hover:text-accent transition-colors ml-4 whitespace-nowrap">Subscribe</button>
+          <div className="relative w-full max-w-[400px]">
+            <input type="email" placeholder="Your email address" className="w-full bg-white/10 border border-white/20 text-white placeholder-white/50 rounded-full py-4 pl-6 pr-32 focus:outline-none focus:border-white/50 focus:bg-white/15 transition-colors text-sm appearance-none" />
+            <button className="absolute right-2 top-2 bottom-2 bg-white text-[#82634F] font-semibold tracking-widest uppercase text-xs px-6 rounded-full hover:bg-white/90 transition-colors">Subscribe</button>
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-8 mb-16">
           <div>
-            <h3 className="font-serif text-lg tracking-wide mb-5 text-white/90">Shop</h3>
-            <ul className="flex flex-col gap-4 text-sm text-white/60">
-              <li><a href="#" className="text-white/80 hover:text-white transition-colors">All Collections</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white transition-colors">Tableware</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white transition-colors">Vases</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white transition-colors">Gifts</a></li>
+            <h3 className="text-xs uppercase tracking-[0.2em] font-semibold mb-6 text-white/50">Shop</h3>
+            <ul className="flex flex-col gap-4 text-sm list-none p-0 m-0">
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light">All Collections</a></li>
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light">Tableware</a></li>
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light">Vases</a></li>
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light">Gifts</a></li>
             </ul>
           </div>
           <div>
-            <h3 className="font-serif text-lg tracking-wide mb-5 text-white/90">Support</h3>
-            <ul className="flex flex-col gap-4 text-sm text-white/60">
-              <li><a href="#" className="text-white/80 hover:text-white transition-colors" onClick={(e) => { e.preventDefault(); user ? setIsProfileOpen(true) : setIsTrackOrderOpen(true); }}>Track Order</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white transition-colors">Shipping & Returns</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white transition-colors">Care Guide</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white transition-colors">Contact Us</a></li>
+            <h3 className="text-xs uppercase tracking-[0.2em] font-semibold mb-6 text-white/50">Support</h3>
+            <ul className="flex flex-col gap-4 text-sm list-none p-0 m-0">
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light" onClick={(e) => { e.preventDefault(); user ? setIsProfileOpen(true) : setIsTrackOrderOpen(true); }}>Track Order</a></li>
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light">Shipping & Returns</a></li>
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light">Care Guide</a></li>
+              <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light">Contact Us</a></li>
             </ul>
           </div>
         </div>
