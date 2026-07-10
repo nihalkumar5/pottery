@@ -673,44 +673,6 @@ export default function MobileApp() {
                 </div>
               ) : (
                 <form onSubmit={handleNextStep} className="flex flex-col">
-                  {/* Premium Order Summary Card */}
-                  <div className="mx-5 mt-4 mb-2 bg-white rounded-3xl p-5 shadow-sm border border-[#E5E0D8]">
-                    <h3 className="font-serif text-[22px] text-gray-800 mb-4 border-b border-gray-100 pb-3">Order Summary</h3>
-                    
-                    {/* Product Preview */}
-                    <div className="space-y-4 mb-4 pb-4 border-b border-gray-100">
-                      {cart.map((item, idx) => (
-                        <div key={idx} className="flex gap-3 items-center">
-                          <img src={item.image} alt={item.name} className="w-12 h-12 rounded-xl object-cover bg-[#F8F5F1]" />
-                          <div className="flex-1">
-                            <h4 className="font-sans text-[15px] text-gray-900 font-bold">{item.name}</h4>
-                            <p className="text-[13px] text-gray-500 font-medium">Qty: {item.quantity}</p>
-                          </div>
-                          <span className="font-bold text-[15px] text-gray-900">₹{(item.price * item.quantity).toFixed(2)}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="space-y-2 mb-3">
-                      <div className="flex justify-between text-[14px] text-gray-600">
-                        <span>Subtotal</span>
-                        <span>₹{cartTotal.toFixed(2)}</span>
-                      </div>
-                      <div className="flex justify-between text-[14px] text-gray-600">
-                        <span>Shipping</span>
-                        <span className="text-[#415a46] font-medium">Free</span>
-                      </div>
-                      <div className="flex justify-between text-[14px] text-gray-600">
-                        <span>Taxes</span>
-                        <span>Included</span>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center pt-3 border-t border-gray-100">
-                      <span className="font-bold text-gray-900 text-[16px]">Total</span>
-                      <span className="font-bold text-[20px] text-[#415a46]">₹{cartTotal.toFixed(2)}</span>
-                    </div>
-                  </div>
-                  
                   <div className="px-5 py-4 space-y-8">
                     {/* Step 1: Shipping Details */}
                     {checkoutStep === 1 && (
@@ -762,74 +724,80 @@ export default function MobileApp() {
 
                     {/* Step 2: Payment */}
                     {checkoutStep === 2 && (
-                      <div className="space-y-5 animate-fade-in">
-                        <div className="mb-2">
-                          <h3 className="font-serif text-[22px] text-gray-800 mb-1">Select Payment Method</h3>
-                        </div>
-                        
-                        <div 
-                          onClick={() => setPaymentMethod('upi')}
-                          className={`p-5 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex items-center gap-4 hover:shadow-md ${paymentMethod === 'upi' ? 'border-[#415a46] bg-white shadow-md' : 'border-transparent bg-white/60 hover:bg-white'}`}
-                        >
-                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${paymentMethod === 'upi' ? 'border-[#415a46]' : 'border-gray-300'}`}>
-                            {paymentMethod === 'upi' && <div className="w-3 h-3 bg-[#415a46] rounded-full"></div>}
+                      <div className="space-y-6 animate-fade-in pb-4">
+                        {/* Minimalist Order Summary */}
+                        <div className="border-b border-[#D8D4CC] pb-6">
+                          <h3 className="font-serif text-[18px] text-gray-800 mb-4">Order Summary</h3>
+                          
+                          <div className="space-y-3 mb-4">
+                            {cart.map((item, idx) => (
+                              <div key={idx} className="flex justify-between items-center text-[15px] text-gray-900">
+                                <span>{item.name} ×{item.quantity}</span>
+                                <span>₹{(item.price * item.quantity).toFixed(2)}</span>
+                              </div>
+                            ))}
                           </div>
-                          <div className="flex-1">
-                            <div className="flex items-center justify-between">
-                              <p className="font-bold text-[18px] text-gray-900">UPI / Cards</p>
-                              <Smartphone className={`w-5 h-5 ${paymentMethod === 'upi' ? 'text-[#415a46]' : 'text-gray-400'}`} />
+
+                          <div className="space-y-2 mb-4 text-[14px] text-gray-500">
+                            <div className="flex justify-between">
+                              <span>Subtotal</span>
+                              <span>₹{cartTotal.toFixed(2)}</span>
                             </div>
-                            <div className="flex items-center gap-1.5 mt-2.5 opacity-70">
-                              <span className="text-[10px] font-bold border border-gray-400 px-1.5 py-0.5 rounded uppercase tracking-widest">GPay</span>
-                              <span className="text-[10px] font-bold border border-gray-400 px-1.5 py-0.5 rounded uppercase tracking-widest">PhonePe</span>
-                              <span className="text-[10px] font-bold border border-gray-400 px-1.5 py-0.5 rounded uppercase tracking-widest">Paytm</span>
-                              <span className="text-[10px] font-bold border border-gray-400 px-1.5 py-0.5 rounded uppercase tracking-widest">Visa</span>
+                            <div className="flex justify-between">
+                              <span>Shipping</span>
+                              <span>Free</span>
+                            </div>
+                          </div>
+                          
+                          <div className="flex justify-between items-center pt-4 border-t border-[#D8D4CC]">
+                            <span className="font-medium text-gray-900 text-[16px]">Total</span>
+                            <span className="font-medium text-[16px] text-[#415a46]">₹{cartTotal.toFixed(2)}</span>
+                          </div>
+                        </div>
+
+                        {/* Minimalist Payment Method */}
+                        <div className="border-b border-[#D8D4CC] pb-6">
+                          <h3 className="font-serif text-[18px] text-gray-800 mb-4">Payment Method</h3>
+                          
+                          <div className="space-y-4">
+                            <div 
+                              onClick={() => setPaymentMethod('upi')}
+                              className="cursor-pointer group flex flex-col gap-2"
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 transition-colors ${paymentMethod === 'upi' ? 'border-[#415a46]' : 'border-gray-400 group-hover:border-gray-600'}`}>
+                                  {paymentMethod === 'upi' && <div className="w-2.5 h-2.5 bg-[#415a46] rounded-full"></div>}
+                                </div>
+                                <span className="text-[15px] text-gray-900 font-medium">UPI</span>
+                              </div>
+                              {paymentMethod === 'upi' && (
+                                <div className="pl-8 flex items-center gap-2 opacity-70">
+                                  <span className="text-[11px] font-bold text-gray-600 tracking-wider">GPay</span>
+                                  <span className="text-[11px] text-gray-400">•</span>
+                                  <span className="text-[11px] font-bold text-gray-600 tracking-wider">PhonePe</span>
+                                  <span className="text-[11px] text-gray-400">•</span>
+                                  <span className="text-[11px] font-bold text-gray-600 tracking-wider">Paytm</span>
+                                </div>
+                              )}
+                            </div>
+
+                            <div 
+                              onClick={() => setPaymentMethod('cod')}
+                              className="cursor-pointer group flex items-center gap-3"
+                            >
+                              <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 transition-colors ${paymentMethod === 'cod' ? 'border-[#415a46]' : 'border-gray-400 group-hover:border-gray-600'}`}>
+                                {paymentMethod === 'cod' && <div className="w-2.5 h-2.5 bg-[#415a46] rounded-full"></div>}
+                              </div>
+                              <span className="text-[15px] text-gray-900 font-medium">Cash on Delivery</span>
                             </div>
                           </div>
                         </div>
 
-                        <div 
-                          onClick={() => setPaymentMethod('cod')}
-                          className={`p-5 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex items-center gap-4 hover:shadow-md ${paymentMethod === 'cod' ? 'border-[#415a46] bg-white shadow-md' : 'border-transparent bg-white/60 hover:bg-white'}`}
-                        >
-                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${paymentMethod === 'cod' ? 'border-[#415a46]' : 'border-gray-300'}`}>
-                            {paymentMethod === 'cod' && <div className="w-3 h-3 bg-[#415a46] rounded-full"></div>}
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex items-center justify-between">
-                              <p className="font-bold text-[18px] text-gray-900">Cash on Delivery</p>
-                              <Banknote className={`w-5 h-5 ${paymentMethod === 'cod' ? 'text-[#415a46]' : 'text-gray-400'}`} />
-                            </div>
-                            <p className="text-gray-500 text-[13px] mt-1">Pay when your order arrives</p>
-                          </div>
-                        </div>
-
-                        {/* Trust Signals */}
-                        <div className="mt-6 pt-6 border-t border-[#D8D4CC]/50 grid grid-cols-2 gap-3">
-                          <div className="flex flex-col gap-2 bg-white p-3.5 rounded-2xl border border-[#E5E0D8] shadow-sm items-start">
-                            <Lock className="w-5 h-5 text-[#415a46]" />
-                            <div className="text-[12px] font-bold leading-tight text-gray-800">
-                              256-bit<br/>Secure Payment
-                            </div>
-                          </div>
-                          <div className="flex flex-col gap-2 bg-white p-3.5 rounded-2xl border border-[#E5E0D8] shadow-sm items-start">
-                            <Truck className="w-5 h-5 text-[#415a46]" />
-                            <div className="text-[12px] font-bold leading-tight text-gray-800">
-                              Free<br/>Shipping
-                            </div>
-                          </div>
-                          <div className="flex flex-col gap-2 bg-white p-3.5 rounded-2xl border border-[#E5E0D8] shadow-sm items-start">
-                            <RotateCcw className="w-5 h-5 text-[#415a46]" />
-                            <div className="text-[12px] font-bold leading-tight text-gray-800">
-                              Easy<br/>Returns
-                            </div>
-                          </div>
-                          <div className="flex flex-col gap-2 bg-white p-3.5 rounded-2xl border border-[#E5E0D8] shadow-sm items-start">
-                            <Star className="w-5 h-5 text-[#415a46] fill-[#415a46]" />
-                            <div className="text-[12px] font-bold leading-tight text-gray-800">
-                              Handmade<br/>with Care
-                            </div>
-                          </div>
+                        {/* Minimalist Trust */}
+                        <div className="flex items-center justify-center pt-2">
+                          <p className="text-[13px] text-gray-500 font-medium flex items-center gap-1.5">
+                            <Lock className="w-3.5 h-3.5" /> Secure payment • Free shipping • Easy returns
+                          </p>
                         </div>
                       </div>
                     )}
@@ -837,20 +805,15 @@ export default function MobileApp() {
 
                   {/* Sticky Checkout Button */}
                   <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-[#F3EEE7] via-[#F3EEE7]/95 to-transparent pt-12 pb-6 px-5 z-20">
-                    <p className="text-[13px] text-gray-600/90 font-medium text-center mb-4 flex items-center justify-center gap-1.5 italic">
-                      ♡ Packed carefully by artisans
-                    </p>
                     <div className="flex gap-3">
                       {checkoutStep > 1 && (
-                        <button type="button" onClick={() => setCheckoutStep(prev => prev - 1)} className="px-6 bg-white border border-[#D8D4CC] text-gray-800 h-[64px] rounded-[18px] font-sans font-bold tracking-wide shadow-sm hover:bg-gray-50 transition-colors">
+                        <button type="button" onClick={() => setCheckoutStep(prev => prev - 1)} className="px-6 bg-white border border-[#D8D4CC] text-gray-800 h-[64px] rounded-2xl font-sans font-bold tracking-wide shadow-sm hover:bg-gray-50 transition-colors">
                           BACK
                         </button>
                       )}
-                      <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#415a46] text-white h-[64px] rounded-[18px] font-sans font-bold tracking-wide shadow-lg shadow-[#415a46]/20 hover:bg-[#2f4233] transition-colors flex justify-center items-center gap-2">
+                      <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#415a46] text-white h-[64px] rounded-2xl font-sans font-medium tracking-wide shadow-lg shadow-[#415a46]/20 hover:bg-[#2f4233] transition-colors flex justify-center items-center gap-2">
                         {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? (
-                          <>
-                            <Lock className="w-4 h-4 opacity-80" /> Secure Checkout • ₹{cartTotal.toFixed(2)}
-                          </>
+                          `Complete Order ₹${cartTotal.toFixed(2)}`
                         ) : 'CONTINUE'}
                       </button>
                     </div>
