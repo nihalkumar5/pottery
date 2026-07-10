@@ -340,6 +340,18 @@ export default function MobileApp() {
         </div>
       </section>
 
+      {/* Marquee Section */}
+      <div className="w-full bg-[#B68D5A] overflow-hidden py-2.5 text-white flex whitespace-nowrap">
+        <div className="flex animate-marquee min-w-max gap-8">
+          <span className="text-[11px] font-medium tracking-[0.15em] whitespace-nowrap">
+            HANDCRAFTED CERAMICS ✨ SUSTAINABLE MATERIALS ✨ FREE SHIPPING ON ORDERS OVER ₹999 ✨ HANDCRAFTED CERAMICS ✨ SUSTAINABLE MATERIALS ✨ FREE SHIPPING ON ORDERS OVER ₹999 ✨
+          </span>
+          <span className="text-[11px] font-medium tracking-[0.15em] whitespace-nowrap">
+            HANDCRAFTED CERAMICS ✨ SUSTAINABLE MATERIALS ✨ FREE SHIPPING ON ORDERS OVER ₹999 ✨ HANDCRAFTED CERAMICS ✨ SUSTAINABLE MATERIALS ✨ FREE SHIPPING ON ORDERS OVER ₹999 ✨
+          </span>
+        </div>
+      </div>
+
       {/* Trust Section */}
       <section className="py-16 px-6 bg-white">
         <div className="grid grid-cols-1 gap-6">
