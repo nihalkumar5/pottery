@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useShop } from './ShopContext';
 import { ArrowRight, Heart, Plus, Minus, ShoppingBag, User, Truck, ShieldCheck } from 'lucide-react';
+import DesktopCollections from './DesktopCollections';
 
-function DesktopApp({ setCurrentPage }) {
+function DesktopApp({ setCurrentPage, currentPage }) {
   const { products, cart, addToCart, removeFromCart, decreaseQuantity, cartItemCount, cartTotal, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
