@@ -3,6 +3,7 @@ import DesktopApp from './DesktopApp';
 import MobileApp from './MobileApp';
 import { ShopProvider } from './ShopContext';
 import PolicyPage from './PolicyPages';
+import DesktopCollections from './DesktopCollections';
 
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -17,13 +18,17 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  if (currentPage !== 'home') {
-    return <PolicyPage page={currentPage} onBack={() => setCurrentPage('home')} isMobile={isMobile} />;
-  }
-
   return (
     <ShopProvider>
-      {isMobile ? <MobileApp setCurrentPage={setCurrentPage} /> : <DesktopApp setCurrentPage={setCurrentPage} />}
+      {currentPage === 'shop' && !isMobile ? (
+        <DesktopCollections onBack={() => setCurrentPage('home')} />
+      ) : currentPage !== 'home' && currentPage !== 'shop' ? (
+        <PolicyPage page={currentPage} onBack={() => setCurrentPage('home')} isMobile={isMobile} />
+      ) : isMobile ? (
+        <MobileApp setCurrentPage={setCurrentPage} />
+      ) : (
+        <DesktopApp setCurrentPage={setCurrentPage} />
+      )}
     </ShopProvider>
   );
 }

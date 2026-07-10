@@ -960,3 +960,8 @@
 .status-completed { background: #55efc4; color: #00b894; }
 .status-cancelled { background: #ff7675; color: #d63031; }
 
+.collections-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 3rem 2rem;
+}

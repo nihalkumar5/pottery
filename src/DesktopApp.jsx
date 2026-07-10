@@ -170,8 +170,8 @@ function DesktopApp({ setCurrentPage }) {
           Clay & Craft
         </div>
         <ul className="nav-links">
-          <li><a href="#shop">Shop</a></li>
-          <li><a href="#collections">Collections</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('shop'); window.scrollTo(0, 0); }}>Shop</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('shop'); window.scrollTo(0, 0); }}>Collections</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); user ? setIsAuthOpen(true) : openTrackOrder(); }}>Track Order</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); setIsAuthOpen(true); }}>{user ? 'My Account' : 'Sign In'}</a></li>
@@ -493,7 +493,7 @@ function DesktopApp({ setCurrentPage }) {
       <section className="products-section" id="shop">
         <div className="section-header">
           <h2>Featured Pieces</h2>
-          <a href="#shop" style={{color: 'var(--color-accent)', textDecoration: 'none'}}>View All</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('shop'); window.scrollTo(0, 0); }} style={{color: 'var(--color-accent)', textDecoration: 'none'}}>View All</a>
         </div>
         <div className="product-grid">
           {products.filter(p => !selectedCategory || p.category === selectedCategory).map(product => (
