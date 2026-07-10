@@ -275,6 +275,24 @@ function DesktopApp() {
                 <button type="submit" className="btn-checkout" disabled={isSubmitting}>
                   {isSubmitting ? 'Processing...' : 'Place Order (Cash on Delivery)'}
                 </button>
+                {/* Trust Badges */}
+                <div style={{marginTop: '1.5rem', textAlign: 'center', opacity: 0.8}}>
+                  <div style={{display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '0.75rem'}}>
+                    <div style={{padding: '0.25rem 0.5rem', background: '#fff', borderRadius: '4px', border: '1px solid #eee', display: 'flex', alignItems: 'center'}}>
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" style={{height: '14px', objectFit: 'contain'}} />
+                    </div>
+                    <div style={{padding: '0.25rem 0.5rem', background: '#fff', borderRadius: '4px', border: '1px solid #eee', display: 'flex', alignItems: 'center'}}>
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" style={{height: '14px', objectFit: 'contain'}} />
+                    </div>
+                    <div style={{padding: '0.25rem 0.5rem', background: '#fff', borderRadius: '4px', border: '1px solid #eee', display: 'flex', alignItems: 'center'}}>
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" style={{height: '14px', objectFit: 'contain'}} />
+                    </div>
+                    <div style={{padding: '0.25rem 0.5rem', background: '#fff', borderRadius: '4px', border: '1px solid #eee', display: 'flex', alignItems: 'center'}}>
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="Amex" style={{height: '14px', objectFit: 'contain'}} />
+                    </div>
+                  </div>
+                  <p style={{fontSize: '0.75rem', color: '#666', margin: 0}}>Guarantee Safe and Secure Payment Checkout</p>
+                </div>
               </form>
             </>
           )}

@@ -1174,6 +1174,16 @@ export default function MobileApp() {
                         <>Continue to Payment <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></>
                       )}
                     </button>
+                    {/* Trust Badges */}
+                    <div className="flex flex-col items-center mt-4 opacity-80">
+                      <div className="flex gap-3 items-center mb-1.5 p-1.5 bg-white rounded border border-gray-100 shadow-sm">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" className="h-[14px] object-contain px-1" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-[14px] object-contain px-1" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-[14px] object-contain px-1" />
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="Amex" className="h-[14px] object-contain px-1" />
+                      </div>
+                      <p className="text-[10px] text-gray-500 font-sans tracking-wide">Guarantee Safe and Secure Payment Checkout</p>
+                    </div>
                   </div>
                 </form>
               )}
