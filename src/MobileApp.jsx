@@ -796,10 +796,13 @@ export default function MobileApp() {
 
                             <div 
                               onClick={() => setPaymentMethod('cod')}
-                              className={`cursor-pointer p-4 rounded-xl border flex justify-between items-center transition-all ${paymentMethod === 'cod' ? 'border-[#263228] bg-[#263228]/5 shadow-sm' : 'border-[#E8E2D8] bg-transparent hover:border-[#D8D4CC]'}`}
+                              className={`cursor-pointer p-4 rounded-xl border flex flex-col gap-1.5 transition-all ${paymentMethod === 'cod' ? 'border-[#263228] bg-[#263228]/5 shadow-sm' : 'border-[#E8E2D8] bg-transparent hover:border-[#D8D4CC]'}`}
                             >
-                              <span className="text-[15px] text-gray-900 font-medium tracking-wide">Cash on Delivery</span>
-                              <Banknote className={`w-5 h-5 ${paymentMethod === 'cod' ? 'text-[#263228]' : 'text-gray-400'}`} strokeWidth={1.5} />
+                              <div className="flex justify-between items-center">
+                                <span className="text-[15px] text-gray-900 font-medium tracking-wide">Cash on Delivery</span>
+                                <Banknote className={`w-5 h-5 ${paymentMethod === 'cod' ? 'text-[#263228]' : 'text-gray-400'}`} strokeWidth={1.5} />
+                              </div>
+                              <span className="text-[11px] font-bold text-gray-500 tracking-wider opacity-80">PAY AT DOORSTEP • <span className="text-[#415a46]">GET 5% OFF ON PREPAID</span></span>
                             </div>
                           </div>
                         </div>
