@@ -76,7 +76,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
     }
     
     const categoryImages = {
-      'Water Bottles': '/assets/waterbottle.png',
+      'Water Bottles': '/assets/botle.png',
       'Spiritual Collection': '/assets/sc2.png',
       'Serveware': '/assets/serb.png',
       'Mugs': '/assets/mugs.png',
@@ -205,7 +205,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
         return;
       }
 
-      const shippingCost = cartTotal >= 999 ? 0 : 99;
+      const shippingCost = cartTotal >= 499 ? 0 : 99;
       const finalTotal = cartTotal + shippingCost;
 
       const options = {
@@ -1127,14 +1127,14 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                               </div>
                             )}
                             <div className="flex justify-between items-center">
-                              <span className="flex items-center gap-2">Shipping <span className="text-[9px] uppercase tracking-wider bg-[#E8E2D8]/50 text-[#263228] px-1.5 py-0.5 rounded-sm">Free over ₹999</span></span>
-                              <span>{cartTotal >= 999 ? 'Free' : '₹99.00'}</span>
+                              <span className="flex items-center gap-2">Shipping <span className="text-[9px] uppercase tracking-wider bg-[#E8E2D8]/50 text-[#263228] px-1.5 py-0.5 rounded-sm">Free over ₹499</span></span>
+                              <span>{cartTotal >= 499 ? 'Free' : '₹99.00'}</span>
                             </div>
                           </div>
                           
                           <div className="flex justify-between items-center pt-6 mt-2">
                             <span className="font-medium text-gray-900 text-[18px]">Total</span>
-                            <span className="font-bold text-[18px] text-[#263228]">₹{(cartTotal + (cartTotal >= 999 ? 0 : 99) - (paymentMethod === 'razorpay' ? cartTotal * 0.05 : 0) - (isCouponApplied ? cartTotal * 0.1 : 0)).toFixed(2)}</span>
+                            <span className="font-bold text-[18px] text-[#263228]">₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (paymentMethod === 'razorpay' ? cartTotal * 0.05 : 0) - (isCouponApplied ? cartTotal * 0.1 : 0)).toFixed(2)}</span>
                           </div>
                         </div>
 
@@ -1201,7 +1201,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                     <button type="submit" disabled={isSubmitting} className="w-full bg-[#82634F] text-white h-[64px] rounded-[18px] font-sans font-bold tracking-wide shadow-[0_8px_30px_rgba(130,99,79,0.3)] hover:bg-[#6A4E3D] transition-all flex justify-center items-center gap-3 group hover:-translate-y-1">
                       {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? (
                         <>
-                          <Lock className="w-4 h-4 text-white/80" /> Complete Order • ₹{(cartTotal + (cartTotal >= 999 ? 0 : 99) - (paymentMethod === 'razorpay' ? cartTotal * 0.05 : 0) - (isCouponApplied ? cartTotal * 0.1 : 0)).toFixed(2)}
+                          <Lock className="w-4 h-4 text-white/80" /> Complete Order • ₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (paymentMethod === 'razorpay' ? cartTotal * 0.05 : 0) - (isCouponApplied ? cartTotal * 0.1 : 0)).toFixed(2)}
                         </>
                       ) : (
                         <>Continue to Payment <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></>

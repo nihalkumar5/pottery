@@ -21,7 +21,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
     }
     
     const categoryImages = {
-      'Water Bottles': '/assets/waterbottle.png',
+      'Water Bottles': '/assets/botle.png',
       'Spiritual Collection': '/assets/sc2.png',
       'Serveware': '/assets/serb.png',
       'Mugs': '/assets/mugs.png',
