@@ -1665,7 +1665,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
               
               {/* Price Row - clean, no fake discount */}
               <div className="flex items-baseline gap-3 mb-6">
-                <span className="font-serif text-[30px] font-light text-[#0A4736]">₹{selectedProduct.price}</span>
+                <span className="font-sans text-[28px] font-medium tracking-tight text-[#0A4736]">₹{selectedProduct.price}</span>
                 <span className="text-[13px] text-[#8C7A6B] font-medium">Incl. of all taxes</span>
               </div>
 
@@ -1675,7 +1675,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
               {/* Description */}
               <div className="mb-6">
                 <h3 className="text-[11px] uppercase tracking-[0.15em] text-[#8C7A6B] font-medium mb-3">About This Piece</h3>
-                <p className="text-[#3D3029] text-[14.5px] leading-[1.75] font-light">
+                <p className="text-[#3D3029] text-[16px] leading-[1.6] font-normal">
                   {selectedProduct.description || selectedProduct.desc || 'A beautifully handcrafted piece made by skilled artisans using 100% natural terracotta clay. Each piece is unique — minor variations in texture and tone are a natural part of the handmade process.'}
                 </p>
               </div>
