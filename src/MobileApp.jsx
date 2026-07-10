@@ -540,7 +540,7 @@ export default function MobileApp() {
       {/* Testimonials */}
       <section className="py-14 bg-[#F9F6F2] overflow-hidden">
         {/* Heading */}
-        <div className="px-6 mb-8 text-center">
+        <div className="pl-6 pr-6 mb-8">
           <div className="inline-block bg-[#F4EBE1] text-[#9C4B35] text-[10px] uppercase tracking-[0.2em] font-bold px-3 py-1.5 rounded-full mb-4">
             Customer Reviews
           </div>
@@ -549,6 +549,7 @@ export default function MobileApp() {
 
         {/* Horizontal Scroll Cards */}
         <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4" style={{ scrollSnapType: 'x mandatory' }}>
+          <div className="w-6 flex-shrink-0" />
           {[
             { name: 'Priya Sharma', location: 'Mumbai', text: 'The terracotta mugs are stunning! My morning chai tastes better in them. Craftsmanship is top notch.', stars: 5, initials: 'PS' },
             { name: 'Rahul Mehta', location: 'Delhi', text: 'The water dispenser keeps water naturally cool. Delivery was fast and quality exceeded expectations!', stars: 5, initials: 'RM' },
@@ -557,7 +558,7 @@ export default function MobileApp() {
           ].map((review, idx) => (
             <div
               key={idx}
-              className="flex-shrink-0 w-[260px] rounded-2xl p-4 flex flex-col justify-between first:ml-6 last:mr-6 bg-white border border-[#E5E0D8] shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
+              className="flex-shrink-0 w-[260px] rounded-2xl p-4 flex flex-col justify-between bg-white border border-[#E5E0D8] shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
               style={{ scrollSnapAlign: 'start' }}
             >
               {/* Quote mark */}
@@ -588,6 +589,7 @@ export default function MobileApp() {
               </div>
             </div>
           ))}
+          <div className="w-6 flex-shrink-0" />
         </div>
       </section>
 
