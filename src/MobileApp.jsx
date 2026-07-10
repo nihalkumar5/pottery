@@ -398,17 +398,6 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
         </div>
       </section>
 
-      {/* Marquee Section */}
-      <div className="w-full bg-[#B68D5A] overflow-hidden py-2.5 text-white flex whitespace-nowrap">
-        <div className="flex animate-marquee-css min-w-max gap-8">
-          <span className="text-[11px] font-medium tracking-[0.15em] whitespace-nowrap">
-            HANDCRAFTED CERAMICS ✨ SUSTAINABLE MATERIALS ✨ FREE SHIPPING ON ORDERS OVER ₹999 ✨ HANDCRAFTED CERAMICS ✨ SUSTAINABLE MATERIALS ✨ FREE SHIPPING ON ORDERS OVER ₹999 ✨
-          </span>
-          <span className="text-[11px] font-medium tracking-[0.15em] whitespace-nowrap">
-            HANDCRAFTED CERAMICS ✨ SUSTAINABLE MATERIALS ✨ FREE SHIPPING ON ORDERS OVER ₹999 ✨ HANDCRAFTED CERAMICS ✨ SUSTAINABLE MATERIALS ✨ FREE SHIPPING ON ORDERS OVER ₹999 ✨
-          </span>
-        </div>
-      </div>
 
       {/* Trust Section */}
       <section className="py-12 px-4 bg-white">
@@ -1442,7 +1431,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
           <motion.div 
             initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-[#F8F6F2] z-30 flex flex-col font-sans pt-24"
+            className="fixed inset-0 bg-[#F8F6F2] z-30 flex flex-col font-sans"
           >
             <div className="p-6 pb-4 flex flex-col bg-[#F8F6F2]/90 backdrop-blur sticky top-0 z-10">
               {/* Shop Modal Hero Banner */}
