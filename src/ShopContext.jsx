@@ -123,6 +123,7 @@ export const ShopProvider = ({ children }) => {
         postcode: formData.postcode,
         country: 'IN',
         email: formData.email,
+        phone: formData.phone,
       },
       line_items: cart.map(item => ({
         product_id: item.id,
