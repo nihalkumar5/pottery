@@ -749,7 +749,7 @@ export default function MobileApp() {
                           <h2 className="font-serif text-[28px] text-[#F8F6F2] tracking-wide">Clay & Craft</h2>
                         </div>
                         {/* Minimalist Order Summary */}
-                        <div className="pb-6">
+                        <div className="pb-10">
                           <h3 className="font-serif text-[18px] text-gray-800 mb-4">Order Summary</h3>
                           
                           <div className="space-y-4 mb-5">
@@ -767,13 +767,13 @@ export default function MobileApp() {
                           {/* Coupon Code */}
                           {!showCouponInput && !isCouponApplied ? (
                             <div 
-                              className="text-[13px] text-[#263228] font-medium cursor-pointer mb-5 underline decoration-1 underline-offset-4 opacity-80 hover:opacity-100 transition-opacity"
+                              className="text-[13px] text-[#263228] font-medium cursor-pointer my-6 underline decoration-1 underline-offset-4 opacity-80 hover:opacity-100 transition-opacity"
                               onClick={() => setShowCouponInput(true)}
                             >
                               Have a coupon code?
                             </div>
                           ) : (
-                            <div className="flex gap-2 mb-5 animate-fade-in">
+                            <div className="flex gap-2 my-6 animate-fade-in">
                               <input 
                                 type="text" 
                                 placeholder="Discount code" 
@@ -823,9 +823,9 @@ export default function MobileApp() {
                             </div>
                           </div>
                           
-                          <div className="flex justify-between items-center pt-4">
-                            <span className="font-medium text-gray-900 text-[16px]">Total</span>
-                            <span className="font-medium text-[16px] text-[#415a46]">₹{(cartTotal + (cartTotal >= 999 ? 0 : 99) - (paymentMethod === 'razorpay' ? cartTotal * 0.05 : 0) - (isCouponApplied ? cartTotal * 0.1 : 0)).toFixed(2)}</span>
+                          <div className="flex justify-between items-center pt-6 mt-2">
+                            <span className="font-medium text-gray-900 text-[18px]">Total</span>
+                            <span className="font-bold text-[18px] text-[#263228]">₹{(cartTotal + (cartTotal >= 999 ? 0 : 99) - (paymentMethod === 'razorpay' ? cartTotal * 0.05 : 0) - (isCouponApplied ? cartTotal * 0.1 : 0)).toFixed(2)}</span>
                           </div>
                         </div>
 
