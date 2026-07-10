@@ -1,18 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, Check, PackageSearch, ArrowLeft, Snowflake, Droplets, Leaf, ShieldCheck, Lock, Truck, RotateCcw, Smartphone, Banknote, Grid } from 'lucide-react';
 import { useShop } from './ShopContext';
 
-const CATEGORIES = [
-  { name: 'Drinkware', img: '/assets/vase.png' },
-  { name: 'Water Bottles', img: '/assets/vase.png' },
-  { name: 'Water Storage', img: '/assets/vase.png' },
-  { name: 'Serveware', img: '/assets/vase.png' },
-  { name: 'Home Decor', img: '/assets/vase.png' },
-  { name: 'Spiritual Collection', img: '/assets/vase.png' },
-  { name: 'Best Sellers', img: '/assets/vase.png' },
-  { name: 'New Arrivals', img: '/assets/vase.png' }
-];
+// Categories are now dynamically derived from products
 
 // Utility to load external scripts dynamically
 const loadScript = (src) => {
@@ -48,6 +39,12 @@ export default function MobileApp() {
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
+
+  // Compute categories dynamically based on fetched products
+  const CATEGORIES = React.useMemo(() => {
+    const uniqueCats = [...new Set(products.map(p => p.category).filter(Boolean))];
+    return uniqueCats.map(name => ({ name, img: '/assets/vase.png' }));
+  }, [products]);
 
   const handleAddToCartAnim = (product) => {
     if (navigator.vibrate) navigator.vibrate(50); // Haptic feedback

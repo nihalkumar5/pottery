@@ -68,7 +68,8 @@ export const ShopProvider = ({ children }) => {
         const response = await axios.get('https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/wc/v3/products', {
           params: {
             consumer_key: import.meta.env.VITE_WC_CONSUMER_KEY,
-            consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET
+            consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET,
+            per_page: 100
           }
         });
         const fetchedProducts = response.data.map(wpProduct => ({
@@ -76,8 +77,9 @@ export const ShopProvider = ({ children }) => {
           name: wpProduct.name,
           price: parseFloat(wpProduct.price || 0),
           image: wpProduct.images.length > 0 ? wpProduct.images[0].src : '/assets/vase.png',
-          desc: wpProduct.short_description ? wpProduct.short_description.replace(/<[^>]*>?/gm, '') : 'Handcrafted ceramic piece',
-          rating: wpProduct.average_rating || 5.0
+          description: wpProduct.short_description ? wpProduct.short_description.replace(/<[^>]*>?/gm, '') : (wpProduct.description ? wpProduct.description.replace(/<[^>]*>?/gm, '') : 'Handcrafted ceramic piece'),
+          rating: wpProduct.average_rating || 5.0,
+          category: wpProduct.categories && wpProduct.categories.length > 0 ? wpProduct.categories[0].name : 'Uncategorized'
         }));
         
         if (fetchedProducts.length > 0) {
