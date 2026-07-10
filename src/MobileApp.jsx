@@ -73,7 +73,7 @@ export default function MobileApp() {
   // Mobile Checkout States
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState(1);
-  const [paymentMethod, setPaymentMethod] = useState('cod');
+  const [paymentMethod, setPaymentMethod] = useState('razorpay');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [formData, setFormData] = useState({
@@ -784,22 +784,22 @@ export default function MobileApp() {
                           
                           <div className="space-y-4">
                             <div 
-                              onClick={() => setPaymentMethod('upi')}
+                              onClick={() => setPaymentMethod('razorpay')}
                               className="cursor-pointer group flex flex-col gap-2"
                             >
                               <div className="flex items-center gap-3">
-                                <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 transition-colors ${paymentMethod === 'upi' ? 'border-[#415a46]' : 'border-gray-400 group-hover:border-gray-600'}`}>
-                                  {paymentMethod === 'upi' && <div className="w-2.5 h-2.5 bg-[#415a46] rounded-full"></div>}
+                                <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 transition-colors ${paymentMethod === 'razorpay' ? 'border-[#415a46]' : 'border-gray-400 group-hover:border-gray-600'}`}>
+                                  {paymentMethod === 'razorpay' && <div className="w-2.5 h-2.5 bg-[#415a46] rounded-full"></div>}
                                 </div>
-                                <span className="text-[15px] text-gray-900 font-medium">UPI</span>
+                                <span className="text-[15px] text-gray-900 font-medium">Pay via Razorpay</span>
                               </div>
-                              {paymentMethod === 'upi' && (
+                              {paymentMethod === 'razorpay' && (
                                 <div className="pl-8 flex items-center gap-2 opacity-70">
-                                  <span className="text-[11px] font-bold text-gray-600 tracking-wider">GPay</span>
+                                  <span className="text-[11px] font-bold text-gray-600 tracking-wider">CARDS</span>
                                   <span className="text-[11px] text-gray-400">•</span>
-                                  <span className="text-[11px] font-bold text-gray-600 tracking-wider">PhonePe</span>
+                                  <span className="text-[11px] font-bold text-gray-600 tracking-wider">UPI</span>
                                   <span className="text-[11px] text-gray-400">•</span>
-                                  <span className="text-[11px] font-bold text-gray-600 tracking-wider">Paytm</span>
+                                  <span className="text-[11px] font-bold text-gray-600 tracking-wider">NETBANKING</span>
                                 </div>
                               )}
                             </div>
