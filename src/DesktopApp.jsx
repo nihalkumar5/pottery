@@ -54,6 +54,7 @@ function DesktopApp({ setCurrentPage }) {
 
   // Checkout States
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [checkoutStep, setCheckoutStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [formData, setFormData] = useState({
@@ -91,6 +92,7 @@ function DesktopApp({ setCurrentPage }) {
 
   const openCheckout = () => {
     setIsCartOpen(false);
+    setCheckoutStep(1);
     setIsCheckoutOpen(true);
   };
 
@@ -240,59 +242,94 @@ function DesktopApp({ setCurrentPage }) {
           ) : (
             <>
               <div className="checkout-header">
-                <h2>Complete Your Order</h2>
+                <h2>{checkoutStep === 1 ? 'Shipping Details' : 'Payment Details'}</h2>
                 <p>Total: ₹{cartTotal.toFixed(2)}</p>
               </div>
-              <form onSubmit={handleCheckoutSubmit}>
-                <div style={{display: 'flex', gap: '1rem'}}>
-                  <div className="form-group" style={{flex: 1}}>
-                    <label>First Name</label>
-                    <input type="text" name="firstName" required className="form-input" value={formData.firstName} onChange={handleInputChange} />
-                  </div>
-                  <div className="form-group" style={{flex: 1}}>
-                    <label>Last Name</label>
-                    <input type="text" name="lastName" required className="form-input" value={formData.lastName} onChange={handleInputChange} />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label>Email Address</label>
-                  <input type="email" name="email" required className="form-input" value={formData.email} onChange={handleInputChange} />
-                </div>
-                <div className="form-group">
-                  <label>Shipping Address</label>
-                  <input type="text" name="address" required className="form-input" value={formData.address} onChange={handleInputChange} />
-                </div>
-                <div style={{display: 'flex', gap: '1rem'}}>
-                  <div className="form-group" style={{flex: 2}}>
-                    <label>City</label>
-                    <input type="text" name="city" required className="form-input" value={formData.city} onChange={handleInputChange} />
-                  </div>
-                  <div className="form-group" style={{flex: 1}}>
-                    <label>PIN Code</label>
-                    <input type="text" name="postcode" required className="form-input" value={formData.postcode} onChange={handleInputChange} />
-                  </div>
-                </div>
-                <button type="submit" className="btn-checkout" disabled={isSubmitting}>
-                  {isSubmitting ? 'Processing...' : 'Place Order (Cash on Delivery)'}
-                </button>
-                {/* Trust Badges */}
-                <div style={{marginTop: '1.5rem', textAlign: 'center', opacity: 0.8}}>
-                  <div style={{display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '0.75rem'}}>
-                    <div style={{padding: '0.25rem 0.5rem', background: '#fff', borderRadius: '4px', border: '1px solid #eee', display: 'flex', alignItems: 'center'}}>
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" style={{height: '14px', objectFit: 'contain'}} />
+              <form onSubmit={(e) => {
+                e.preventDefault();
+                if (checkoutStep === 1) {
+                  setCheckoutStep(2);
+                } else {
+                  handleCheckoutSubmit(e);
+                }
+              }}>
+                {checkoutStep === 1 ? (
+                  <>
+                    <div style={{display: 'flex', gap: '1rem'}}>
+                      <div className="form-group" style={{flex: 1}}>
+                        <label>First Name</label>
+                        <input type="text" name="firstName" required className="form-input" value={formData.firstName} onChange={handleInputChange} />
+                      </div>
+                      <div className="form-group" style={{flex: 1}}>
+                        <label>Last Name</label>
+                        <input type="text" name="lastName" required className="form-input" value={formData.lastName} onChange={handleInputChange} />
+                      </div>
                     </div>
-                    <div style={{padding: '0.25rem 0.5rem', background: '#fff', borderRadius: '4px', border: '1px solid #eee', display: 'flex', alignItems: 'center'}}>
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" style={{height: '14px', objectFit: 'contain'}} />
+                    <div className="form-group">
+                      <label>Email Address</label>
+                      <input type="email" name="email" required className="form-input" value={formData.email} onChange={handleInputChange} />
                     </div>
-                    <div style={{padding: '0.25rem 0.5rem', background: '#fff', borderRadius: '4px', border: '1px solid #eee', display: 'flex', alignItems: 'center'}}>
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" style={{height: '14px', objectFit: 'contain'}} />
+                    <div className="form-group">
+                      <label>Shipping Address</label>
+                      <input type="text" name="address" required className="form-input" value={formData.address} onChange={handleInputChange} />
                     </div>
-                    <div style={{padding: '0.25rem 0.5rem', background: '#fff', borderRadius: '4px', border: '1px solid #eee', display: 'flex', alignItems: 'center'}}>
-                      <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="Amex" style={{height: '14px', objectFit: 'contain'}} />
+                    <div style={{display: 'flex', gap: '1rem'}}>
+                      <div className="form-group" style={{flex: 2}}>
+                        <label>City</label>
+                        <input type="text" name="city" required className="form-input" value={formData.city} onChange={handleInputChange} />
+                      </div>
+                      <div className="form-group" style={{flex: 1}}>
+                        <label>PIN Code</label>
+                        <input type="text" name="postcode" required className="form-input" value={formData.postcode} onChange={handleInputChange} />
+                      </div>
                     </div>
-                  </div>
-                  <p style={{fontSize: '0.75rem', color: '#666', margin: 0}}>Guarantee Safe and Secure Payment Checkout</p>
-                </div>
+                    <button type="submit" className="btn-checkout">
+                      Continue to Payment
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="form-group">
+                      <label>Payment Method</label>
+                      <div style={{padding: '1rem', border: '1px solid #1A2E25', borderRadius: '8px', background: '#f8f6f2', fontWeight: 600}}>
+                        <input type="radio" checked readOnly style={{marginRight: '0.5rem'}} /> 
+                        Cash on Delivery (COD)
+                      </div>
+                    </div>
+                    
+                    <div style={{display: 'flex', gap: '1rem'}}>
+                      <button 
+                        type="button" 
+                        onClick={() => setCheckoutStep(1)} 
+                        style={{flex: 1, padding: '0.8rem', border: '1px solid #1A2E25', background: 'transparent', color: '#1A2E25', borderRadius: '8px', cursor: 'pointer', fontWeight: 600}}
+                      >
+                        Back
+                      </button>
+                      <button type="submit" className="btn-checkout" disabled={isSubmitting} style={{flex: 2}}>
+                        {isSubmitting ? 'Processing...' : 'Place Order'}
+                      </button>
+                    </div>
+
+                    {/* Trust Badges */}
+                    <div style={{marginTop: '1.5rem', textAlign: 'center', opacity: 0.8}}>
+                      <div style={{display: 'flex', justifyContent: 'center', gap: '1rem', marginBottom: '0.75rem'}}>
+                        <div style={{padding: '0.25rem 0.5rem', background: '#fff', borderRadius: '4px', border: '1px solid #eee', display: 'flex', alignItems: 'center'}}>
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" style={{height: '14px', objectFit: 'contain'}} />
+                        </div>
+                        <div style={{padding: '0.25rem 0.5rem', background: '#fff', borderRadius: '4px', border: '1px solid #eee', display: 'flex', alignItems: 'center'}}>
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" style={{height: '14px', objectFit: 'contain'}} />
+                        </div>
+                        <div style={{padding: '0.25rem 0.5rem', background: '#fff', borderRadius: '4px', border: '1px solid #eee', display: 'flex', alignItems: 'center'}}>
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" style={{height: '14px', objectFit: 'contain'}} />
+                        </div>
+                        <div style={{padding: '0.25rem 0.5rem', background: '#fff', borderRadius: '4px', border: '1px solid #eee', display: 'flex', alignItems: 'center'}}>
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="Amex" style={{height: '14px', objectFit: 'contain'}} />
+                        </div>
+                      </div>
+                      <p style={{fontSize: '0.75rem', color: '#666', margin: 0}}>Guarantee Safe and Secure Payment Checkout</p>
+                    </div>
+                  </>
+                )}
               </form>
             </>
           )}
@@ -419,7 +456,9 @@ function DesktopApp({ setCurrentPage }) {
         </div>
       </div>
 
-      {/* Hero Section */}
+      {currentPage === 'home' ? (
+        <>
+          {/* Hero Section */}
       <header className="hero">
         <video 
           autoPlay 
@@ -529,6 +568,10 @@ function DesktopApp({ setCurrentPage }) {
           ))}
         </div>
       </section>
+        </>
+      ) : currentPage === 'shop' ? (
+        <DesktopCollections />
+      ) : null}
 
       {/* Premium Footer */}
       <footer className="premium-footer">

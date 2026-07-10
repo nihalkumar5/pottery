@@ -20,14 +20,12 @@ function App() {
 
   return (
     <ShopProvider>
-      {currentPage === 'shop' && !isMobile ? (
-        <DesktopCollections onBack={() => setCurrentPage('home')} />
-      ) : currentPage !== 'home' && currentPage !== 'shop' ? (
+      {currentPage !== 'home' && currentPage !== 'shop' ? (
         <PolicyPage page={currentPage} onBack={() => setCurrentPage('home')} isMobile={isMobile} />
       ) : isMobile ? (
         <MobileApp setCurrentPage={setCurrentPage} />
       ) : (
-        <DesktopApp setCurrentPage={setCurrentPage} />
+        <DesktopApp setCurrentPage={setCurrentPage} currentPage={currentPage} />
       )}
     </ShopProvider>
   );

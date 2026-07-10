@@ -23,44 +23,24 @@ export default function DesktopCollections({ onBack }) {
     : products.filter(p => p.category === selectedCategory);
 
   return (
-    <div className="desktop-collections-page min-h-screen bg-[#F8F6F2]">
-      {/* Header */}
-      <header className="collections-header pt-10 px-12">
-        <div className="flex justify-between items-center mb-12">
-          <button 
-            onClick={onBack}
-            className="flex items-center gap-2 text-[#82634F] hover:text-[#6A4E3D] transition-colors font-medium"
-          >
-            <ArrowLeft className="w-5 h-5" /> Back to Home
-          </button>
-          
-          <h1 className="font-serif text-4xl text-[#263228]">Our Collections</h1>
-          
-          <div className="flex items-center gap-2 text-[#82634F]">
-            <ShoppingBag className="w-5 h-5" />
-            <span className="font-medium">Cart ({cartItemCount})</span>
-          </div>
+    <div className="desktop-collections-page bg-[#F8F6F2] py-8">
+      {/* Category Navigation */}
+      <div className="category-nav-wrapper px-12 pb-8">
+        <div className="flex flex-wrap gap-4 items-center justify-center">
+          {CATEGORIES.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-6 py-2.5 rounded-full text-[13px] uppercase tracking-widest font-semibold transition-all duration-300 border
+                ${selectedCategory === cat 
+                  ? 'bg-[#1A2E25] text-[#F8F6F2] border-[#1A2E25] shadow-md' 
+                  : 'bg-transparent text-[#6A4E3D] border-[#D1C8BA] hover:border-[#6A4E3D] hover:bg-[#F0EBE1]'}`}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
-        
-        {/* Category Navigation */}
-        <div className="category-nav-wrapper overflow-x-auto pb-4 mb-8 border-b border-[#E8E2D8]">
-          <div className="flex gap-8 min-w-max">
-            {CATEGORIES.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`pb-4 px-2 text-sm uppercase tracking-wider font-semibold transition-colors relative
-                  ${selectedCategory === cat ? 'text-[#263228]' : 'text-[#82634F]/60 hover:text-[#82634F]'}`}
-              >
-                {cat}
-                {selectedCategory === cat && (
-                  <span className="absolute bottom-[-1px] left-0 w-full h-[2px] bg-[#263228]" />
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
-      </header>
+      </div>
 
       {/* Product Grid */}
       <main className="px-12 pb-24">
