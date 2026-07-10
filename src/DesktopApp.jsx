@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useShop } from './ShopContext';
-import { ArrowRight, Heart, Plus, Minus, ShoppingBag } from 'lucide-react';
+import { ArrowRight, Heart, Plus, Minus, ShoppingBag, User, Truck, ShieldCheck } from 'lucide-react';
 
 function DesktopApp() {
   const { products, cart, addToCart, removeFromCart, decreaseQuantity, cartItemCount, cartTotal, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
@@ -387,14 +387,38 @@ function DesktopApp() {
         <div className="hero-overlay"></div>
         <div className="hero-content">
           <span className="hero-subtitle">New Collection</span>
-          <h1>Timeless<br/>Tradition</h1>
+          <h1>Timeless Tradition</h1>
           <div className="hero-divider"></div>
-          <p>Handcrafted clay pieces,<br/>rooted in culture,<br/>made for today.</p>
+          <p>Handcrafted clay pieces, rooted in culture, made for today.</p>
           <button className="btn-primary" onClick={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })}>
             Explore Collection <ArrowRight size={16} strokeWidth={1.5} />
           </button>
         </div>
       </header>
+
+      {/* Features Section */}
+      <section className="desktop-features">
+        <div className="feature-card">
+          <User className="feature-icon" />
+          <h3>Handmade by Artisans</h3>
+          <p>Crafted with precision & heritage.</p>
+        </div>
+        <div className="feature-card">
+          <Heart className="feature-icon" />
+          <h3>Sustainable Clay</h3>
+          <p>Sourced ethically from the earth.</p>
+        </div>
+        <div className="feature-card">
+          <Truck className="feature-icon" />
+          <h3>Secure Shipping</h3>
+          <p>Safely delivered to your door.</p>
+        </div>
+        <div className="feature-card">
+          <ShieldCheck className="feature-icon" />
+          <h3>Secure Payments</h3>
+          <p>100% safe & trusted.</p>
+        </div>
+      </section>
 
       {/* Products Section */}
       <section className="products-section" id="shop">
