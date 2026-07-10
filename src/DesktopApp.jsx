@@ -464,7 +464,6 @@ function DesktopApp({ setCurrentPage }) {
           <h3>Secure Payments</h3>
           <p>100% safe & trusted.</p>
         </div>
-        </div>
       </section>
 
       {/* Categories Section */}
