@@ -62,7 +62,7 @@ export default function MobileApp() {
       'Home Decor': '/assets/home.png',
       'Water Bottles': '/assets/botle.png',
       'Water Storage': '/assets/water.png',
-      'Spiritual Collection': '/assets/sc1.png',
+      'Spiritual Collection': '/assets/sc2.png',
       'Serveware': '/assets/serb.png',
       'Drinkware': '/assets/drink.png'
     };
