@@ -597,9 +597,7 @@ export default function MobileApp() {
             <div className="p-6 pb-2 flex flex-col bg-[#F8F6F2]/90 backdrop-blur sticky top-0 z-10">
               <div className="flex justify-between items-center mb-4">
                 <h1 className="font-serif text-[38px] font-semibold tracking-tight text-[#263228] flex items-center gap-3">
-                  <div className="w-9 h-9 bg-[#263228] text-[#F8F6F2] rounded-full flex items-center justify-center">
-                    <Leaf className="w-[18px] h-[18px]" strokeWidth={1.5} />
-                  </div>
+                  <Leaf className="w-8 h-8 text-[#263228]" strokeWidth={1.5} />
                   Checkout
                 </h1>
                 <button onClick={() => { setIsCheckoutOpen(false); setCheckoutStep(1); }} className="p-2 bg-transparent rounded-full hover:bg-black/5 transition-colors">
@@ -682,8 +680,8 @@ export default function MobileApp() {
                     {/* Step 1: Shipping Details */}
                     {checkoutStep === 1 && (
                       <div className="space-y-10 animate-fade-in pb-4 px-2">
-                        <div className="text-center py-8 bg-[#263228] rounded-2xl mb-10 mx-2 shadow-inner">
-                          <h2 className="font-serif text-[32px] text-[#F8F6F2]">Clay & Craft</h2>
+                        <div className="text-center py-4 bg-[#263228] mb-10 -mx-7 shadow-inner">
+                          <h2 className="font-serif text-[28px] text-[#F8F6F2] tracking-wide">Clay & Craft</h2>
                         </div>
                         <section>
                           <h3 className="font-serif text-[22px] text-[#263228] mb-8 border-b border-[#E8E2D8] pb-3">Contact Information</h3>
