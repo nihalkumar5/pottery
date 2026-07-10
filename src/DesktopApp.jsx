@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useShop } from './ShopContext';
 import { ArrowRight, Heart, Plus, Minus, ShoppingBag, User, Truck, ShieldCheck, HandHeart, Leaf, Flower2, Star } from 'lucide-react';
 import DesktopCollections from './DesktopCollections';
+import DesktopAbout from './DesktopAbout';
 
 function DesktopApp({ setCurrentPage, currentPage }) {
   const { products, cart, addToCart, removeFromCart, decreaseQuantity, cartItemCount, cartTotal, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
@@ -186,7 +187,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
         <ul className="nav-links">
           <li><a href="#" onClick={(e) => { e.preventDefault(); setSelectedCategory(null); setCurrentPage('shop'); window.scrollTo(0, 0); }}>Shop</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('shop'); window.scrollTo(0, 0); }}>Collections</a></li>
-          <li><a href="#about">About</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('about'); window.scrollTo(0, 0); }}>About</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); user ? setIsAuthOpen(true) : openTrackOrder(); }}>Track Order</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); setIsAuthOpen(true); }}>{user ? 'My Account' : 'Sign In'}</a></li>
         </ul>
@@ -686,6 +687,8 @@ function DesktopApp({ setCurrentPage, currentPage }) {
         </>
       ) : currentPage === 'shop' ? (
         <DesktopCollections initialCategory={selectedCategory || 'All'} />
+      ) : currentPage === 'about' || currentPage === 'About Us' ? (
+        <DesktopAbout onShopClick={() => { setCurrentPage('shop'); window.scrollTo(0, 0); }} />
       ) : null}
 
       {/* Premium Footer */}
