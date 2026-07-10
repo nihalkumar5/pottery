@@ -135,7 +135,7 @@ export default function MobileApp() {
         <div className="flex items-center justify-between px-6">
           <Menu className={`w-6 h-6 cursor-pointer transition-colors ${isScrolled ? 'text-primary' : 'text-white'}`} onClick={() => setIsMenuOpen(true)} />
           <h1 className="font-serif text-[1.35rem] font-light tracking-wide">Clay & Craft</h1>
-          <div className="w-6" /> {/* Spacer for centering */}
+          <User className={`w-6 h-6 cursor-pointer transition-colors ${isScrolled ? 'text-primary' : 'text-white'}`} onClick={() => setIsProfileOpen(true)} />
         </div>
       </nav>
 
@@ -181,7 +181,7 @@ export default function MobileApp() {
                   shopSection.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className="bg-[#D3CAB6] text-[#3A332C] py-2.5 px-6 rounded-full font-medium text-[11px] tracking-[0.05em] hover:bg-[#c4baa4] transition-colors flex items-center gap-3"
+              className="bg-white/10 backdrop-blur-md border border-white/20 text-white py-2.5 px-6 rounded-full font-medium text-[11px] tracking-[0.05em] hover:bg-white/20 transition-colors flex items-center gap-3"
             >
               Explore Collection <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
             </button>
