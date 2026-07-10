@@ -3,13 +3,13 @@ import { ArrowRight } from 'lucide-react';
 
 export default function DesktopAbout({ onShopClick }) {
   return (
-    <div className="bg-[#F8F6F2] min-h-screen pt-20">
+    <div className="bg-[#F8F6F2] min-h-screen">
       {/* Hero Section */}
-      <section className="max-w-[1200px] mx-auto px-8 py-16 flex flex-col items-center text-center">
-        <h1 className="font-serif text-5xl text-[#263228] mb-6 font-light leading-tight">Rooted in Earth,<br/>Crafted with Soul.</h1>
-        <p className="font-sans text-[16px] text-gray-600 max-w-2xl mb-12">Every piece of Clay & Craft tells a story. From the wet clay to the final glaze, we believe in the beauty of imperfection and the warmth of handmade art.</p>
-        <div className="w-full h-[500px] rounded-3xl overflow-hidden shadow-lg">
-          <img src="/assets/about_hero.png" alt="Artisan shaping clay" className="w-full h-full object-cover" />
+      <section className="relative w-full h-[550px] overflow-hidden">
+        <img src="/assets/about_hero.png" alt="Artisan shaping clay" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-center px-8 pt-20">
+          <h1 className="font-serif text-5xl md:text-6xl text-white mb-6 font-light leading-tight">Rooted in Earth,<br/>Crafted with Soul.</h1>
+          <p className="font-sans text-[16px] md:text-[18px] text-white/90 max-w-2xl">Every piece of Clay & Craft tells a story. From the wet clay to the final glaze, we believe in the beauty of imperfection and the warmth of handmade art.</p>
         </div>
       </section>
 
