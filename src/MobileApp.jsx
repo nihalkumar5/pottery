@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, Check, PackageSearch, ArrowLeft, Snowflake, Droplets, Leaf, ShieldCheck, Lock, Truck, RotateCcw, Smartphone, Banknote } from 'lucide-react';
+import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, Check, PackageSearch, ArrowLeft, Snowflake, Droplets, Leaf, ShieldCheck, Lock, Truck, RotateCcw, Smartphone, Banknote, Grid } from 'lucide-react';
 import { useShop } from './ShopContext';
 
 const CATEGORIES = [
   { name: 'Drinkware', img: '/assets/vase.png' },
+  { name: 'Water Bottles', img: '/assets/vase.png' },
   { name: 'Water Storage', img: '/assets/vase.png' },
-  { name: 'Traditional Bottles', img: '/assets/vase.png' },
   { name: 'Serveware', img: '/assets/vase.png' },
-  { name: 'Decorative Collection', img: '/assets/vase.png' },
-  { name: 'Featured Collections', img: '/assets/vase.png' },
+  { name: 'Home Decor', img: '/assets/vase.png' },
+  { name: 'Spiritual Collection', img: '/assets/vase.png' },
+  { name: 'Best Sellers', img: '/assets/vase.png' },
+  { name: 'New Arrivals', img: '/assets/vase.png' }
 ];
 
 // Utility to load external scripts dynamically
@@ -34,14 +36,18 @@ const REVIEWS = [
 ];
 
 export default function MobileApp() {
-  const { products, cart, addToCart, removeFromCart, decreaseQuantity, cartTotal, cartItemCount, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register, toggleWishlist, isInWishlist } = useShop();
+  const { products, cart, addToCart, removeFromCart, decreaseQuantity, cartTotal, cartItemCount, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register, toggleWishlist, isInWishlist, wishlist } = useShop();
   
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isAdding, setIsAdding] = useState(false);
+  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
+  const [isShopOpen, setIsShopOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   const handleAddToCartAnim = (product) => {
     if (navigator.vibrate) navigator.vibrate(50); // Haptic feedback
@@ -217,23 +223,36 @@ export default function MobileApp() {
 
   const handleAuthChange = (e) => setAuthForm({ ...authForm, [e.target.name]: e.target.value });
 
+  const shouldHeaderBeDark = isScrolled || isWishlistOpen || isTrackOrderOpen || isProfileOpen || isShopOpen;
+
+  const returnToHome = () => {
+    setSelectedProduct(null);
+    setIsWishlistOpen(false);
+    setIsTrackOrderOpen(false);
+    setIsProfileOpen(false);
+    setIsShopOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="mobile-root font-sans bg-background text-primary min-h-screen relative overflow-x-hidden">
       {/* Sticky Top Navigation */}
-      <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isScrolled ? 'bg-background/90 backdrop-blur-md shadow-sm py-4 text-primary' : 'bg-transparent py-6 text-white'}`}>
-        <div className="flex items-center justify-between px-6">
-          <Menu className={`w-6 h-6 cursor-pointer transition-colors ${isScrolled ? 'text-primary' : 'text-white'}`} onClick={() => setIsMenuOpen(true)} />
-          <h1 className="font-serif text-[1.35rem] font-light tracking-wide">Clay & Craft</h1>
-          <div className="relative cursor-pointer" onClick={() => setIsCartOpen(true)}>
-            <ShoppingBag className={`w-6 h-6 transition-colors ${isScrolled ? 'text-primary' : 'text-white'}`} />
-            {cartItemCount > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-accent text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-                {cartItemCount}
-              </span>
-            )}
+      {!selectedProduct && (
+        <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${shouldHeaderBeDark ? 'bg-[#F8F6F2]/90 backdrop-blur-md shadow-sm py-4 text-primary' : 'bg-transparent py-6 text-white'}`}>
+          <div className="flex items-center justify-between px-6">
+            <Menu className={`w-6 h-6 cursor-pointer transition-colors ${shouldHeaderBeDark ? 'text-[#1A2E25]' : 'text-white'}`} onClick={() => setIsMenuOpen(true)} />
+            <h1 className="font-serif text-[1.35rem] font-light tracking-wide cursor-pointer" onClick={returnToHome}>Clay & Craft</h1>
+            <div className="relative cursor-pointer" onClick={() => setIsCartOpen(true)}>
+              <ShoppingBag className={`w-6 h-6 transition-colors ${shouldHeaderBeDark ? 'text-[#1A2E25]' : 'text-white'}`} />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-accent text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                  {cartItemCount}
+                </span>
+              )}
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      )}
 
       {/* Hero Section */}
       <section className="relative h-[100vh] w-full overflow-hidden">
@@ -337,7 +356,7 @@ export default function MobileApp() {
           {products.map((item) => (
             <div 
               key={item.id} 
-              onClick={() => setSelectedProduct(item)}
+              onClick={() => { setSelectedProduct(item); setActiveImageIndex(0); }}
               className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm pb-4"
             >
               <div className="w-full aspect-[4/5] relative">
@@ -593,6 +612,70 @@ export default function MobileApp() {
           </motion.div>
         )}
 
+        {/* Wishlist Full Screen Modal */}
+        {isWishlistOpen && (
+          <motion.div 
+            initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 bg-[#F8F6F2] z-30 flex flex-col font-sans pt-24"
+          >
+            <div className="p-6 pb-4 flex flex-col bg-[#F8F6F2]/90 backdrop-blur sticky top-0 z-10">
+              <div className="flex justify-between items-center">
+                <h1 className="font-serif text-[38px] font-semibold tracking-tight text-[#263228] flex items-center gap-3">
+                  <Heart className="w-8 h-8 text-[#263228]" strokeWidth={1.5} />
+                  Wishlist
+                </h1>
+                <button onClick={() => setIsWishlistOpen(false)} className="p-2 bg-transparent rounded-full hover:bg-black/5 transition-colors">
+                  <X className="w-6 h-6 text-[#263228]" />
+                </button>
+              </div>
+            </div>
+            
+            <div className="flex-1 overflow-y-auto px-6 py-2 pb-32">
+              {!wishlist || wishlist.length === 0 ? (
+                <div className="h-full flex flex-col items-center justify-center text-[#8C7A6B]">
+                  <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-sm mb-6 border border-[#E5E0D8]">
+                    <Heart className="w-10 h-10 opacity-40 text-[#1A2E25]" />
+                  </div>
+                  <p className="font-sans font-medium text-[16px]">Your wishlist is empty.</p>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-6">
+                  {wishlist.map((item, idx) => (
+                    <div key={idx} className="flex gap-5 items-center bg-white p-5 rounded-[32px] border border-[#E5E0D8]/60 shadow-sm relative overflow-hidden group">
+                      <div className="w-28 h-28 rounded-2xl overflow-hidden cursor-pointer flex-shrink-0" onClick={() => { setIsWishlistOpen(false); setSelectedProduct(item); setActiveImageIndex(0); }}>
+                         <img src={item.image} alt={item.name} className="w-full h-full object-cover bg-[#F8F5F1] group-hover:scale-105 transition-transform duration-500" />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-serif text-[18px] leading-tight text-[#1A2E25] font-bold mb-2 cursor-pointer" onClick={() => { setIsWishlistOpen(false); setSelectedProduct(item); setActiveImageIndex(0); }}>{item.name}</h4>
+                        <p className="font-sans text-[16px] font-bold text-[#8C7A6B] mb-4">₹{item.price.toFixed(2)}</p>
+                        <div className="flex items-center justify-between">
+                          <button 
+                            onClick={() => {
+                              toggleWishlist(item);
+                            }}
+                            className="text-[#8C7A6B] hover:text-red-500 transition-colors"
+                          >
+                            <span className="text-[12px] font-bold uppercase tracking-wide">Remove</span>
+                          </button>
+                          <button 
+                            onClick={() => {
+                              handleAddToCartAnim(item);
+                            }}
+                            className="text-[12px] font-bold text-white uppercase tracking-wide px-4 py-2 rounded-full bg-[#0A4736] hover:bg-[#073326] shadow-sm flex items-center gap-1.5 transition-colors"
+                          >
+                            <ShoppingBag className="w-3.5 h-3.5" /> Add
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+
         {/* Checkout Full Screen Modal */}
         {isCheckoutOpen && (
           <motion.div 
@@ -690,51 +773,51 @@ export default function MobileApp() {
                     {checkoutStep === 1 && (
                       <div className="space-y-8 animate-fade-in pb-4 px-2">
                         <div className="text-center py-4 bg-[#263228] mb-8 -mx-7 shadow-inner">
-                          <h2 className="font-serif text-[28px] text-[#F8F6F2] tracking-wide">Clay & Craft</h2>
+                          <h2 className="font-serif text-[1.35rem] font-light tracking-wide text-[#F8F6F2]">Clay & Craft</h2>
                         </div>
                         <section>
-                          <h3 className="font-serif text-[22px] text-[#263228] mb-6 border-b border-[#E8E2D8] pb-3">Contact Information</h3>
+                          <h3 className="font-sans text-lg font-medium tracking-wide text-[#263228] mb-5 border-b border-[#E8E2D8] pb-2">Contact Information</h3>
                           <div className="flex flex-col gap-6">
                             <div className="relative group">
-                              <label className="text-[12px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">Email</label>
-                              <input type="email" name="email" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[15px] text-gray-900 shadow-sm" value={formData.email} onChange={handleInputChange} />
+                              <label className="text-[11px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">Email</label>
+                              <input type="email" name="email" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.email} onChange={handleInputChange} />
                             </div>
                             <div className="relative group">
-                              <label className="text-[12px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">Phone Number</label>
-                              <input type="tel" name="phone" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[15px] text-gray-900 shadow-sm" value={formData.phone} onChange={handleInputChange} />
+                              <label className="text-[11px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">Phone Number</label>
+                              <input type="tel" name="phone" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.phone} onChange={handleInputChange} />
                             </div>
                           </div>
                         </section>
                         
                         <section className="pt-2">
-                          <h3 className="font-serif text-[22px] text-[#263228] mb-6 border-b border-[#E8E2D8] pb-3">Shipping Address</h3>
+                          <h3 className="font-sans text-lg font-medium tracking-wide text-[#263228] mb-5 border-b border-[#E8E2D8] pb-2">Shipping Address</h3>
                           <div className="flex flex-col gap-6">
                             <div className="flex gap-4">
                               <div className="relative group w-1/2">
-                                <label className="text-[12px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">First Name</label>
-                                <input type="text" name="firstName" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[15px] text-gray-900 shadow-sm" value={formData.firstName} onChange={handleInputChange} />
+                                <label className="text-[11px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">First Name</label>
+                                <input type="text" name="firstName" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.firstName} onChange={handleInputChange} />
                               </div>
                               <div className="relative group w-1/2">
-                                <label className="text-[12px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">Last Name</label>
-                                <input type="text" name="lastName" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[15px] text-gray-900 shadow-sm" value={formData.lastName} onChange={handleInputChange} />
+                                <label className="text-[11px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">Last Name</label>
+                                <input type="text" name="lastName" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.lastName} onChange={handleInputChange} />
                               </div>
                             </div>
                             <div className="relative group">
-                              <label className="text-[12px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">Address Line 1</label>
-                              <input type="text" name="address" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[15px] text-gray-900 shadow-sm" value={formData.address} onChange={handleInputChange} />
+                              <label className="text-[11px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">Address Line 1</label>
+                              <input type="text" name="address" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.address} onChange={handleInputChange} />
                             </div>
                             <div className="relative group">
-                              <label className="text-[12px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">Address Line 2 <span className="text-[#A39D96] normal-case tracking-normal">(Optional)</span></label>
-                              <input type="text" name="address2" className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[15px] text-gray-900 shadow-sm" value={formData.address2 || ''} onChange={handleInputChange} />
+                              <label className="text-[11px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">Address Line 2 <span className="text-[#A39D96] normal-case tracking-normal">(Optional)</span></label>
+                              <input type="text" name="address2" className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.address2 || ''} onChange={handleInputChange} />
                             </div>
                             <div className="flex gap-4">
                               <div className="relative group w-2/3">
-                                <label className="text-[12px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">City</label>
-                                <input type="text" name="city" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[15px] text-gray-900 shadow-sm" value={formData.city} onChange={handleInputChange} />
+                                <label className="text-[11px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">City</label>
+                                <input type="text" name="city" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.city} onChange={handleInputChange} />
                               </div>
                               <div className="relative group w-1/3">
-                                <label className="text-[12px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">PIN</label>
-                                <input type="text" name="postcode" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[15px] text-gray-900 shadow-sm" value={formData.postcode} onChange={handleInputChange} />
+                                <label className="text-[11px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">PIN</label>
+                                <input type="text" name="postcode" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.postcode} onChange={handleInputChange} />
                               </div>
                             </div>
                           </div>
@@ -746,7 +829,7 @@ export default function MobileApp() {
                     {checkoutStep === 2 && (
                       <div className="space-y-6 animate-fade-in pb-4 px-2">
                         <div className="text-center py-4 bg-[#263228] mb-4 -mx-7 shadow-inner">
-                          <h2 className="font-serif text-[28px] text-[#F8F6F2] tracking-wide">Clay & Craft</h2>
+                          <h2 className="font-serif text-[1.35rem] font-light tracking-wide text-[#F8F6F2]">Clay & Craft</h2>
                         </div>
                         {/* Minimalist Order Summary */}
                         <div className="pb-10">
@@ -900,29 +983,38 @@ export default function MobileApp() {
           <motion.div 
             initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-white z-50 flex flex-col"
+            className="fixed inset-0 bg-[#F8F6F2] z-30 flex flex-col pt-24 font-sans"
           >
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-background">
-              <h2 className="font-serif text-2xl">Track Order</h2>
-              <X className="w-6 h-6 cursor-pointer text-gray-500" onClick={() => { setIsTrackOrderOpen(false); setTrackResult(null); setTrackError(''); }} />
+            <div className="p-6 pb-4 flex flex-col bg-[#F8F6F2]/90 backdrop-blur sticky top-0 z-10">
+              <div className="flex justify-between items-center">
+                <h1 className="font-serif text-[38px] font-semibold tracking-tight text-[#263228] flex items-center gap-3">
+                  <PackageSearch className="w-8 h-8 text-[#263228]" strokeWidth={1.5} />
+                  Track Order
+                </h1>
+                <button onClick={() => { setIsTrackOrderOpen(false); setTrackResult(null); setTrackError(''); }} className="p-2 bg-transparent rounded-full hover:bg-black/5 transition-colors">
+                  <X className="w-6 h-6 text-[#263228]" />
+                </button>
+              </div>
             </div>
-            <div className="flex-1 overflow-y-auto p-6 bg-white">
+            <div className="flex-1 overflow-y-auto px-6 py-2 pb-32">
               <form onSubmit={handleTrackOrderSubmit} className="flex flex-col gap-4 mb-8">
-                <input type="text" placeholder="Order ID (e.g. 19)" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={trackOrderId} onChange={e => setTrackOrderId(e.target.value)} />
-                <input type="email" placeholder="Billing Email" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={trackOrderEmail} onChange={e => setTrackOrderEmail(e.target.value)} />
-                <button type="submit" disabled={isTrackLoading} className="w-full bg-accent text-white py-4 rounded-xl font-medium tracking-wide flex justify-center">
+                <input type="text" placeholder="Order ID (e.g. 19)" required className="w-full p-4 rounded-xl border border-[#E5E0D8] bg-white text-[#1A2E25] focus:outline-none focus:border-[#0A4736] focus:ring-1 focus:ring-[#0A4736] shadow-sm transition-all placeholder:text-[#8C7A6B]" value={trackOrderId} onChange={e => setTrackOrderId(e.target.value)} />
+                <input type="email" placeholder="Billing Email" required className="w-full p-4 rounded-xl border border-[#E5E0D8] bg-white text-[#1A2E25] focus:outline-none focus:border-[#0A4736] focus:ring-1 focus:ring-[#0A4736] shadow-sm transition-all placeholder:text-[#8C7A6B]" value={trackOrderEmail} onChange={e => setTrackOrderEmail(e.target.value)} />
+                <button type="submit" disabled={isTrackLoading} className="w-full bg-[#0A4736] hover:bg-[#073326] text-white py-4 rounded-full font-medium tracking-wide flex justify-center mt-2 shadow-sm transition-colors">
                   {isTrackLoading ? 'Searching...' : 'Track My Order'}
                 </button>
               </form>
               
-              {trackError && <p className="text-red-500 text-center p-4 bg-red-50 rounded-xl">{trackError}</p>}
+              {trackError && <p className="text-red-500 text-center p-4 bg-white border border-red-100 rounded-xl shadow-sm text-sm font-medium">{trackError}</p>}
               
               {trackResult && (
-                <div className="bg-background p-6 rounded-2xl flex flex-col items-center text-center">
-                  <PackageSearch className="w-12 h-12 text-accent mb-4" />
-                  <h3 className="font-serif text-2xl mb-2">Order #{trackResult.id}</h3>
-                  <p className="text-secondary mb-6">Placed on: {new Date(trackResult.date_created).toLocaleDateString()}</p>
-                  <div className="bg-white px-6 py-2 rounded-full shadow-sm text-primary font-medium tracking-wide uppercase text-sm border border-gray-100">
+                <div className="bg-white border border-[#E5E0D8] p-6 rounded-[24px] flex flex-col items-center text-center shadow-sm mt-4">
+                  <div className="w-16 h-16 bg-[#F8F6F2] rounded-full flex items-center justify-center mb-4 border border-[#E5E0D8]">
+                    <PackageSearch className="w-8 h-8 text-[#0A4736]" />
+                  </div>
+                  <h3 className="font-serif text-[24px] font-bold text-[#1A2E25] mb-2">Order #{trackResult.id}</h3>
+                  <p className="font-sans text-[15px] font-medium text-[#8C7A6B] mb-5">Placed on: {new Date(trackResult.date_created).toLocaleDateString()}</p>
+                  <div className="bg-[#F8F6F2] text-[#1A2E25] px-5 py-2 rounded-lg font-bold tracking-wide uppercase text-[12px] border border-[#E5E0D8]">
                     Status: {trackResult.status}
                   </div>
                 </div>
@@ -936,85 +1028,172 @@ export default function MobileApp() {
           <motion.div 
             initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-white z-50 flex flex-col"
+            className="fixed inset-0 bg-[#F8F6F2] z-30 flex flex-col pt-24 font-sans"
           >
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-background">
-              <h2 className="font-serif text-2xl">{user ? 'My Account' : (isLoginMode ? 'Sign In' : 'Create Account')}</h2>
-              <X className="w-6 h-6 cursor-pointer text-gray-500" onClick={() => setIsProfileOpen(false)} />
+            <div className="p-6 pb-4 flex flex-col bg-[#F8F6F2]/90 backdrop-blur sticky top-0 z-10">
+              <div className="flex justify-between items-center">
+                <h1 className="font-serif text-[38px] font-semibold tracking-tight text-[#263228] flex items-center gap-3">
+                  <User className="w-8 h-8 text-[#263228]" strokeWidth={1.5} />
+                  {user ? 'My Account' : (isLoginMode ? 'Sign In' : 'Account')}
+                </h1>
+                <button onClick={() => setIsProfileOpen(false)} className="p-2 bg-transparent rounded-full hover:bg-black/5 transition-colors">
+                  <X className="w-6 h-6 text-[#263228]" />
+                </button>
+              </div>
             </div>
-            <div className="flex-1 overflow-y-auto p-6 bg-white flex flex-col">
+            <div className="flex-1 overflow-y-auto px-6 py-2 pb-32 flex flex-col">
               {user ? (
-                <div className="flex flex-col items-center justify-center flex-1 text-center">
-                  <div className="w-24 h-24 bg-background rounded-full flex items-center justify-center mb-6 shadow-inner border border-gray-100">
-                    <User className="w-10 h-10 text-secondary" />
+                <div className="flex flex-col items-center flex-1 text-center mt-6">
+                  <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm border border-[#E5E0D8]">
+                    <User className="w-10 h-10 text-[#0A4736]" strokeWidth={1.5} />
                   </div>
-                  <h3 className="font-serif text-3xl mb-2">Welcome, {user.displayName || user.username}</h3>
-                  <p className="text-secondary mb-8">{user.email}</p>
+                  <h3 className="font-serif text-[28px] font-bold text-[#1A2E25] mb-1">Welcome, {user.displayName || user.username}</h3>
+                  <p className="font-sans text-[15px] text-[#8C7A6B] mb-8">{user.email}</p>
                   
-                  <div className="w-full text-left mb-8 max-h-[40vh] overflow-y-auto">
-                    <h4 className="font-serif text-xl mb-4">Your Recent Orders</h4>
+                  <div className="w-full text-left mb-8 max-h-[40vh] overflow-y-auto pr-2">
+                    <h4 className="font-serif text-[22px] font-bold text-[#1A2E25] mb-4">Your Recent Orders</h4>
                     {isLoadingOrders ? (
-                      <p className="text-sm text-secondary">Loading orders...</p>
+                      <p className="text-[15px] text-[#8C7A6B]">Loading orders...</p>
                     ) : userOrders.length > 0 ? (
                       <div className="flex flex-col gap-4">
                         {userOrders.map(order => (
-                          <div key={order.id} className="bg-[#fdfbf9] border border-gray-100 p-4 rounded-2xl">
-                            <div className="flex justify-between items-center mb-2">
-                              <strong className="font-serif">Order #{order.id}</strong>
-                              <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full ${
-                                order.status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
+                          <div key={order.id} className="bg-white border border-[#E5E0D8] p-5 rounded-3xl shadow-sm">
+                            <div className="flex justify-between items-center mb-3">
+                              <strong className="font-serif text-[18px] text-[#1A2E25]">Order #{order.id}</strong>
+                              <span className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full ${
+                                order.status === 'completed' ? 'bg-[#E3F2E6] text-[#0A4736]' : 'bg-[#FFF3E0] text-[#D06C47]'
                               }`}>{order.status}</span>
                             </div>
-                            <div className="text-xs text-secondary flex justify-between">
+                            <div className="text-[14px] text-[#8C7A6B] font-medium flex justify-between items-center">
                               <span>{new Date(order.date_created).toLocaleDateString()}</span>
-                              <span>₹{order.total}</span>
+                              <span className="text-[#1A2E25] font-bold">₹{order.total}</span>
                             </div>
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <p className="text-sm text-secondary">You haven't placed any orders yet.</p>
+                      <div className="bg-white p-6 rounded-3xl border border-[#E5E0D8] text-center shadow-sm">
+                         <p className="text-[15px] font-medium text-[#8C7A6B]">You haven't placed any orders yet.</p>
+                      </div>
                     )}
                   </div>
 
-                  <div className="w-full max-w-sm flex flex-col gap-3">
-                    <button onClick={() => logout()} className="w-full bg-red-50 text-red-600 py-4 rounded-xl font-medium tracking-wide border border-red-100">
+                  <div className="w-full mt-auto">
+                    <button onClick={() => logout()} className="w-full bg-white text-red-500 hover:bg-red-50 py-4 rounded-full font-bold tracking-wide border border-red-200 shadow-sm transition-colors uppercase text-[13px]">
                       Sign Out
                     </button>
                   </div>
                 </div>
               ) : (
-                <form onSubmit={handleAuthSubmit} className="flex flex-col gap-4 mb-8 mt-10">
-                  <div className="text-center mb-8">
-                    <h3 className="font-serif text-3xl mb-2">{isLoginMode ? 'Welcome Back' : 'Join Clay & Craft'}</h3>
-                    <p className="text-secondary">Enter your details to continue.</p>
+                <form onSubmit={handleAuthSubmit} className="flex flex-col gap-4 mb-8 mt-6">
+                  <div className="text-center mb-6">
+                    <h3 className="font-serif text-[32px] font-bold text-[#1A2E25] mb-2">{isLoginMode ? 'Welcome Back' : 'Join Clay & Craft'}</h3>
+                    <p className="font-sans text-[#8C7A6B] text-[15px]">Enter your details to continue.</p>
                   </div>
                   
                   {isLoginMode ? (
-                    <input type="email" name="username" placeholder="Email Address" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={authForm.username} onChange={handleAuthChange} />
+                    <input type="email" name="username" placeholder="Email Address" required className="w-full p-4 rounded-xl border border-[#E5E0D8] bg-white text-[#1A2E25] focus:outline-none focus:border-[#0A4736] focus:ring-1 focus:ring-[#0A4736] shadow-sm transition-all placeholder:text-[#8C7A6B]" value={authForm.username} onChange={handleAuthChange} />
                   ) : (
                     <>
-                      <input type="text" name="username" placeholder="Username" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={authForm.username} onChange={handleAuthChange} />
-                      <input type="email" name="email" placeholder="Email Address" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={authForm.email} onChange={handleAuthChange} />
+                      <input type="text" name="username" placeholder="Username" required className="w-full p-4 rounded-xl border border-[#E5E0D8] bg-white text-[#1A2E25] focus:outline-none focus:border-[#0A4736] focus:ring-1 focus:ring-[#0A4736] shadow-sm transition-all placeholder:text-[#8C7A6B]" value={authForm.username} onChange={handleAuthChange} />
+                      <input type="email" name="email" placeholder="Email Address" required className="w-full p-4 rounded-xl border border-[#E5E0D8] bg-white text-[#1A2E25] focus:outline-none focus:border-[#0A4736] focus:ring-1 focus:ring-[#0A4736] shadow-sm transition-all placeholder:text-[#8C7A6B]" value={authForm.email} onChange={handleAuthChange} />
                     </>
                   )}
                   
-                  <input type="password" name="password" placeholder="Password" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={authForm.password} onChange={handleAuthChange} />
+                  <input type="password" name="password" placeholder="Password" required className="w-full p-4 rounded-xl border border-[#E5E0D8] bg-white text-[#1A2E25] focus:outline-none focus:border-[#0A4736] focus:ring-1 focus:ring-[#0A4736] shadow-sm transition-all placeholder:text-[#8C7A6B]" value={authForm.password} onChange={handleAuthChange} />
                   
-                  {authError && <p className="text-red-500 text-sm text-center bg-red-50 p-3 rounded-lg">{authError}</p>}
+                  {authError && <p className="text-red-500 text-sm font-medium text-center bg-white border border-red-100 p-4 rounded-xl shadow-sm">{authError}</p>}
                   
-                  <button type="submit" disabled={isAuthLoading} className="w-full bg-primary text-white py-4 rounded-xl font-medium tracking-wide flex justify-center mt-4">
+                  <button type="submit" disabled={isAuthLoading} className="w-full bg-[#0A4736] hover:bg-[#073326] text-white py-4 rounded-full font-bold tracking-wide flex justify-center mt-2 shadow-sm transition-colors uppercase text-[13px]">
                     {isAuthLoading ? 'Processing...' : (isLoginMode ? 'Sign In' : 'Create Account')}
                   </button>
                   
-                  <p className="text-center text-sm text-secondary mt-6">
+                  <p className="text-center text-[14px] font-medium text-[#8C7A6B] mt-6">
                     {isLoginMode ? "Don't have an account? " : "Already have an account? "}
-                    <button type="button" onClick={() => { setIsLoginMode(!isLoginMode); setAuthError(''); }} className="text-accent font-medium hover:underline">
+                    <button type="button" onClick={() => { setIsLoginMode(!isLoginMode); setAuthError(''); }} className="text-[#0A4736] font-bold hover:underline transition-all">
                       {isLoginMode ? 'Sign Up' : 'Sign In'}
                     </button>
                   </p>
                 </form>
               )}
+            </div>
+          </motion.div>
+        )}
+
+        {/* Shop Collection Full Screen Modal */}
+        {isShopOpen && (
+          <motion.div 
+            initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 bg-[#F8F6F2] z-30 flex flex-col font-sans pt-24"
+          >
+            <div className="p-6 pb-4 flex flex-col bg-[#F8F6F2]/90 backdrop-blur sticky top-0 z-10">
+              <div className="flex justify-between items-center mb-6">
+                <h1 className="font-serif text-3xl text-[#1A2E25]">
+                  Shop Collection
+                </h1>
+                <button onClick={() => setIsShopOpen(false)} className="p-2 bg-white rounded-full shadow-sm">
+                  <X className="w-5 h-5 text-[#1A2E25]" />
+                </button>
+              </div>
+
+              {/* Category Filter Pills */}
+              <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
+                <button 
+                  onClick={() => setSelectedCategory('All')}
+                  className={`px-5 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-colors border ${selectedCategory === 'All' ? 'bg-[#0A4736] text-white border-[#0A4736]' : 'bg-white text-[#1A2E25] border-[#E5E0D8]'}`}
+                >
+                  All
+                </button>
+                {CATEGORIES.map((cat, i) => (
+                  <button 
+                    key={i}
+                    onClick={() => setSelectedCategory(cat.name)}
+                    className={`px-5 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-colors border ${selectedCategory === cat.name ? 'bg-[#0A4736] text-white border-[#0A4736]' : 'bg-white text-[#1A2E25] border-[#E5E0D8]'}`}
+                  >
+                    {cat.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-6 pb-40">
+              <div className="grid grid-cols-2 gap-4">
+                {products
+                  .filter(product => selectedCategory === 'All' || product.category === selectedCategory)
+                  .map(product => (
+                  <div key={product.id} className="bg-white rounded-2xl overflow-hidden shadow-sm flex flex-col h-full group" onClick={() => setSelectedProduct(product)}>
+                    <div className="relative aspect-[4/5] overflow-hidden bg-[#F5F5F5]">
+                      <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); toggleWishlist(product); }}
+                        className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm text-gray-700 hover:text-accent transition-colors"
+                      >
+                        <Heart className={`w-4 h-4 ${isInWishlist(product.id) ? 'fill-red-500 text-red-500' : ''}`} />
+                      </button>
+                    </div>
+                    <div className="p-4 flex flex-col flex-1">
+                      <p className="text-[10px] text-[#8C7A6B] uppercase tracking-wider mb-1 font-medium">{product.category}</p>
+                      <h3 className="font-serif text-[#1A2E25] text-sm leading-snug mb-1 line-clamp-2 flex-1">{product.name}</h3>
+                      <div className="flex items-center justify-between mt-2">
+                        <span className="font-medium text-[#1A2E25]">₹{product.price}</span>
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); handleAddToCartAnim(product); }}
+                          className="w-8 h-8 rounded-full bg-[#F8F6F2] flex items-center justify-center text-[#0A4736] hover:bg-[#0A4736] hover:text-white transition-colors"
+                        >
+                          <Plus className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                
+                {products.filter(product => selectedCategory === 'All' || product.category === selectedCategory).length === 0 && (
+                  <div className="col-span-2 text-center py-12">
+                    <p className="text-[#8C7A6B]">No products found in this category.</p>
+                  </div>
+                )}
+              </div>
             </div>
           </motion.div>
         )}
@@ -1031,7 +1210,7 @@ export default function MobileApp() {
               <button onClick={() => setSelectedProduct(null)} className="p-2 -ml-2 text-gray-800 border-none outline-none bg-transparent">
                 <ArrowLeft className="w-6 h-6" />
               </button>
-              <h1 className="font-serif text-[1.35rem] font-light tracking-wide text-primary">Clay & Craft</h1>
+              <h1 className="font-serif text-[1.35rem] font-light tracking-wide text-primary cursor-pointer" onClick={returnToHome}>Clay & Craft</h1>
               <motion.button 
                 className="p-2 -mr-2 text-gray-800 relative border-none outline-none bg-transparent" 
                 onClick={() => { setSelectedProduct(null); setIsCartOpen(true); }}
@@ -1059,9 +1238,31 @@ export default function MobileApp() {
 
             {/* Image Slider */}
             <div className="px-4 pt-2">
-              <div className="bg-[#F5F5F5] rounded-3xl w-full aspect-[4/5] relative overflow-hidden flex flex-col items-center justify-center snap-x snap-mandatory overflow-x-auto scrollbar-hide">
-                {/* Simulated multiple images to allow scrolling */}
-                <div className="flex w-full h-full">
+              <div className="bg-[#F5F5F5] rounded-3xl w-full aspect-square relative overflow-hidden group">
+                {/* Minimal Wishlist Icon */}
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleWishlist(selectedProduct);
+                  }}
+                  className="absolute top-4 right-4 z-10 p-2.5 bg-white/70 backdrop-blur-md rounded-full hover:bg-white transition-all duration-300 shadow-sm border border-white/40"
+                >
+                  <Heart 
+                    className={`w-5 h-5 transition-colors ${isInWishlist(selectedProduct.id) ? 'fill-red-500 text-red-500' : 'text-gray-800'}`} 
+                    strokeWidth={1.5} 
+                  />
+                </button>
+                
+                {/* Scrolling Images */}
+                <div 
+                  className="flex w-full h-full overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+                  onScroll={(e) => {
+                    const scrollPosition = e.target.scrollLeft;
+                    const containerWidth = e.target.clientWidth;
+                    const newIndex = Math.round(scrollPosition / containerWidth);
+                    setActiveImageIndex(newIndex);
+                  }}
+                >
                   {[selectedProduct.image, selectedProduct.image, selectedProduct.image].map((img, i) => (
                     <div key={i} className="min-w-full h-full flex-shrink-0 snap-center flex items-center justify-center relative">
                        <img src={img} alt={selectedProduct.name} className="w-full h-full object-cover mix-blend-multiply" />
@@ -1069,15 +1270,18 @@ export default function MobileApp() {
                   ))}
                 </div>
                 {/* Pagination Dots */}
-                <div className="absolute bottom-4 flex gap-2 w-full justify-center">
-                  <div className="w-2 h-2 rounded-full bg-[#3F5B46]"></div>
-                  <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-                  <div className="w-2 h-2 rounded-full bg-gray-300"></div>
+                <div className="absolute bottom-4 flex gap-2 w-full justify-center pointer-events-none">
+                  {[0, 1, 2].map((i) => (
+                    <div 
+                      key={i} 
+                      className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${activeImageIndex === i ? 'bg-[#3F5B46]' : 'bg-gray-400/50'}`}
+                    ></div>
+                  ))}
                 </div>
               </div>
             </div>
             
-            <div className="px-6 pt-8">
+            <div className="px-6 pt-6">
               <h2 className="font-sans text-[26px] leading-tight font-semibold text-gray-900 mb-2">{selectedProduct.name}</h2>
               <p className="text-gray-600 text-[15px] mb-4">Insulated. Leakproof. Built for everyday.</p>
               
@@ -1161,42 +1365,44 @@ export default function MobileApp() {
       </AnimatePresence>
 
       {/* Premium Floating Bottom Navigation */}
-      <motion.div 
-        initial={{ y: 100 }}
-        animate={{ y: 0 }}
-        transition={{ delay: 0.5, type: "spring", stiffness: 260, damping: 20 }}
-        className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-[400px] bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-full py-4 px-8 z-40 flex justify-between items-center"
-      >
-        <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-          <Search className="w-5 h-5" />
-          <span className="text-[10px] font-medium tracking-wide">Explore</span>
-        </div>
-        
-        <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors">
-          <Heart className="w-5 h-5" />
-          <span className="text-[10px] font-medium tracking-wide">Saved</span>
-        </div>
-        
-        <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => user ? setIsProfileOpen(true) : setIsTrackOrderOpen(true)}>
-          <PackageSearch className="w-5 h-5" />
-          <span className="text-[10px] font-medium tracking-wide">Track</span>
-        </div>
-        
-        <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors relative" onClick={() => setIsCartOpen(true)}>
-          <ShoppingBag className="w-5 h-5" />
-          <span className="text-[10px] font-medium tracking-wide">Bag</span>
-          {cartItemCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-accent text-white text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full shadow-sm">
-              {cartItemCount}
-            </span>
-          )}
-        </div>
-        
-        <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => setIsProfileOpen(true)}>
-          <User className="w-5 h-5" />
-          <span className="text-[10px] font-medium tracking-wide">Profile</span>
-        </div>
-      </motion.div>
+      {!selectedProduct && (
+        <motion.div 
+          initial={{ y: 100 }}
+          animate={{ y: 0 }}
+          transition={{ delay: 0.5, type: "spring", stiffness: 260, damping: 20 }}
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-[400px] bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-full py-4 px-8 z-40 flex justify-between items-center"
+        >
+          <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={returnToHome}>
+            <Search className="w-5 h-5" />
+            <span className="text-[10px] font-medium tracking-wide">Explore</span>
+          </div>
+          
+          <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors relative" onClick={() => { setIsWishlistOpen(true); setIsTrackOrderOpen(false); setIsProfileOpen(false); setIsShopOpen(false); setSelectedProduct(null); }}>
+            <Heart className="w-5 h-5" />
+            <span className="text-[10px] font-medium tracking-wide">Saved</span>
+            {wishlist && wishlist.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-accent text-white text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full shadow-sm">
+                {wishlist.length}
+              </span>
+            )}
+          </div>
+          
+          <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => { setIsShopOpen(true); setIsProfileOpen(false); setIsWishlistOpen(false); setIsTrackOrderOpen(false); setSelectedProduct(null); }}>
+            <Grid className="w-5 h-5" />
+            <span className="text-[10px] font-medium tracking-wide">Shop</span>
+          </div>
+          
+          <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => setIsCartOpen(true)}>
+            <ShoppingBag className="w-5 h-5" />
+            <span className="text-[10px] font-medium tracking-wide">Bag</span>
+          </div>
+          
+          <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => { setIsProfileOpen(true); setIsWishlistOpen(false); setIsTrackOrderOpen(false); setIsShopOpen(false); setSelectedProduct(null); }}>
+            <User className="w-5 h-5" />
+            <span className="text-[10px] font-medium tracking-wide">Profile</span>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }
