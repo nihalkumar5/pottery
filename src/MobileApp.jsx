@@ -1439,7 +1439,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                 <img src="/assets/homedecor.png" className="absolute inset-0 w-full h-full object-cover" alt="Shop Hero" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20"></div>
                 <button onClick={() => setIsShopOpen(false)} className="absolute top-14 right-6 p-2 z-20 opacity-80 hover:opacity-100 transition-opacity">
-                  <X className="w-6 h-6 text-white drop-shadow-md" />
+                  <X className="w-6 h-6 text-[#1A2E25]" />
                 </button>
                 <div className="relative z-10 text-center px-4 mt-4">
                   <h2 className="font-serif text-[26px] text-[#F8F6F2] mb-1 leading-tight">Handcrafted with Love</h2>
