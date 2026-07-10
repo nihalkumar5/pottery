@@ -23,7 +23,7 @@ export default function DesktopCollections({ onBack }) {
     : products.filter(p => p.category === selectedCategory);
 
   return (
-    <div className="desktop-collections-page bg-[#F8F6F2] pt-[80px]">
+    <div className="desktop-collections-page bg-[#F8F6F2]">
       
       {/* Minimal Hero Section with Image */}
       <div className="relative w-full h-[300px] overflow-hidden">
@@ -44,15 +44,15 @@ export default function DesktopCollections({ onBack }) {
           {/* Sidebar Navigation (Sticky) */}
           <aside className="sticky top-[120px]">
             <h3 className="font-serif text-xl text-[#263228] mb-6 border-b border-[#D1C8BA] pb-4">Categories</h3>
-            <ul className="flex flex-col gap-2">
+            <ul className="flex flex-col gap-4 pl-0 list-none">
               {CATEGORIES.map(cat => (
-                <li key={cat}>
+                <li key={cat} className="list-none">
                   <button
                     onClick={() => setSelectedCategory(cat)}
-                    className={`w-full text-left px-4 py-3 rounded-lg text-sm uppercase tracking-widest font-semibold transition-all duration-300
+                    className={`w-full text-left text-sm uppercase tracking-widest transition-all duration-300
                       ${selectedCategory === cat 
-                        ? 'bg-[#1A2E25] text-[#F8F6F2] shadow-sm' 
-                        : 'text-[#6A4E3D] hover:bg-[#F0EBE1] hover:text-[#263228]'}`}
+                        ? 'font-bold text-[#1A2E25]' 
+                        : 'font-medium text-[#82634F] hover:text-[#1A2E25]'}`}
                   >
                     {cat}
                   </button>
