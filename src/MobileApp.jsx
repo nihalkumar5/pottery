@@ -12,6 +12,21 @@ const CATEGORIES = [
   { name: 'Featured Collections', img: '/assets/vase.png' },
 ];
 
+// Utility to load external scripts dynamically
+const loadScript = (src) => {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+};
+
 const REVIEWS = [
   { id: 1, name: 'Sarah M.', text: 'The most beautiful mugs I own. The craftsmanship is incredible.', rating: 5 },
   { id: 2, name: 'James K.', text: 'Fast shipping and stunning quality. A premium unboxing experience.', rating: 5 },
@@ -101,14 +116,62 @@ export default function MobileApp() {
   const handleCheckoutSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    try {
-      await submitOrder(formData);
-      setOrderSuccess(true);
-    } catch (error) {
-      const errMsg = error.response?.data?.message || error.message || 'Unknown error';
-      alert('Failed to place order: ' + errMsg);
-    } finally {
-      setIsSubmitting(false);
+
+    if (paymentMethod === 'upi') {
+      const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+      
+      if (!res) {
+        alert('Payment gateway failed to load. Please check your connection.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      const options = {
+        key: 'rzp_test_YOUR_TEST_KEY', // Dummy key for UI test mode
+        amount: Math.round(cartTotal * 100), // Amount in paise
+        currency: 'INR',
+        name: 'Clay & Craft',
+        description: 'Premium Handcrafted Ceramics',
+        image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&q=80',
+        handler: async function (response) {
+          // Success callback
+          try {
+            await submitOrder(formData);
+            setOrderSuccess(true);
+          } catch (error) {
+            alert('Failed to save order details. Error: ' + error.message);
+          }
+        },
+        prefill: {
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          contact: formData.phone,
+        },
+        theme: {
+          color: '#415a46',
+        },
+      };
+
+      const paymentObject = new window.Razorpay(options);
+      
+      // Handle when modal is closed without payment
+      paymentObject.on('payment.failed', function (response) {
+        alert('Payment failed or cancelled.');
+      });
+      
+      paymentObject.open();
+      setIsSubmitting(false); // Modal takes over
+    } else {
+      // Cash on Delivery Flow
+      try {
+        await submitOrder(formData);
+        setOrderSuccess(true);
+      } catch (error) {
+        const errMsg = error.response?.data?.message || error.message || 'Unknown error';
+        alert('Failed to place order: ' + errMsg);
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -694,6 +757,24 @@ export default function MobileApp() {
                             <p className="font-bold text-[16px] text-gray-900">Cash on Delivery (COD)</p>
                             <p className="text-gray-500 text-sm mt-1">Pay when your order arrives</p>
                           </div>
+                        </div>
+                        <div className="mt-8 flex flex-col items-center justify-center space-y-3">
+                          <div className="flex items-center gap-2 text-[#415a46] font-bold text-[13px] bg-green-50/80 px-4 py-2 rounded-full border border-green-100">
+                            <ShieldCheck className="w-4 h-4" />
+                            100% Secure Payments
+                          </div>
+                          <div className="flex items-center justify-center gap-2 mt-2">
+                            {/* Payment Provider Badges */}
+                            <div className="flex items-center gap-2 grayscale opacity-50">
+                              <span className="font-bold text-[10px] italic tracking-wider border border-gray-300 px-2 py-1 rounded">VISA</span>
+                              <span className="font-bold text-[10px] tracking-wider border border-gray-300 px-2 py-1 rounded">MASTER</span>
+                              <span className="font-bold text-[10px] tracking-wider border border-gray-300 px-2 py-1 rounded">RUPAY</span>
+                              <span className="font-bold text-[10px] tracking-wider border border-gray-300 px-2 py-1 rounded">UPI</span>
+                            </div>
+                          </div>
+                          <p className="text-[11px] text-gray-400 mt-2 text-center max-w-[250px] leading-relaxed">
+                            Your payment information is encrypted and securely processed by Razorpay.
+                          </p>
                         </div>
                       </div>
                     )}
