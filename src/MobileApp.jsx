@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, PackageSearch } from 'lucide-react';
+import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, PackageSearch, ArrowLeft } from 'lucide-react';
 import { useShop } from './ShopContext';
 
 const CATEGORIES = [
-  { name: 'Mugs', img: '/assets/vase.png' },
-  { name: 'Bowls', img: '/assets/vase.png' },
-  { name: 'Plates', img: '/assets/vase.png' },
-  { name: 'Vases', img: '/assets/vase.png' },
-  { name: 'Kitchen Essentials', img: '/assets/vase.png' },
+  { name: 'Drinkware', img: '/assets/vase.png' },
+  { name: 'Water Storage', img: '/assets/vase.png' },
+  { name: 'Traditional Bottles', img: '/assets/vase.png' },
+  { name: 'Serveware', img: '/assets/vase.png' },
+  { name: 'Decorative Collection', img: '/assets/vase.png' },
+  { name: 'Featured Collections', img: '/assets/vase.png' },
 ];
 
 const REVIEWS = [
@@ -672,52 +673,51 @@ export default function MobileApp() {
         )}
 
         {/* Product Details Sheet */}
+        {/* Product Details Full Screen */}
         {selectedProduct && (
           <motion.div 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex flex-col justify-end"
-            onClick={() => setSelectedProduct(null)}
+            initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 50 }}
+            className="fixed inset-0 bg-[#F4F4F4] z-50 flex flex-col"
           >
-            <motion.div 
-              initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              onClick={(e) => e.stopPropagation()}
-              className="bg-white w-full rounded-t-[40px] flex flex-col max-h-[90vh] overflow-hidden"
-            >
-              <div className="relative h-72 w-full bg-background flex-shrink-0">
-                <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
-                <button 
-                  onClick={() => setSelectedProduct(null)}
-                  className="absolute top-6 right-6 bg-white/80 backdrop-blur-md p-2 rounded-full shadow-sm"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
+            <div className="relative h-[55vh] w-full flex-shrink-0 bg-white rounded-b-[40px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+              <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
               
-              <div className="p-8 flex-1 overflow-y-auto">
-                <div className="flex justify-between items-start mb-2">
-                  <h2 className="font-serif text-3xl">{selectedProduct.name}</h2>
-                  <span className="font-medium text-xl">₹{selectedProduct.price.toFixed(2)}</span>
-                </div>
-                <div className="flex items-center gap-1 mb-6">
-                  <Star className="w-4 h-4 fill-accent text-accent" />
-                  <span className="text-sm font-medium">{selectedProduct.rating} Rating</span>
-                </div>
-                <p className="text-secondary leading-relaxed mb-8">
-                  {selectedProduct.desc}
-                </p>
-                <div className="flex items-center gap-2 text-sm text-green-700 font-medium mb-8 bg-green-50 p-4 rounded-2xl">
-                  <CheckCircle className="w-5 h-5" /> In Stock & Ready to Ship
-                </div>
+              <button 
+                onClick={() => setSelectedProduct(null)}
+                className="absolute top-8 left-6 p-2 text-gray-600 hover:text-black transition-colors"
+              >
+                <ArrowLeft className="w-6 h-6" />
+              </button>
+
+              <button 
+                className="absolute top-8 right-6 bg-white p-2.5 rounded-xl shadow-sm text-gray-400 hover:text-red-500 transition-colors"
+                onClick={() => toggleWishlist(selectedProduct)}
+              >
+                <Heart className={`w-5 h-5 ${isInWishlist(selectedProduct.id) ? 'fill-red-500 text-red-500' : ''}`} />
+              </button>
+            </div>
+            
+            <div className="flex-1 px-8 pt-8 pb-6 flex flex-col">
+              <h2 className="font-sans text-[22px] font-medium text-gray-800 mb-1.5">{selectedProduct.name}</h2>
+              <p className="text-gray-400 text-sm mb-6">Handcrafted ceramic piece</p>
+              
+              <p className="text-gray-500 text-[14px] leading-relaxed mb-auto max-w-[95%]">
+                {selectedProduct.desc}
+              </p>
+
+              <div className="flex justify-between items-center mt-6">
+                <span className="font-sans text-[34px] font-medium text-gray-700 flex items-center gap-1.5">
+                  <span className="text-2xl text-gray-600">₹</span>{selectedProduct.price}
+                </span>
                 
                 <button 
-                  onClick={() => handleAddToCart(selectedProduct)}
-                  className="w-full bg-primary text-white py-4 rounded-xl font-medium tracking-wide flex items-center justify-center gap-2"
+                  onClick={() => { handleAddToCart(selectedProduct); setSelectedProduct(null); }}
+                  className="bg-white text-gray-600 border border-gray-100 px-8 py-3.5 rounded-2xl font-sans font-bold text-sm tracking-wide shadow-sm hover:bg-gray-50 hover:text-black transition-all"
                 >
-                  <ShoppingBag className="w-5 h-5" /> Add to Cart
+                  ADD TO CART
                 </button>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
