@@ -26,6 +26,14 @@ export default function MobileApp() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isAdding, setIsAdding] = useState(false);
+
+  const handleAddToCartAnim = (product) => {
+    if (navigator.vibrate) navigator.vibrate(50); // Haptic feedback
+    setIsAdding(true);
+    addToCart(product);
+    setTimeout(() => setIsAdding(false), 500);
+  };
 
   // User Orders
   const [userOrders, setUserOrders] = useState([]);
@@ -136,7 +144,14 @@ export default function MobileApp() {
         <div className="flex items-center justify-between px-6">
           <Menu className={`w-6 h-6 cursor-pointer transition-colors ${isScrolled ? 'text-primary' : 'text-white'}`} onClick={() => setIsMenuOpen(true)} />
           <h1 className="font-serif text-[1.35rem] font-light tracking-wide">Clay & Craft</h1>
-          <User className={`w-6 h-6 cursor-pointer transition-colors ${isScrolled ? 'text-primary' : 'text-white'}`} onClick={() => setIsProfileOpen(true)} />
+          <div className="relative cursor-pointer" onClick={() => setIsCartOpen(true)}>
+            <ShoppingBag className={`w-6 h-6 transition-colors ${isScrolled ? 'text-primary' : 'text-white'}`} />
+            {cartItemCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-accent text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                {cartItemCount}
+              </span>
+            )}
+          </div>
         </div>
       </nav>
 
@@ -685,13 +700,28 @@ export default function MobileApp() {
                 <ArrowLeft className="w-6 h-6" />
               </button>
               <h1 className="font-serif text-[1.35rem] font-light tracking-wide text-primary">Clay & Craft</h1>
-              <button className="p-2 -mr-2 text-gray-800 relative border-none outline-none bg-transparent" onClick={() => { setSelectedProduct(null); setIsCartOpen(true); }}>
+              <motion.button 
+                className="p-2 -mr-2 text-gray-800 relative border-none outline-none bg-transparent" 
+                onClick={() => { setSelectedProduct(null); setIsCartOpen(true); }}
+                animate={isAdding ? { scale: [1, 1.2, 1], y: [0, -5, 0] } : {}}
+                transition={{ duration: 0.3, delay: 0.2 }}
+              >
                 <ShoppingBag className="w-6 h-6" />
                 {cartItemCount > 0 && (
                   <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-black rounded-full"></span>
                 )}
-              </button>
+              </motion.button>
             </div>
+
+            {/* Fly to Cart Animation */}
+            {isAdding && (
+              <motion.div
+                initial={{ opacity: 1, scale: 1, x: window.innerWidth / 2 - 20, y: window.innerHeight - 80 }}
+                animate={{ opacity: 0, scale: 0.3, x: window.innerWidth - 40, y: 30 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="fixed z-[100] w-10 h-10 bg-[#415a46] rounded-full pointer-events-none"
+              />
+            )}
 
             {/* Image Slider */}
             <div className="px-4 pt-2">
@@ -767,12 +797,26 @@ export default function MobileApp() {
 
             {/* Sticky Bottom Bar */}
             <div className="fixed bottom-0 left-0 w-full bg-white pb-6 pt-4 px-6 border-t border-gray-100 z-20">
-              <button 
-                onClick={() => { handleAddToCart(selectedProduct); setSelectedProduct(null); }}
-                className="w-full bg-[#415a46] text-white py-4 rounded-full font-sans font-bold text-[15px] tracking-wide mb-3 hover:bg-[#2f4233] transition-colors"
-              >
-                ADD TO CART • ₹{selectedProduct.price}
-              </button>
+              {cart.find(item => item.id === selectedProduct.id) ? (
+                <div className="flex items-center justify-between w-full bg-[#F5F5F5] rounded-full py-2 px-6 mb-3 border border-gray-200">
+                  <button onClick={() => decreaseQuantity(selectedProduct.id)} className="p-3 text-gray-800 hover:text-black hover:bg-gray-200 rounded-full transition-colors">
+                    <Minus className="w-5 h-5" />
+                  </button>
+                  <span className="font-sans font-bold text-[18px] text-gray-900 w-12 text-center">
+                    {cart.find(item => item.id === selectedProduct.id).quantity}
+                  </span>
+                  <button onClick={() => handleAddToCartAnim(selectedProduct)} className="p-3 text-gray-800 hover:text-black hover:bg-gray-200 rounded-full transition-colors">
+                    <Plus className="w-5 h-5" />
+                  </button>
+                </div>
+              ) : (
+                <button 
+                  onClick={() => handleAddToCartAnim(selectedProduct)}
+                  className="w-full bg-[#415a46] text-white py-4 rounded-full font-sans font-bold text-[15px] tracking-wide mb-3 hover:bg-[#2f4233] transition-colors"
+                >
+                  ADD TO CART • ₹{selectedProduct.price}
+                </button>
+              )}
               <div className="flex items-center justify-center gap-2 text-gray-600 text-[12px] font-medium">
                 <ShieldCheck className="w-4 h-4 text-[#415a46]" />
                 Free Shipping on Orders Over ₹3000
