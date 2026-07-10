@@ -23,7 +23,7 @@ function App() {
       {currentPage !== 'home' && currentPage !== 'shop' && currentPage !== 'about' && currentPage !== 'About Us' && currentPage !== 'Contact Us' ? (
         <PolicyPage page={currentPage} onBack={() => setCurrentPage('home')} isMobile={isMobile} />
       ) : isMobile ? (
-        <MobileApp setCurrentPage={setCurrentPage} />
+        <MobileApp setCurrentPage={setCurrentPage} currentPage={currentPage} />
       ) : (
         <DesktopApp setCurrentPage={setCurrentPage} currentPage={currentPage} />
       )}

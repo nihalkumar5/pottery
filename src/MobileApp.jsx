@@ -2,6 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, Check, PackageSearch, ArrowLeft, Snowflake, Droplets, Leaf, ShieldCheck, Lock, Truck, RotateCcw, Smartphone, Banknote, Grid, HandHeart, Flower2 } from 'lucide-react';
 import { useShop } from './ShopContext';
+import DesktopAbout from './DesktopAbout';
+import DesktopContact from './DesktopContact';
 
 // Categories are now dynamically derived from products
 
@@ -312,7 +314,17 @@ export default function MobileApp({ setCurrentPage }) {
         </nav>
       )}
 
-      {/* Hero Section */}
+      {currentPage === 'About Us' || currentPage === 'about' ? (
+        <div className="pb-32 pt-20">
+          <DesktopAbout onShopClick={() => { setIsShopOpen(true); setCurrentPage('home'); window.scrollTo(0,0); }} />
+        </div>
+      ) : currentPage === 'Contact Us' ? (
+        <div className="pb-32 pt-20">
+          <DesktopContact />
+        </div>
+      ) : (
+        <>
+          {/* Hero Section */}
       <section className="relative h-[100vh] w-full overflow-hidden">
         <img src="/assets/hero-mobile.png" alt="Handcrafted Pottery" className="absolute inset-0 w-full h-full object-cover" />
         {/* Removed gradient overlay to keep it full opacity and natural */}
@@ -666,6 +678,8 @@ export default function MobileApp({ setCurrentPage }) {
           <p className="text-[10px] tracking-widest uppercase text-white/30">© 2026 Clay & Craft. All rights reserved.</p>
         </div>
       </footer>
+      </>
+      )}
 
       {/* Modals & Overlays */}
       <AnimatePresence>
