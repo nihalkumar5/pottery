@@ -77,10 +77,12 @@ export default function MobileApp() {
   }, [products]);
 
   const handleAddToCartAnim = (product) => {
-    if (navigator.vibrate) navigator.vibrate(50); // Haptic feedback
-    setIsAdding(true);
-    addToCart(product);
-    setTimeout(() => setIsAdding(false), 500);
+    if (navigator.vibrate) navigator.vibrate(50); // Premium haptic feedback
+    if (cart.some(c => c.id === product.id)) {
+      removeFromCart(product.id);
+    } else {
+      addToCart(product);
+    }
   };
 
   // User Orders
@@ -456,12 +458,23 @@ export default function MobileApp() {
                       ₹{Math.round(item.price * 1.2)}
                     </span>
                   </div>
-                  <button 
+                  <motion.button 
+                    whileTap={{ scale: 0.85 }}
                     onClick={(e) => { e.stopPropagation(); handleAddToCartAnim(item); }}
-                    className="bg-[#0A4736] text-white p-2 rounded-full hover:bg-[#073326] transition-colors"
+                    className={`flex items-center justify-center w-8 h-8 rounded-full transition-colors ${cart.some(c => c.id === item.id) ? 'bg-[#E8E0D5] text-[#1A2E25]' : 'bg-[#0A4736] text-white hover:bg-[#073326]'}`}
                   >
-                    <ShoppingBag className="w-4 h-4" strokeWidth={1.5} />
-                  </button>
+                    <AnimatePresence mode="wait">
+                      {cart.some(c => c.id === item.id) ? (
+                        <motion.div key="minus" initial={{ scale: 0, rotate: -180 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: 180 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
+                          <Minus className="w-4 h-4" strokeWidth={1.5} />
+                        </motion.div>
+                      ) : (
+                        <motion.div key="plus" initial={{ scale: 0, rotate: 180 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: -180 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
+                          <Plus className="w-4 h-4" strokeWidth={1.5} />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.button>
                 </div>
               </div>
             </div>
@@ -1289,12 +1302,23 @@ export default function MobileApp() {
                       <h3 className="font-serif text-[#1A2E25] text-sm leading-snug mb-1 line-clamp-2 flex-1">{product.name}</h3>
                       <div className="flex items-center justify-between mt-2">
                         <span className="font-medium text-[#1A2E25]">₹{product.price}</span>
-                        <button 
+                        <motion.button 
+                          whileTap={{ scale: 0.85 }}
                           onClick={(e) => { e.stopPropagation(); handleAddToCartAnim(product); }}
-                          className="w-8 h-8 rounded-full bg-[#F8F6F2] flex items-center justify-center text-[#0A4736] hover:bg-[#0A4736] hover:text-white transition-colors"
+                          className={`flex items-center justify-center w-8 h-8 rounded-full transition-colors ${cart.some(c => c.id === product.id) ? 'bg-[#E8E0D5] text-[#1A2E25]' : 'bg-[#F8F6F2] text-[#0A4736] hover:bg-[#0A4736] hover:text-white'}`}
                         >
-                          <Plus className="w-4 h-4" />
-                        </button>
+                          <AnimatePresence mode="wait">
+                            {cart.some(c => c.id === product.id) ? (
+                              <motion.div key="minus" initial={{ scale: 0, rotate: -180 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: 180 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
+                                <Minus className="w-4 h-4" strokeWidth={1.5} />
+                              </motion.div>
+                            ) : (
+                              <motion.div key="plus" initial={{ scale: 0, rotate: 180 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: -180 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
+                                <Plus className="w-4 h-4" strokeWidth={1.5} />
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </motion.button>
                       </div>
                     </div>
                   </div>
