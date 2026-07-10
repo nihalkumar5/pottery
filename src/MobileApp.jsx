@@ -755,9 +755,9 @@ export default function MobileApp() {
                           <div className="space-y-4 mb-5">
                             {cart.map((item, idx) => (
                               <div key={idx} className="flex justify-between items-center text-[15px] text-gray-900">
-                                <div className="flex items-center gap-3">
-                                  <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded-md bg-[#E8E2D8]/30" />
-                                  <span className="font-medium">{item.name} <span className="text-gray-400 font-normal text-[13px] ml-1">×{item.quantity}</span></span>
+                                <div className="flex items-center gap-4">
+                                  <img src={item.image} alt={item.name} className="w-[72px] h-[72px] object-cover rounded-xl bg-[#E8E2D8]/30 shadow-sm" />
+                                  <span className="font-medium text-[16px]">{item.name} <span className="text-gray-400 font-normal text-[14px] ml-1">×{item.quantity}</span></span>
                                 </div>
                                 <span>₹{(item.price * item.quantity).toFixed(2)}</span>
                               </div>
