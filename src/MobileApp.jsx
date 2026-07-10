@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, PackageSearch, ArrowLeft, Snowflake, Droplets, Leaf, ShieldCheck } from 'lucide-react';
+import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, Check, PackageSearch, ArrowLeft, Snowflake, Droplets, Leaf, ShieldCheck } from 'lucide-react';
 import { useShop } from './ShopContext';
 
 const CATEGORIES = [
@@ -557,14 +557,52 @@ export default function MobileApp() {
             
             <div className="flex-1 overflow-y-auto pb-32">
               {orderSuccess ? (
-                <div className="h-full flex flex-col items-center justify-center text-center p-8">
-                  <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6">
-                    <CheckCircle className="w-10 h-10 text-green-600" />
-                  </div>
-                  <h3 className="font-serif text-[32px] text-gray-900 mb-4">Order Confirmed!</h3>
-                  <p className="text-gray-500 text-[15px] leading-relaxed mb-10 px-4">Thank you for shopping with Clay & Craft. Your handcrafted ceramics will be prepared shortly.</p>
+                <div className="h-full flex flex-col items-center p-6 pt-12">
+                  <motion.div 
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ type: 'spring', damping: 15 }}
+                    className="w-24 h-24 bg-[#415a46] rounded-full flex items-center justify-center mb-8 shadow-xl shadow-[#415a46]/20"
+                  >
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+                    >
+                      <Check className="w-12 h-12 text-white" strokeWidth={3} />
+                    </motion.div>
+                  </motion.div>
+                  
+                  <h3 className="font-serif text-[36px] text-gray-900 mb-2 font-medium tracking-tight">Order Placed</h3>
+                  <p className="text-gray-500 text-[15px] leading-relaxed mb-8 px-4 text-center">Thank you, {formData.firstName || 'friend'}. Your handcrafted ceramics are being carefully prepared.</p>
+
+                  <motion.div 
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="w-full bg-white p-6 rounded-3xl shadow-sm border border-[#D8D4CC] mb-auto relative overflow-hidden"
+                  >
+                     {/* Decorative top edge */}
+                     <div className="absolute top-0 left-0 w-full h-1 bg-[#415a46]"></div>
+                     
+                     <h4 className="text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-6 text-center">Order Summary</h4>
+                     
+                     <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-100">
+                       <span className="text-gray-500 text-[14px]">Order ID</span>
+                       <span className="font-medium text-gray-900 text-[14px]">#CC-{Math.floor(10000 + Math.random() * 90000)}</span>
+                     </div>
+                     <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-100">
+                       <span className="text-gray-500 text-[14px]">Payment Method</span>
+                       <span className="font-medium text-gray-900 text-[14px] uppercase">{paymentMethod}</span>
+                     </div>
+                     <div className="flex justify-between items-center pt-2">
+                       <span className="text-gray-900 font-serif text-[18px]">Total Paid</span>
+                       <span className="font-bold text-[#415a46] text-[20px]">₹{cartTotal.toFixed(2)}</span>
+                     </div>
+                  </motion.div>
+
                   <button 
-                    className="w-full bg-[#1A2E25] text-white py-4 rounded-2xl font-sans font-bold tracking-wide shadow-lg hover:bg-[#111e18] transition-colors"
+                    className="w-full mt-8 bg-[#415a46] text-white py-4 rounded-2xl font-sans font-bold tracking-wide shadow-lg hover:bg-[#2f4233] transition-colors"
                     onClick={() => { setIsCheckoutOpen(false); setOrderSuccess(false); }}
                   >
                     CONTINUE SHOPPING
