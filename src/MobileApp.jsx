@@ -307,6 +307,10 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
 
   return (
     <div className="mobile-root font-sans bg-background text-primary min-h-screen relative overflow-x-hidden">
+      {/* Announcement Banner */}
+      <div className="bg-[#4A3B32] text-white text-[11px] font-sans tracking-wide text-center py-2 px-4 z-50 relative">
+        First Order above ₹999? Get ₹100 Off! Use code: <span className="font-bold">FIRST100</span>
+      </div>
       {/* Sticky Top Navigation */}
       {!selectedProduct && (
         <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${shouldHeaderBeDark ? 'bg-[#F8F6F2]/90 backdrop-blur-md shadow-sm py-4 text-primary' : 'bg-transparent py-6 text-white'}`}>
@@ -647,6 +651,32 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
         </div>
       </section>
 
+
+
+      {/* Instagram Community Section */}
+      <section className="py-12 bg-[#F9F6F2]">
+        <div className="px-6 mb-8 flex justify-between items-end">
+          <div>
+            <h2 className="font-serif text-2xl text-[#1A2E25] mb-2">#ClayAndCraft</h2>
+            <p className="text-secondary text-xs">Join our community</p>
+          </div>
+          <a href="#" className="text-[#82634F] text-xs font-bold uppercase tracking-wider">Follow</a>
+        </div>
+        <div className="grid grid-cols-2 gap-2 px-6">
+          <div className="aspect-square rounded-2xl overflow-hidden">
+            <img src="/assets/about_story.png" className="w-full h-full object-cover" alt="Community 1" />
+          </div>
+          <div className="aspect-square rounded-2xl overflow-hidden">
+            <img src="/assets/sc1.png" className="w-full h-full object-cover" alt="Community 2" />
+          </div>
+          <div className="aspect-square rounded-2xl overflow-hidden">
+            <img src="/assets/p11-painted-vase.png" className="w-full h-full object-cover" alt="Community 3" />
+          </div>
+          <div className="aspect-square rounded-2xl overflow-hidden">
+            <img src="/assets/serve.png" className="w-full h-full object-cover" alt="Community 4" />
+          </div>
+        </div>
+      </section>
 
       {/* Beautiful Footer */}
       <footer id="contact-section" className="bg-[#82634F] text-white pt-16 pb-32 px-8 rounded-t-3xl mt-4">
@@ -1098,6 +1128,12 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                                     setIsCouponApplied(false);
                                     setCouponCode('');
                                     setShowCouponInput(false);
+                                  } else if (couponCode === 'FIRST100') {
+                                    if (cartTotal < 999) {
+                                      alert('The FIRST100 coupon is only valid for orders above ₹999.');
+                                    } else {
+                                      setIsCouponApplied(true);
+                                    }
                                   } else if (couponCode.length > 2) {
                                     setIsCouponApplied(true);
                                   }
@@ -1122,8 +1158,8 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                             )}
                             {isCouponApplied && (
                               <div className="flex justify-between text-[#415a46]">
-                                <span>Coupon Discount (10%)</span>
-                                <span>-₹{(cartTotal * 0.10).toFixed(2)}</span>
+                                <span>Coupon Discount ({couponCode === 'FIRST100' ? '₹100 Off' : '10%'})</span>
+                                <span>-₹{(couponCode === 'FIRST100' ? 100 : cartTotal * 0.10).toFixed(2)}</span>
                               </div>
                             )}
                             <div className="flex justify-between items-center">
@@ -1134,7 +1170,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                           
                           <div className="flex justify-between items-center pt-6 mt-2">
                             <span className="font-medium text-gray-900 text-[18px]">Total</span>
-                            <span className="font-bold text-[18px] text-[#263228]">₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (paymentMethod === 'razorpay' ? cartTotal * 0.05 : 0) - (isCouponApplied ? cartTotal * 0.1 : 0)).toFixed(2)}</span>
+                            <span className="font-bold text-[18px] text-[#263228]">₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (paymentMethod === 'razorpay' ? cartTotal * 0.05 : 0) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}</span>
                           </div>
                         </div>
 
@@ -1201,7 +1237,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                     <button type="submit" disabled={isSubmitting} className="w-full bg-[#82634F] text-white h-[64px] rounded-[18px] font-sans font-bold tracking-wide shadow-[0_8px_30px_rgba(130,99,79,0.3)] hover:bg-[#6A4E3D] transition-all flex justify-center items-center gap-3 group hover:-translate-y-1">
                       {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? (
                         <>
-                          <Lock className="w-4 h-4 text-white/80" /> Complete Order • ₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (paymentMethod === 'razorpay' ? cartTotal * 0.05 : 0) - (isCouponApplied ? cartTotal * 0.1 : 0)).toFixed(2)}
+                          <Lock className="w-4 h-4 text-white/80" /> Complete Order • ₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (paymentMethod === 'razorpay' ? cartTotal * 0.05 : 0) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}
                         </>
                       ) : (
                         <>Continue to Payment <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></>

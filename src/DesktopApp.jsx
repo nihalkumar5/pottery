@@ -174,6 +174,10 @@ function DesktopApp({ setCurrentPage, currentPage }) {
 
   return (
     <div className="desktop-root">
+      {/* Announcement Banner */}
+      <div style={{ backgroundColor: '#4A3B32', color: 'white', textAlign: 'center', padding: '8px 16px', fontSize: '13px', letterSpacing: '0.05em', position: 'relative', zIndex: 100 }}>
+        First Order above ₹999? Get ₹100 Off! Use code: <strong>FIRST100</strong>
+      </div>
       <nav className={`navbar ${!isScrolled ? 'transparent' : ''}`}>
         <div 
           className="logo" 
@@ -683,6 +687,42 @@ function DesktopApp({ setCurrentPage, currentPage }) {
               <h4 className="font-serif text-[16px] font-bold text-[#1A2E25] mt-auto">{testimonial.name}</h4>
             </div>
           ))}
+        </div>
+      </section>
+
+
+
+      {/* Instagram Community Section */}
+      <section className="max-w-[1200px] mx-auto px-8 mb-24">
+        <div className="text-center mb-12">
+          <h2 className="font-serif text-3xl text-[#1A2E25] mb-3">#ClayAndCraft</h2>
+          <p className="text-[#60554E]">Join our growing community of terracotta lovers on Instagram</p>
+        </div>
+        <div className="grid grid-cols-4 gap-4">
+          <div className="aspect-square rounded-[20px] overflow-hidden group relative cursor-pointer">
+            <img src="/assets/about_story.png" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Community 1" />
+            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <span className="text-white text-sm font-medium">@clayandcraft</span>
+            </div>
+          </div>
+          <div className="aspect-square rounded-[20px] overflow-hidden group relative cursor-pointer">
+            <img src="/assets/sc1.png" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Community 2" />
+            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <span className="text-white text-sm font-medium">@clayandcraft</span>
+            </div>
+          </div>
+          <div className="aspect-square rounded-[20px] overflow-hidden group relative cursor-pointer">
+            <img src="/assets/p11-painted-vase.png" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Community 3" />
+            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <span className="text-white text-sm font-medium">@clayandcraft</span>
+            </div>
+          </div>
+          <div className="aspect-square rounded-[20px] overflow-hidden group relative cursor-pointer">
+            <img src="/assets/serve.png" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Community 4" />
+            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <span className="text-white text-sm font-medium">@clayandcraft</span>
+            </div>
+          </div>
         </div>
       </section>
         </>
