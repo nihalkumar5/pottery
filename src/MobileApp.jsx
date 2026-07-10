@@ -107,10 +107,10 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
         startX: e.clientX,
         startY: e.clientY
       });
-      setTimeout(() => setFlyingItem(null), 600); // Wait for animation
+      setTimeout(() => setFlyingItem(null), 900); // Wait for slower animation
     }
     
-    setTimeout(() => setIsAdding(false), 500);
+    setTimeout(() => setIsAdding(false), 800);
   };
 
   // User Orders
@@ -1797,20 +1797,26 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
           <motion.img
             src={flyingItem.image}
             initial={{ 
-              x: flyingItem.startX - 20, 
-              y: flyingItem.startY - 20, 
-              scale: 1, 
+              x: flyingItem.startX - 30, 
+              y: flyingItem.startY - 30, 
+              scale: 1.2, 
               opacity: 1 
             }}
             animate={{ 
-              x: window.innerWidth * 0.7 - 20, // 70% width for bag icon
-              y: window.innerHeight - 60, // Bottom nav bag icon approx
+              x: window.innerWidth * 0.7 - 10, // 70% width for bag icon
+              y: window.innerHeight - 40, // Bottom nav bag icon approx
               scale: 0.1, 
-              opacity: 0 
+              opacity: 0.2 
             }}
             exit={{ opacity: 0 }}
-            transition={{ type: "tween", duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-            className="fixed z-[100] w-10 h-10 rounded-full object-cover shadow-2xl pointer-events-none"
+            transition={{ 
+              duration: 0.9,
+              x: { type: "tween", ease: "linear" },
+              y: { type: "tween", ease: "easeIn" },
+              scale: { duration: 0.9, ease: "easeInOut" },
+              opacity: { duration: 0.9, ease: "easeIn" }
+            }}
+            className="fixed z-[9999] w-16 h-16 rounded-full object-cover shadow-2xl border-2 border-white pointer-events-none"
             style={{ originX: 0.5, originY: 0.5 }}
           />
         )}
