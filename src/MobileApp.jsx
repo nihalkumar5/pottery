@@ -40,13 +40,27 @@ export default function MobileApp() {
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
 
+  const heroTexts = [
+    <React.Fragment key="1">Timeless<br />Tradition</React.Fragment>,
+    <React.Fragment key="2">Natural<br />Decor</React.Fragment>,
+    <React.Fragment key="3">Handcrafted<br />Pottery</React.Fragment>
+  ];
+  const [heroTextIndex, setHeroTextIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHeroTextIndex((prev) => (prev + 1) % heroTexts.length);
+    }, 7000);
+    return () => clearInterval(interval);
+  }, []);
+
   // Compute categories dynamically based on fetched products
   const CATEGORIES = React.useMemo(() => {
     const uniqueCats = [...new Set(products.map(p => p.category).filter(Boolean))];
     
     const customImages = {
       'Home Decor': '/assets/homedecor.png',
-      'Water Bottles': '/assets/thermo.png',
+      'Water Bottles': '/assets/waterbottle.png',
       'Water Storage': '/assets/waterstorage.png',
       'Spiritual Collection': '/assets/sp.png',
       'Serveware': '/assets/serve.png'
@@ -293,7 +307,7 @@ export default function MobileApp() {
             className="font-serif font-light text-[2.75rem] leading-[1.05] tracking-tight mb-5 mt-4"
             style={{ fontWeight: 300 }}
           >
-            Timeless<br />Tradition
+            {heroTexts[heroTextIndex]}
           </motion.h2>
           
           <motion.div
