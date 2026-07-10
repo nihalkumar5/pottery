@@ -380,7 +380,7 @@ export default function MobileApp() {
       </section>
 
       {/* Featured Categories */}
-      <section className="py-16 pl-6">
+      <section id="shop-section" className="py-16 pl-6">
         <h2 className="font-serif text-3xl mb-8 pr-6">Shop by Category</h2>
         <div className="flex gap-4 overflow-x-auto pb-8 pr-6 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {CATEGORIES.map((cat, i) => (
@@ -399,7 +399,7 @@ export default function MobileApp() {
       </section>
 
       {/* Brand Values Banner */}
-      <section className="py-8 bg-[#E6DEC4]">
+      <section id="story-section" className="py-8 bg-[#E6DEC4]">
         <div className="flex items-start justify-center divide-x divide-[#A6977F]">
           
           <div className="flex-1 flex flex-col items-center justify-start text-center px-2">
@@ -537,8 +537,8 @@ export default function MobileApp() {
       </section>
 
 
-      {/* Premium Footer */}
-      <footer className="bg-[#82634F] text-white pt-16 pb-32 px-8 rounded-t-3xl mt-4">
+      {/* Beautiful Footer */}
+      <footer id="contact-section" className="bg-[#82634F] text-white pt-16 pb-32 px-8 rounded-t-3xl mt-4">
         <div className="mb-14">
           <h2 className="font-serif text-3xl mb-3">Join our community</h2>
           <p className="text-white/60 text-sm mb-6 leading-relaxed">Subscribe to receive updates on new collections, exclusive offers, and stories behind our craft.</p>
@@ -593,25 +593,25 @@ export default function MobileApp() {
               <h2 className="font-sans text-xs tracking-[0.2em] font-medium text-white/50 uppercase">Navigation</h2>
               <button 
                 onClick={() => setIsMenuOpen(false)}
-                className="w-12 h-12 flex items-center justify-center rounded-full border border-white/20 hover:bg-white/10 transition-colors"
+                className="w-12 h-12 flex items-center justify-center rounded-full bg-white hover:bg-white/90 transition-colors"
               >
-                <X className="w-5 h-5 text-white" />
+                <X className="w-5 h-5 text-primary" />
               </button>
             </div>
             
             <div className="flex flex-col gap-10 mt-8">
               <motion.a 
                 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1, duration: 0.5 }}
-                href="#" 
+                href="#shop" 
                 className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
-                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); }}
+                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); document.getElementById('shop-section')?.scrollIntoView({behavior: 'smooth'}); }}
               >
                 <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">01</span>
                 Shop
               </motion.a>
               <motion.a 
                 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2, duration: 0.5 }}
-                href="#" 
+                href="#track" 
                 className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
                 onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); user ? setIsProfileOpen(true) : setIsTrackOrderOpen(true); }}
               >
@@ -620,18 +620,18 @@ export default function MobileApp() {
               </motion.a>
               <motion.a 
                 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.5 }}
-                href="#" 
+                href="#story" 
                 className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
-                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); }}
+                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); document.getElementById('story-section')?.scrollIntoView({behavior: 'smooth'}); }}
               >
                 <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">03</span>
                 Our Story
               </motion.a>
               <motion.a 
                 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4, duration: 0.5 }}
-                href="#" 
+                href="#contact" 
                 className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
-                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); }}
+                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); document.getElementById('contact-section')?.scrollIntoView({behavior: 'smooth'}); }}
               >
                 <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">04</span>
                 Contact
