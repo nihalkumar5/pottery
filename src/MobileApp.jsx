@@ -342,7 +342,7 @@ export default function MobileApp() {
 
       {/* Marquee Section */}
       <div className="w-full bg-[#B68D5A] overflow-hidden py-2.5 text-white flex whitespace-nowrap">
-        <div className="flex animate-marquee min-w-max gap-8">
+        <div className="flex animate-marquee-css min-w-max gap-8">
           <span className="text-[11px] font-medium tracking-[0.15em] whitespace-nowrap">
             HANDCRAFTED CERAMICS ✨ SUSTAINABLE MATERIALS ✨ FREE SHIPPING ON ORDERS OVER ₹999 ✨ HANDCRAFTED CERAMICS ✨ SUSTAINABLE MATERIALS ✨ FREE SHIPPING ON ORDERS OVER ₹999 ✨
           </span>
