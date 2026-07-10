@@ -78,11 +78,9 @@ export default function MobileApp() {
 
   const handleAddToCartAnim = (product) => {
     if (navigator.vibrate) navigator.vibrate(50); // Premium haptic feedback
-    if (cart.some(c => c.id === product.id)) {
-      removeFromCart(product.id);
-    } else {
-      addToCart(product);
-    }
+    setIsAdding(true);
+    addToCart(product);
+    setTimeout(() => setIsAdding(false), 500);
   };
 
   // User Orders
@@ -458,23 +456,59 @@ export default function MobileApp() {
                       ₹{Math.round(item.price * 1.2)}
                     </span>
                   </div>
-                  <motion.button 
-                    whileTap={{ scale: 0.85 }}
-                    onClick={(e) => { e.stopPropagation(); handleAddToCartAnim(item); }}
-                    className={`flex items-center justify-center w-8 h-8 rounded-full transition-colors ${cart.some(c => c.id === item.id) ? 'bg-[#E8E0D5] text-[#1A2E25]' : 'bg-[#0A4736] text-white hover:bg-[#073326]'}`}
-                  >
-                    <AnimatePresence mode="wait">
-                      {cart.some(c => c.id === item.id) ? (
-                        <motion.div key="minus" initial={{ scale: 0, rotate: -180 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: 180 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
-                          <Minus className="w-4 h-4" strokeWidth={1.5} />
-                        </motion.div>
-                      ) : (
-                        <motion.div key="plus" initial={{ scale: 0, rotate: 180 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: -180 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
-                          <Plus className="w-4 h-4" strokeWidth={1.5} />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </motion.button>
+                  {(() => {
+                    const qty = cart.find(c => c.id === item.id)?.quantity || 0;
+                    return (
+                      <motion.div 
+                        layout
+                        className={`overflow-hidden flex items-center h-8 rounded-full shadow-sm transition-all duration-300 ${qty > 0 ? 'bg-[#E8E0D5] text-[#1A2E25] w-[76px] justify-between px-1' : 'bg-[#0A4736] text-white hover:bg-[#073326] w-8 justify-center cursor-pointer'}`}
+                        onClick={(e) => {
+                          if (qty === 0) {
+                            e.stopPropagation();
+                            handleAddToCartAnim(item);
+                          }
+                        }}
+                      >
+                        <AnimatePresence mode="popLayout">
+                          {qty > 0 ? (
+                            <motion.div
+                              key="stepper"
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              exit={{ opacity: 0, scale: 0.8 }}
+                              transition={{ duration: 0.2 }}
+                              className="flex items-center justify-between w-full"
+                            >
+                              <button 
+                                className="w-6 h-6 flex items-center justify-center hover:bg-black/10 rounded-full transition-colors"
+                                onClick={(e) => { e.stopPropagation(); if(navigator.vibrate) navigator.vibrate(50); decreaseQuantity(item.id); }}
+                              >
+                                <Minus className="w-3 h-3" strokeWidth={2} />
+                              </button>
+                              <span className="font-medium text-xs w-4 text-center">{qty}</span>
+                              <button 
+                                className="w-6 h-6 flex items-center justify-center hover:bg-black/10 rounded-full transition-colors"
+                                onClick={(e) => { e.stopPropagation(); handleAddToCartAnim(item); }}
+                              >
+                                <Plus className="w-3 h-3" strokeWidth={2} />
+                              </button>
+                            </motion.div>
+                          ) : (
+                            <motion.div
+                              key="plus-only"
+                              initial={{ opacity: 0, scale: 0.8, rotate: 180 }}
+                              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                              exit={{ opacity: 0, scale: 0.8, rotate: -180 }}
+                              transition={{ duration: 0.2 }}
+                              className="flex items-center justify-center w-full h-full"
+                            >
+                              <Plus className="w-4 h-4" strokeWidth={1.5} />
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
+                    );
+                  })()}
                 </div>
               </div>
             </div>
@@ -514,7 +548,7 @@ export default function MobileApp() {
         </div>
 
         {/* Horizontal Scroll Cards */}
-        <div className="flex gap-4 overflow-x-auto scrollbar-hide pl-6 pr-6 pb-4" style={{ scrollSnapType: 'x mandatory' }}>
+        <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4" style={{ scrollSnapType: 'x mandatory' }}>
           {[
             { name: 'Priya Sharma', location: 'Mumbai', text: 'The terracotta mugs are stunning! My morning chai tastes better in them. Craftsmanship is top notch.', stars: 5, initials: 'PS', gradient: 'linear-gradient(135deg, #9C4B35 0%, #C26B51 100%)' },
             { name: 'Rahul Mehta', location: 'Delhi', text: 'The water dispenser keeps water naturally cool. Delivery was fast and quality exceeded expectations!', stars: 5, initials: 'RM', gradient: 'linear-gradient(135deg, #4A5D44 0%, #6A8263 100%)' },
@@ -523,7 +557,7 @@ export default function MobileApp() {
           ].map((review, idx) => (
             <div
               key={idx}
-              className="flex-shrink-0 w-[260px] rounded-3xl p-5 flex flex-col justify-between"
+              className="flex-shrink-0 w-[260px] rounded-3xl p-5 flex flex-col justify-between first:ml-6 last:mr-6"
               style={{ background: review.gradient, scrollSnapAlign: 'start', minHeight: '210px' }}
             >
               {/* Quote mark */}
@@ -1302,23 +1336,59 @@ export default function MobileApp() {
                       <h3 className="font-serif text-[#1A2E25] text-sm leading-snug mb-1 line-clamp-2 flex-1">{product.name}</h3>
                       <div className="flex items-center justify-between mt-2">
                         <span className="font-medium text-[#1A2E25]">₹{product.price}</span>
-                        <motion.button 
-                          whileTap={{ scale: 0.85 }}
-                          onClick={(e) => { e.stopPropagation(); handleAddToCartAnim(product); }}
-                          className={`flex items-center justify-center w-8 h-8 rounded-full transition-colors ${cart.some(c => c.id === product.id) ? 'bg-[#E8E0D5] text-[#1A2E25]' : 'bg-[#F8F6F2] text-[#0A4736] hover:bg-[#0A4736] hover:text-white'}`}
-                        >
-                          <AnimatePresence mode="wait">
-                            {cart.some(c => c.id === product.id) ? (
-                              <motion.div key="minus" initial={{ scale: 0, rotate: -180 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: 180 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
-                                <Minus className="w-4 h-4" strokeWidth={1.5} />
-                              </motion.div>
-                            ) : (
-                              <motion.div key="plus" initial={{ scale: 0, rotate: 180 }} animate={{ scale: 1, rotate: 0 }} exit={{ scale: 0, rotate: -180 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}>
-                                <Plus className="w-4 h-4" strokeWidth={1.5} />
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </motion.button>
+                        {(() => {
+                          const qty = cart.find(c => c.id === product.id)?.quantity || 0;
+                          return (
+                            <motion.div 
+                              layout
+                              className={`overflow-hidden flex items-center h-8 rounded-full shadow-sm transition-all duration-300 ${qty > 0 ? 'bg-[#E8E0D5] text-[#1A2E25] w-[76px] justify-between px-1' : 'bg-[#F8F6F2] text-[#0A4736] hover:bg-[#0A4736] hover:text-white w-8 justify-center cursor-pointer'}`}
+                              onClick={(e) => {
+                                if (qty === 0) {
+                                  e.stopPropagation();
+                                  handleAddToCartAnim(product);
+                                }
+                              }}
+                            >
+                              <AnimatePresence mode="popLayout">
+                                {qty > 0 ? (
+                                  <motion.div
+                                    key="stepper"
+                                    initial={{ opacity: 0, scale: 0.8 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.8 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="flex items-center justify-between w-full"
+                                  >
+                                    <button 
+                                      className="w-6 h-6 flex items-center justify-center hover:bg-black/10 rounded-full transition-colors"
+                                      onClick={(e) => { e.stopPropagation(); if(navigator.vibrate) navigator.vibrate(50); decreaseQuantity(product.id); }}
+                                    >
+                                      <Minus className="w-3 h-3" strokeWidth={2} />
+                                    </button>
+                                    <span className="font-medium text-xs w-4 text-center">{qty}</span>
+                                    <button 
+                                      className="w-6 h-6 flex items-center justify-center hover:bg-black/10 rounded-full transition-colors"
+                                      onClick={(e) => { e.stopPropagation(); handleAddToCartAnim(product); }}
+                                    >
+                                      <Plus className="w-3 h-3" strokeWidth={2} />
+                                    </button>
+                                  </motion.div>
+                                ) : (
+                                  <motion.div
+                                    key="plus-only"
+                                    initial={{ opacity: 0, scale: 0.8, rotate: 180 }}
+                                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                                    exit={{ opacity: 0, scale: 0.8, rotate: -180 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="flex items-center justify-center w-full h-full"
+                                  >
+                                    <Plus className="w-4 h-4" strokeWidth={1.5} />
+                                  </motion.div>
+                                )}
+                              </AnimatePresence>
+                            </motion.div>
+                          );
+                        })()}
                       </div>
                     </div>
                   </div>
