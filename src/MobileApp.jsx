@@ -81,6 +81,7 @@ export default function MobileApp() {
   });
   const [couponCode, setCouponCode] = useState('');
   const [isCouponApplied, setIsCouponApplied] = useState(false);
+  const [showCouponInput, setShowCouponInput] = useState(false);
 
   // Mobile Track Order States
   const [isTrackOrderOpen, setIsTrackOrderOpen] = useState(false);
@@ -764,30 +765,40 @@ export default function MobileApp() {
                           </div>
 
                           {/* Coupon Code */}
-                          <div className="flex gap-2 mb-5">
-                            <input 
-                              type="text" 
-                              placeholder="Discount code" 
-                              className="flex-1 bg-transparent border border-[#D8D4CC] rounded-lg px-4 py-2.5 text-[14px] focus:outline-none focus:border-[#263228] uppercase transition-colors placeholder:normal-case placeholder:text-gray-400"
-                              value={couponCode}
-                              onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-                              disabled={isCouponApplied}
-                            />
-                            <button 
-                              type="button"
-                              onClick={() => {
-                                if (isCouponApplied) {
-                                  setIsCouponApplied(false);
-                                  setCouponCode('');
-                                } else if (couponCode.length > 2) {
-                                  setIsCouponApplied(true);
-                                }
-                              }}
-                              className={`px-5 py-2.5 rounded-lg text-[13px] font-bold tracking-wide transition-all ${isCouponApplied ? 'bg-gray-100 border border-gray-300 text-gray-600' : 'bg-[#263228] text-white hover:bg-[#1a231c]'}`}
+                          {!showCouponInput && !isCouponApplied ? (
+                            <div 
+                              className="text-[13px] text-[#263228] font-medium cursor-pointer mb-5 underline decoration-1 underline-offset-4 opacity-80 hover:opacity-100 transition-opacity"
+                              onClick={() => setShowCouponInput(true)}
                             >
-                              {isCouponApplied ? 'REMOVE' : 'APPLY'}
-                            </button>
-                          </div>
+                              Have a coupon code?
+                            </div>
+                          ) : (
+                            <div className="flex gap-2 mb-5 animate-fade-in">
+                              <input 
+                                type="text" 
+                                placeholder="Discount code" 
+                                className="flex-1 bg-transparent border border-[#D8D4CC] rounded-lg px-4 py-2.5 text-[14px] focus:outline-none focus:border-[#263228] uppercase transition-colors placeholder:normal-case placeholder:text-gray-400"
+                                value={couponCode}
+                                onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                                disabled={isCouponApplied}
+                              />
+                              <button 
+                                type="button"
+                                onClick={() => {
+                                  if (isCouponApplied) {
+                                    setIsCouponApplied(false);
+                                    setCouponCode('');
+                                    setShowCouponInput(false);
+                                  } else if (couponCode.length > 2) {
+                                    setIsCouponApplied(true);
+                                  }
+                                }}
+                                className={`px-5 py-2.5 rounded-lg text-[13px] font-bold tracking-wide transition-all ${isCouponApplied ? 'bg-gray-100 border border-gray-300 text-gray-600' : 'bg-[#263228] text-white hover:bg-[#1a231c]'}`}
+                              >
+                                {isCouponApplied ? 'REMOVE' : 'APPLY'}
+                              </button>
+                            </div>
+                          )}
 
                           <div className="space-y-2 mb-4 text-[14px] text-gray-500">
                             <div className="flex justify-between">
@@ -845,7 +856,7 @@ export default function MobileApp() {
                                 <span className="text-[15px] text-gray-900 font-medium tracking-wide">Cash on Delivery</span>
                                 <Banknote className={`w-5 h-5 ${paymentMethod === 'cod' ? 'text-[#263228]' : 'text-gray-400'}`} strokeWidth={1.5} />
                               </div>
-                              <span className="text-[11px] font-bold text-gray-500 tracking-wider opacity-80">PAY AT DOORSTEP • <span className="text-[#415a46]">GET 5% OFF ON PREPAID</span></span>
+                              <span className="text-[11px] font-bold text-gray-500 tracking-wider opacity-80">PAY AT YOUR DOORSTEP</span>
                             </div>
                           </div>
                         </div>
