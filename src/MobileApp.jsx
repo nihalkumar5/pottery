@@ -307,10 +307,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
 
   return (
     <div className="mobile-root font-sans bg-background text-primary min-h-screen relative overflow-x-hidden">
-      {/* Announcement Banner */}
-      <div className="bg-[#4A3B32] text-white text-[11px] font-sans tracking-wide text-center py-2 px-4 z-50 relative">
-        First Order above ₹999? Get ₹100 Off! Use code: <span className="font-bold">FIRST100</span>
-      </div>
+
       {/* Sticky Top Navigation */}
       {!selectedProduct && (
         <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${shouldHeaderBeDark ? 'bg-[#F8F6F2]/90 backdrop-blur-md shadow-sm py-4 text-primary' : 'bg-transparent py-6 text-white'}`}>
@@ -435,8 +432,24 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
             <p className="text-secondary text-[10px] leading-snug">100% safe & trusted.</p>
           </div>
         </div>
+        </div>
       </section>
 
+      {/* Offer Section */}
+      <section className="px-6 py-4">
+        <div className="bg-[#4A3B32] rounded-3xl p-6 text-center text-white relative overflow-hidden shadow-lg">
+          <div className="absolute top-0 left-0 w-full h-full bg-[url('/assets/hero-mobile.png')] opacity-10 bg-cover bg-center"></div>
+          <div className="relative z-10">
+            <span className="text-[10px] uppercase tracking-[0.2em] mb-2 block font-medium text-[#E6DEC8]">Special Offer</span>
+            <h2 className="font-serif text-[22px] mb-2 text-[#F8F6F2]">First Order above ₹999?</h2>
+            <p className="text-[13px] opacity-90 mb-5 font-light text-[#EAE6DF]">Get ₹100 Off on your entire handcrafted purchase.</p>
+            <div className="inline-block border border-white/20 rounded-xl px-5 py-2.5 bg-white/10 backdrop-blur-md">
+              <span className="text-[10px] uppercase tracking-wider opacity-80 mr-2">Use Code:</span>
+              <span className="font-bold tracking-wide text-[14px]">FIRST100</span>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* Featured Categories */}
       <section id="shop-section" className="py-16 pl-6">
         <h2 className="font-serif text-3xl mb-8 pr-6">Shop by Category</h2>

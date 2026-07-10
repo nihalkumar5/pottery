@@ -174,10 +174,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
 
   return (
     <div className="desktop-root">
-      {/* Announcement Banner */}
-      <div style={{ backgroundColor: '#4A3B32', color: 'white', textAlign: 'center', padding: '8px 16px', fontSize: '13px', letterSpacing: '0.05em', position: 'relative', zIndex: 100 }}>
-        First Order above ₹999? Get ₹100 Off! Use code: <strong>FIRST100</strong>
-      </div>
+
       <nav className={`navbar ${!isScrolled ? 'transparent' : ''}`}>
         <div 
           className="logo" 
@@ -524,6 +521,21 @@ function DesktopApp({ setCurrentPage, currentPage }) {
         </div>
       </section>
 
+      {/* Offer Section */}
+      <section className="desktop-offer" style={{ padding: '0 5%', marginBottom: '4rem', marginTop: '2rem' }}>
+        <div style={{ backgroundColor: '#4A3B32', borderRadius: '32px', padding: '4rem 2rem', textAlign: 'center', color: 'white', position: 'relative', overflow: 'hidden', boxShadow: '0 10px 30px rgba(74, 59, 50, 0.15)' }}>
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundImage: 'url(/assets/desktop-hero.png)', opacity: 0.15, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.25em', marginBottom: '1rem', display: 'block', fontWeight: 500, color: '#E6DEC8' }}>Exclusive Offer</span>
+            <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '3rem', marginBottom: '1rem', color: '#F8F6F2' }}>First Order above ₹999?</h2>
+            <p style={{ fontSize: '1.1rem', opacity: 0.9, marginBottom: '2.5rem', fontWeight: 300, color: '#EAE6DF' }}>Get ₹100 Off on your entire handcrafted purchase.</p>
+            <div style={{ display: 'inline-block', border: '1px solid rgba(255,255,255,0.2)', borderRadius: '16px', padding: '14px 32px', backgroundColor: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)' }}>
+              <span style={{ fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.1em', opacity: 0.8, marginRight: '16px' }}>Use Code:</span>
+              <span style={{ fontWeight: 'bold', letterSpacing: '0.05em', fontSize: '1.4rem' }}>FIRST100</span>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* Categories Section */}
       <section className="desktop-categories">
         <h2>Shop by Category</h2>
