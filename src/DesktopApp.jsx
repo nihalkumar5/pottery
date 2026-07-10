@@ -400,10 +400,10 @@ function DesktopApp() {
               <div className="w-full aspect-[4/5] relative">
                 <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <button 
-                  onClick={(e) => { e.stopPropagation(); /* toggle wishlist */ }}
-                  className="absolute top-4 right-4 text-gray-500/70 hover:text-red-400 transition-colors p-2"
+                  onClick={(e) => { e.stopPropagation(); addToCart(product); }}
+                  className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm border border-gray-200/50 text-gray-500 hover:text-black transition-colors p-2 rounded-md shadow-sm"
                 >
-                  <Heart className="w-5 h-5" strokeWidth={1.25} />
+                  <Plus className="w-5 h-5" strokeWidth={1.5} />
                 </button>
               </div>
               <div className="p-5 flex items-center justify-between gap-4">
@@ -412,12 +412,6 @@ function DesktopApp() {
                   <span className="font-sans text-[15px] tracking-wide text-gray-700 font-bold whitespace-nowrap">
                     $ {product.price}
                   </span>
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); addToCart(product); }}
-                    className="text-gray-400 hover:text-[#D06C47] transition-colors"
-                  >
-                    <Plus className="w-5 h-5" strokeWidth={1.5} />
-                  </button>
                 </div>
               </div>
             </div>

@@ -247,10 +247,10 @@ export default function MobileApp() {
               <div className="w-full aspect-[4/5] relative">
                 <img src={item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <button 
-                  onClick={(e) => { e.stopPropagation(); /* toggle wishlist */ }}
-                  className="absolute top-3 right-3 text-gray-500/70 hover:text-red-400 transition-colors p-2"
+                  onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
+                  className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm border border-gray-200/50 text-gray-500 hover:text-black transition-colors p-1.5 rounded-md shadow-sm"
                 >
-                  <Heart className="w-4 h-4" strokeWidth={1.25} />
+                  <Plus className="w-4 h-4" strokeWidth={1.5} />
                 </button>
               </div>
               <div className="p-3 flex items-center justify-between gap-2">
@@ -259,12 +259,6 @@ export default function MobileApp() {
                   <span className="font-sans text-[13px] tracking-wide text-gray-700 font-bold whitespace-nowrap">
                     $ {item.price}
                   </span>
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
-                    className="text-gray-400 hover:text-[#D06C47] transition-colors"
-                  >
-                    <Plus className="w-4 h-4" strokeWidth={1.5} />
-                  </button>
                 </div>
               </div>
             </div>
