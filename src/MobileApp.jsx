@@ -603,7 +603,7 @@ export default function MobileApp() {
             <div className="p-6 pb-2 flex flex-col bg-[#F8F6F2]/90 backdrop-blur sticky top-0 z-10">
               <div className="flex justify-between items-center mb-4">
                 <h1 className="font-serif text-[38px] font-semibold tracking-tight text-[#263228] flex items-center gap-3">
-                  <Leaf className="w-8 h-8 text-[#263228]" strokeWidth={1.5} />
+                  <ShoppingBag className="w-8 h-8 text-[#263228]" strokeWidth={1.5} />
                   Checkout
                 </h1>
                 <button onClick={() => { setIsCheckoutOpen(false); setCheckoutStep(1); }} className="p-2 bg-transparent rounded-full hover:bg-black/5 transition-colors">
