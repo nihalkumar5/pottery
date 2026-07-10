@@ -679,13 +679,13 @@ export default function MobileApp() {
                   <div className="px-5 py-4 space-y-8">
                     {/* Step 1: Shipping Details */}
                     {checkoutStep === 1 && (
-                      <div className="space-y-10 animate-fade-in pb-4 px-2">
-                        <div className="text-center py-4 bg-[#263228] mb-10 -mx-7 shadow-inner">
+                      <div className="space-y-8 animate-fade-in pb-4 px-2">
+                        <div className="text-center py-4 bg-[#263228] mb-8 -mx-7 shadow-inner">
                           <h2 className="font-serif text-[28px] text-[#F8F6F2] tracking-wide">Clay & Craft</h2>
                         </div>
                         <section>
-                          <h3 className="font-serif text-[22px] text-[#263228] mb-8 border-b border-[#E8E2D8] pb-3">Contact Information</h3>
-                          <div className="flex flex-col gap-10">
+                          <h3 className="font-serif text-[22px] text-[#263228] mb-6 border-b border-[#E8E2D8] pb-3">Contact Information</h3>
+                          <div className="flex flex-col gap-6">
                             <div className="relative group">
                               <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">Email</label>
                               <input type="email" name="email" required className="w-full bg-transparent border-0 border-b border-[#E8E2D8] px-0 pb-2 focus:ring-0 focus:border-[#263228] transition-all text-[16px] text-[#263228] shadow-none" value={formData.email} onChange={handleInputChange} />
@@ -697,9 +697,9 @@ export default function MobileApp() {
                           </div>
                         </section>
                         
-                        <section className="pt-4">
-                          <h3 className="font-serif text-[22px] text-[#263228] mb-8 border-b border-[#E8E2D8] pb-3">Shipping Address</h3>
-                          <div className="flex flex-col gap-10">
+                        <section className="pt-2">
+                          <h3 className="font-serif text-[22px] text-[#263228] mb-6 border-b border-[#E8E2D8] pb-3">Shipping Address</h3>
+                          <div className="flex flex-col gap-6">
                             <div className="flex gap-6">
                               <div className="relative group w-1/2">
                                 <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">First Name</label>
