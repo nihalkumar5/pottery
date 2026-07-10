@@ -53,6 +53,10 @@ function DesktopApp({ setCurrentPage, currentPage }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const featuredProducts = useMemo(() => {
+    return [...products].sort(() => 0.5 - Math.random()).slice(0, 4);
+  }, [products]);
+
   // Checkout States
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState(1);
@@ -548,23 +552,25 @@ function DesktopApp({ setCurrentPage, currentPage }) {
           <a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('shop'); window.scrollTo(0, 0); }} style={{color: 'var(--color-accent)', textDecoration: 'none'}}>View All</a>
         </div>
         <div className="product-grid">
-          {[...products].sort(() => 0.5 - Math.random()).slice(0, 4).map(product => (
+          {featuredProducts.map(product => (
             <div 
               key={product.id} 
-              className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow pb-5"
+              className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow pb-5 h-full"
               onClick={() => {
                 // optional: go to product detail if we had one
                 // for now just add to cart or keep as is
               }}
             >
-              <div className="w-full aspect-[4/5] relative">
+              <div className="w-full aspect-[4/5] relative shrink-0">
                 <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
               </div>
-              <div className="px-5 pt-4 flex flex-col gap-1.5">
-                <h4 className="font-serif text-[18px] font-bold text-[#1A2E25] leading-snug truncate">{product.name}</h4>
-                <p className="font-sans text-[13px] text-gray-500">Handcrafted ceramic piece</p>
+              <div className="px-5 pt-4 flex flex-col flex-grow gap-1.5 justify-between">
+                <div>
+                  <h4 className="font-serif text-[18px] font-bold text-[#1A2E25] leading-snug line-clamp-2">{product.name}</h4>
+                  <p className="font-sans text-[13px] text-gray-500">Handcrafted ceramic piece</p>
+                </div>
                 
-                <div className="flex items-center justify-between mt-3">
+                <div className="flex items-center justify-between mt-auto pt-3">
                   <div className="flex items-center gap-2">
                     <span className="font-sans text-[17px] font-bold text-[#1A2E25]">
                       ₹{product.price}
