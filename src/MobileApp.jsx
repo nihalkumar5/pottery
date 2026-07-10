@@ -144,10 +144,10 @@ export default function MobileApp() {
         <img src="/assets/hero-mobile.png" alt="Handcrafted Pottery" className="absolute inset-0 w-full h-full object-cover" />
         {/* Removed gradient overlay to keep it full opacity and natural */}
         
-        <div className="relative z-10 px-8 pt-32 text-[#EAE6DF] text-left h-full flex flex-col justify-start">
+        <div className="relative z-10 px-8 pt-48 text-[#EAE6DF] text-left h-full flex flex-col justify-start">
           <motion.span 
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
-            className="text-[9px] font-thin uppercase tracking-[0.35em] text-white/90 mb-3 block"
+            className="text-[9px] font-thin uppercase tracking-[0.35em] text-white/90 mb-1 block"
           >
             New Collection
           </motion.span>

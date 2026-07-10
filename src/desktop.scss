@@ -42,6 +42,16 @@
   backdrop-filter: none;
 }
 
+.navbar.transparent .logo,
+.navbar.transparent .nav-links a,
+.navbar.transparent .cart-icon {
+  color: var(--color-white);
+}
+
+.navbar.transparent .nav-links a::after {
+  background-color: var(--color-white);
+}
+
 .logo {
   font-size: 1.5rem;
   font-weight: 600;
