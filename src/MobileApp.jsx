@@ -140,7 +140,7 @@ export default function MobileApp() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative h-[85vh] w-full overflow-hidden">
+      <section className="relative h-[100vh] w-full overflow-hidden">
         <img src="/assets/hero-mobile.png" alt="Handcrafted Pottery" className="absolute inset-0 w-full h-full object-cover" />
         {/* Removed gradient overlay to keep it full opacity and natural */}
         
