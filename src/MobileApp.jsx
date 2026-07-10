@@ -592,12 +592,12 @@ export default function MobileApp() {
           <motion.div 
             initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-[#EAE6DF] z-50 flex flex-col"
+            className="fixed inset-0 bg-gradient-to-b from-[#F7F4EF] to-[#F3EEE7] z-50 flex flex-col"
           >
-            <div className="p-6 pb-4 flex flex-col bg-[#EAE6DF] sticky top-0 z-10 border-b border-[#D8D4CC]">
+            <div className="p-6 pb-4 flex flex-col bg-[#F7F4EF]/90 backdrop-blur sticky top-0 z-10 border-b border-[#D8D4CC]">
               <div className="flex justify-between items-center mb-6">
-                <h1 className="font-serif text-[1.6rem] font-bold tracking-wide text-gray-900">Checkout</h1>
-                <button onClick={() => { setIsCheckoutOpen(false); setCheckoutStep(1); }} className="p-2 bg-[#D8D4CC]/50 rounded-full hover:bg-[#D8D4CC] transition-colors">
+                <h1 className="font-serif text-[32px] font-bold tracking-wide text-gray-900">Checkout</h1>
+                <button onClick={() => { setIsCheckoutOpen(false); setCheckoutStep(1); }} className="p-2 bg-white/50 rounded-full hover:bg-white border border-[#D8D4CC]/50 transition-colors">
                   <X className="w-5 h-5 text-gray-800" />
                 </button>
               </div>
@@ -675,7 +675,22 @@ export default function MobileApp() {
                 <form onSubmit={handleNextStep} className="flex flex-col">
                   {/* Premium Order Summary Card */}
                   <div className="mx-5 mt-4 mb-2 bg-white rounded-3xl p-5 shadow-sm border border-[#E5E0D8]">
-                    <h3 className="font-serif text-[18px] text-gray-800 mb-3 border-b border-gray-100 pb-3">Order Summary</h3>
+                    <h3 className="font-serif text-[22px] text-gray-800 mb-4 border-b border-gray-100 pb-3">Order Summary</h3>
+                    
+                    {/* Product Preview */}
+                    <div className="space-y-4 mb-4 pb-4 border-b border-gray-100">
+                      {cart.map((item, idx) => (
+                        <div key={idx} className="flex gap-3 items-center">
+                          <img src={item.image} alt={item.name} className="w-12 h-12 rounded-xl object-cover bg-[#F8F5F1]" />
+                          <div className="flex-1">
+                            <h4 className="font-sans text-[15px] text-gray-900 font-bold">{item.name}</h4>
+                            <p className="text-[13px] text-gray-500 font-medium">Qty: {item.quantity}</p>
+                          </div>
+                          <span className="font-bold text-[15px] text-gray-900">₹{(item.price * item.quantity).toFixed(2)}</span>
+                        </div>
+                      ))}
+                    </div>
+
                     <div className="space-y-2 mb-3">
                       <div className="flex justify-between text-[14px] text-gray-600">
                         <span>Subtotal</span>
@@ -701,20 +716,20 @@ export default function MobileApp() {
                     {checkoutStep === 1 && (
                       <div className="space-y-8 animate-fade-in">
                         <section>
-                          <h3 className="font-serif text-[18px] text-gray-800 mb-4 ml-1">Contact Information</h3>
+                          <h3 className="font-serif text-[22px] text-gray-800 mb-4 ml-1">Contact Information</h3>
                           <div className="bg-[#F5F3ED] p-5 rounded-3xl shadow-sm border border-[#D8D4CC] flex flex-col gap-4">
                             <div className="relative">
                               <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Email Address</label>
-                              <input type="email" name="email" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.email} onChange={handleInputChange} />
+                              <input type="email" name="email" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-white/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.email} onChange={handleInputChange} />
                             </div>
                             <div className="relative">
                               <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Phone Number</label>
-                              <input type="tel" name="phone" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.phone} onChange={handleInputChange} />
+                              <input type="tel" name="phone" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-white/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.phone} onChange={handleInputChange} />
                             </div>
                           </div>
                         </section>
                         <section>
-                          <h3 className="font-serif text-[18px] text-gray-800 mb-4 ml-1">Shipping Details</h3>
+                          <h3 className="font-serif text-[22px] text-gray-800 mb-4 ml-1">Shipping Details</h3>
                           <div className="bg-[#F5F3ED] p-5 rounded-3xl shadow-sm border border-[#D8D4CC] flex flex-col gap-4">
                             <div className="flex gap-4">
                               <div className="relative w-1/2">
@@ -748,43 +763,44 @@ export default function MobileApp() {
                     {/* Step 2: Payment */}
                     {checkoutStep === 2 && (
                       <div className="space-y-5 animate-fade-in">
-                        <div className="mb-4">
+                        <div className="mb-2">
                           <h3 className="font-serif text-[22px] text-gray-800 mb-1">Select Payment Method</h3>
-                          <p className="text-gray-500 text-[13px] italic flex items-start gap-1.5 leading-relaxed">
-                            <Heart className="w-3.5 h-3.5 fill-[#8C7A6B] text-[#8C7A6B] shrink-0 mt-1" />
-                            Every order is carefully packed by our artisans to ensure it reaches you safely.
-                          </p>
                         </div>
                         
                         <div 
                           onClick={() => setPaymentMethod('upi')}
-                          className={`p-5 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex items-center gap-4 hover:shadow-md ${paymentMethod === 'upi' ? 'border-[#415a46] bg-white shadow-md' : 'border-transparent bg-[#F5F3ED] hover:bg-white'}`}
+                          className={`p-5 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex items-center gap-4 hover:shadow-md ${paymentMethod === 'upi' ? 'border-[#415a46] bg-white shadow-md' : 'border-transparent bg-white/60 hover:bg-white'}`}
                         >
-                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${paymentMethod === 'upi' ? 'border-[#415a46]' : 'border-gray-400'}`}>
+                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${paymentMethod === 'upi' ? 'border-[#415a46]' : 'border-gray-300'}`}>
                             {paymentMethod === 'upi' && <div className="w-3 h-3 bg-[#415a46] rounded-full"></div>}
                           </div>
                           <div className="flex-1">
                             <div className="flex items-center justify-between">
-                              <p className="font-bold text-[16px] text-gray-900">UPI / Online Payment</p>
+                              <p className="font-bold text-[18px] text-gray-900">UPI / Cards</p>
                               <Smartphone className={`w-5 h-5 ${paymentMethod === 'upi' ? 'text-[#415a46]' : 'text-gray-400'}`} />
                             </div>
-                            <p className="text-gray-500 text-[13px] mt-0.5">GPay, PhonePe, Paytm, Cards</p>
+                            <div className="flex items-center gap-1.5 mt-2.5 opacity-70">
+                              <span className="text-[10px] font-bold border border-gray-400 px-1.5 py-0.5 rounded uppercase tracking-widest">GPay</span>
+                              <span className="text-[10px] font-bold border border-gray-400 px-1.5 py-0.5 rounded uppercase tracking-widest">PhonePe</span>
+                              <span className="text-[10px] font-bold border border-gray-400 px-1.5 py-0.5 rounded uppercase tracking-widest">Paytm</span>
+                              <span className="text-[10px] font-bold border border-gray-400 px-1.5 py-0.5 rounded uppercase tracking-widest">Visa</span>
+                            </div>
                           </div>
                         </div>
 
                         <div 
                           onClick={() => setPaymentMethod('cod')}
-                          className={`p-5 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex items-center gap-4 hover:shadow-md ${paymentMethod === 'cod' ? 'border-[#415a46] bg-white shadow-md' : 'border-transparent bg-[#F5F3ED] hover:bg-white'}`}
+                          className={`p-5 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex items-center gap-4 hover:shadow-md ${paymentMethod === 'cod' ? 'border-[#415a46] bg-white shadow-md' : 'border-transparent bg-white/60 hover:bg-white'}`}
                         >
-                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${paymentMethod === 'cod' ? 'border-[#415a46]' : 'border-gray-400'}`}>
+                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${paymentMethod === 'cod' ? 'border-[#415a46]' : 'border-gray-300'}`}>
                             {paymentMethod === 'cod' && <div className="w-3 h-3 bg-[#415a46] rounded-full"></div>}
                           </div>
                           <div className="flex-1">
                             <div className="flex items-center justify-between">
-                              <p className="font-bold text-[16px] text-gray-900">Cash on Delivery</p>
+                              <p className="font-bold text-[18px] text-gray-900">Cash on Delivery</p>
                               <Banknote className={`w-5 h-5 ${paymentMethod === 'cod' ? 'text-[#415a46]' : 'text-gray-400'}`} />
                             </div>
-                            <p className="text-gray-500 text-[13px] mt-0.5">Pay when your order arrives</p>
+                            <p className="text-gray-500 text-[13px] mt-1">Pay when your order arrives</p>
                           </div>
                         </div>
 
@@ -820,15 +836,22 @@ export default function MobileApp() {
                   </div>
 
                   {/* Sticky Checkout Button */}
-                  <div className="fixed bottom-0 left-0 w-full bg-[#EAE6DF]/90 backdrop-blur-md p-5 border-t border-[#D8D4CC] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] z-20">
-                    <div className="flex gap-4">
+                  <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-[#F3EEE7] via-[#F3EEE7]/95 to-transparent pt-12 pb-6 px-5 z-20">
+                    <p className="text-[13px] text-gray-600/90 font-medium text-center mb-4 flex items-center justify-center gap-1.5 italic">
+                      ♡ Packed carefully by artisans
+                    </p>
+                    <div className="flex gap-3">
                       {checkoutStep > 1 && (
-                        <button type="button" onClick={() => setCheckoutStep(prev => prev - 1)} className="px-6 bg-white border border-[#D8D4CC] text-gray-800 py-4 rounded-2xl font-sans font-bold tracking-wide shadow-sm hover:bg-gray-50 transition-colors">
+                        <button type="button" onClick={() => setCheckoutStep(prev => prev - 1)} className="px-6 bg-white border border-[#D8D4CC] text-gray-800 h-[64px] rounded-[18px] font-sans font-bold tracking-wide shadow-sm hover:bg-gray-50 transition-colors">
                           BACK
                         </button>
                       )}
-                      <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#415a46] text-white py-4 rounded-2xl font-sans font-bold tracking-wide shadow-lg hover:bg-[#2f4233] transition-colors flex justify-center items-center gap-2">
-                        {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? `Secure Checkout • ₹${cartTotal.toFixed(2)}` : 'CONTINUE'}
+                      <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#415a46] text-white h-[64px] rounded-[18px] font-sans font-bold tracking-wide shadow-lg shadow-[#415a46]/20 hover:bg-[#2f4233] transition-colors flex justify-center items-center gap-2">
+                        {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? (
+                          <>
+                            <Lock className="w-4 h-4 opacity-80" /> Secure Checkout • ₹{cartTotal.toFixed(2)}
+                          </>
+                        ) : 'CONTINUE'}
                       </button>
                     </div>
                   </div>
