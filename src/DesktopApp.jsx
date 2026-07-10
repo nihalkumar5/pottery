@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useShop } from './ShopContext';
 import { ArrowRight, Heart, Plus, Minus, ShoppingBag, User, Truck, ShieldCheck } from 'lucide-react';
 
-function DesktopApp() {
+function DesktopApp({ setCurrentPage }) {
   const { products, cart, addToCart, removeFromCart, decreaseQuantity, cartItemCount, cartTotal, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -544,21 +544,20 @@ function DesktopApp() {
           </div>
           <div className="premium-footer-links-wrapper">
             <div className="premium-footer-links">
-              <h3>Shop</h3>
+              <h3>Legal</h3>
               <ul>
-                <li><a href="#">All Collections</a></li>
-                <li><a href="#">Tableware</a></li>
-                <li><a href="#">Vases</a></li>
-                <li><a href="#">Gifts</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('Privacy Policy'); window.scrollTo(0, 0); }}>Privacy Policy</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('Terms And Conditions'); window.scrollTo(0, 0); }}>Terms & Conditions</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('Refund And Cancellation'); window.scrollTo(0, 0); }}>Refund & Cancellation</a></li>
               </ul>
             </div>
             <div className="premium-footer-links">
               <h3>Support</h3>
               <ul>
                 <li><a href="#" onClick={(e) => { e.preventDefault(); user ? setIsAuthOpen(true) : openTrackOrder(); }}>Track Order</a></li>
-                <li><a href="#">Shipping & Returns</a></li>
-                <li><a href="#">Care Guide</a></li>
-                <li><a href="#">Contact Us</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('Shipping And Delivery'); window.scrollTo(0, 0); }}>Shipping & Delivery</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('About Us'); window.scrollTo(0, 0); }}>About Us</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('Contact Us'); window.scrollTo(0, 0); }}>Contact Us</a></li>
               </ul>
             </div>
           </div>

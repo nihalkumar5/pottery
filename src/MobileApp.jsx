@@ -26,7 +26,7 @@ const REVIEWS = [
   { id: 3, name: 'Elena R.', text: 'Perfectly balanced plates that make every dinner feel special.', rating: 5 },
 ];
 
-export default function MobileApp() {
+export default function MobileApp({ setCurrentPage }) {
   const { products, cart, addToCart, removeFromCart, decreaseQuantity, cartTotal, cartItemCount, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register, toggleWishlist, isInWishlist, wishlist } = useShop();
   
   const [isScrolled, setIsScrolled] = useState(false);
@@ -638,21 +638,20 @@ export default function MobileApp() {
 
         <div className="grid grid-cols-2 gap-8 mb-16">
           <div>
-            <h3 className="text-xs uppercase tracking-[0.2em] font-semibold mb-6 text-white/50">Shop</h3>
+            <h3 className="text-xs uppercase tracking-[0.2em] font-semibold mb-6 text-white/50">Legal</h3>
             <ul className="flex flex-col gap-4 text-sm list-none p-0 m-0">
-              <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light">All Collections</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light">Tableware</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light">Vases</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light">Gifts</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('Privacy Policy'); window.scrollTo(0, 0); }} className="text-white/80 hover:text-white transition-colors no-underline font-light">Privacy Policy</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('Terms And Conditions'); window.scrollTo(0, 0); }} className="text-white/80 hover:text-white transition-colors no-underline font-light">Terms & Conditions</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('Refund And Cancellation'); window.scrollTo(0, 0); }} className="text-white/80 hover:text-white transition-colors no-underline font-light">Refund & Cancellation</a></li>
             </ul>
           </div>
           <div>
             <h3 className="text-xs uppercase tracking-[0.2em] font-semibold mb-6 text-white/50">Support</h3>
             <ul className="flex flex-col gap-4 text-sm list-none p-0 m-0">
               <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light" onClick={(e) => { e.preventDefault(); user ? setIsProfileOpen(true) : setIsTrackOrderOpen(true); }}>Track Order</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light">Shipping & Returns</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light">Care Guide</a></li>
-              <li><a href="#" className="text-white/80 hover:text-white transition-colors no-underline font-light">Contact Us</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('Shipping And Delivery'); window.scrollTo(0, 0); }} className="text-white/80 hover:text-white transition-colors no-underline font-light">Shipping & Delivery</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('About Us'); window.scrollTo(0, 0); }} className="text-white/80 hover:text-white transition-colors no-underline font-light">About Us</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('Contact Us'); window.scrollTo(0, 0); }} className="text-white/80 hover:text-white transition-colors no-underline font-light">Contact Us</a></li>
             </ul>
           </div>
         </div>
