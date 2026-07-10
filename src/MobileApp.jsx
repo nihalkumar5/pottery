@@ -714,38 +714,47 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
             <div className="flex flex-col gap-10 mt-8">
               <motion.a 
                 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1, duration: 0.5 }}
-                href="#shop" 
+                href="#home" 
                 className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
-                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); document.getElementById('shop-section')?.scrollIntoView({behavior: 'smooth'}); }}
+                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); setCurrentPage('home'); window.scrollTo(0, 0); }}
               >
                 <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">01</span>
-                Shop
+                Home
               </motion.a>
               <motion.a 
                 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2, duration: 0.5 }}
+                href="#shop" 
+                className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
+                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); setIsShopOpen(true); }}
+              >
+                <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">02</span>
+                Shop
+              </motion.a>
+              <motion.a 
+                initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.5 }}
                 href="#track" 
                 className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
                 onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); user ? setIsProfileOpen(true) : setIsTrackOrderOpen(true); }}
               >
-                <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">02</span>
+                <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">03</span>
                 Track Order
               </motion.a>
               <motion.a 
-                initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.5 }}
+                initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4, duration: 0.5 }}
                 href="#story" 
                 className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
                 onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); setCurrentPage('About Us'); window.scrollTo(0,0); }}
               >
-                <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">03</span>
+                <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">04</span>
                 Our Story
               </motion.a>
               <motion.a 
-                initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4, duration: 0.5 }}
+                initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5, duration: 0.5 }}
                 href="#contact" 
                 className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
                 onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); setCurrentPage('Contact Us'); window.scrollTo(0,0); }}
               >
-                <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">04</span>
+                <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">05</span>
                 Contact
               </motion.a>
             </div>
