@@ -9,19 +9,19 @@ const auth = Buffer.from(`${ck}:${cs}`).toString('base64');
 const headers = { 'Authorization': `Basic ${auth}` };
 
 const productsToAdd = [
-  { name: 'Heritage Terracotta Drinkware', category: 'Glasses & Tumblers', price: '249', description: 'Experience the essence of tradition.' },
-  { name: 'Artisan Brick Pattern Mug', category: 'Mugs', price: '199', description: 'A beautifully textured brick pattern mug.' },
-  { name: 'Rustic Tombol Coffee Mug', category: 'Mugs', price: '229', description: 'Start your morning right with this earthy Tombol textured coffee mug.' },
-  { name: 'Classic Earthen Tea Cup Set (6 pcs)', category: 'Tea Sets', price: '249', description: 'A complete set of 6 traditional terracotta tea cups.' },
-  { name: 'Premium Terracotta Chai Set (6 pcs)', category: 'Tea Sets', price: '249', description: 'Elevate your tea time with this premium set of 6 handcrafted cups.' },
-  { name: 'Textured Brick Tea Cup Set (6 pcs)', category: 'Tea Sets', price: '249', description: 'A stunning set of 6 tea cups featuring our signature brick texture.' },
-  { name: 'Minimalist Terracotta Tea Set (6 pcs)', category: 'Tea Sets', price: '249', description: 'Clean lines and a minimalist profile define this 6-piece tea cup set.' },
-  { name: 'Modern Earthen Tea Cups (6 pcs)', category: 'Tea Sets', price: '249', description: 'A beautifully balanced 6-piece tea cup set.' },
-  { name: 'Natural Cooling Terracotta Bottle', category: 'Water Bottles', price: '179', description: 'Stay hydrated naturally.' },
-  { name: 'Heritage Terracotta Surahi', category: 'Serveware', regular_price: '450', sale_price: '299', price: '299', description: 'Traditional handcrafted Surahi designed to keep your water naturally cool.' },
-  { name: 'Artisan Temple Bell', category: 'Spiritual Collection', regular_price: '300', sale_price: '199', price: '199', description: 'A beautiful handcrafted bell.' },
-  { name: 'Terracotta Jug (Small)', category: 'Serveware', price: '149', description: 'A perfectly sized small jug.' },
-  { name: 'Terracotta Jug (Big)', category: 'Serveware', price: '249', description: 'A large, elegant terracotta jug.' }
+  { name: 'Heritage Terracotta Drinkware', category: 'Glasses & Tumblers', regular_price: '399', sale_price: '249', description: 'Experience the essence of tradition.' },
+  { name: 'Artisan Brick Pattern Mug', category: 'Mugs', regular_price: '349', sale_price: '199', description: 'A beautifully textured brick pattern mug.' },
+  { name: 'Rustic Tombol Coffee Mug', category: 'Mugs', regular_price: '399', sale_price: '229', description: 'Start your morning right with this earthy Tombol textured coffee mug.' },
+  { name: 'Classic Earthen Tea Cup Set (6 pcs)', category: 'Tea Sets', regular_price: '599', sale_price: '349', description: 'A complete set of 6 traditional terracotta tea cups.' },
+  { name: 'Premium Terracotta Chai Set (6 pcs)', category: 'Tea Sets', regular_price: '599', sale_price: '349', description: 'Elevate your tea time with this premium set of 6 handcrafted cups.' },
+  { name: 'Textured Brick Tea Cup Set (6 pcs)', category: 'Tea Sets', regular_price: '649', sale_price: '379', description: 'A stunning set of 6 tea cups featuring our signature brick texture.' },
+  { name: 'Minimalist Terracotta Tea Set (6 pcs)', category: 'Tea Sets', regular_price: '549', sale_price: '299', description: 'Clean lines and a minimalist profile define this 6-piece tea cup set.' },
+  { name: 'Modern Earthen Tea Cups (6 pcs)', category: 'Tea Sets', regular_price: '599', sale_price: '349', description: 'A beautifully balanced 6-piece tea cup set.' },
+  { name: 'Natural Cooling Terracotta Bottle', category: 'Water Bottles', regular_price: '349', sale_price: '199', description: 'Stay hydrated naturally.' },
+  { name: 'Heritage Terracotta Surahi', category: 'Serveware', regular_price: '599', sale_price: '399', description: 'Traditional handcrafted Surahi designed to keep your water naturally cool.' },
+  { name: 'Artisan Temple Bell', category: 'Spiritual Collection', regular_price: '399', sale_price: '249', description: 'A beautiful handcrafted bell.' },
+  { name: 'Terracotta Jug (Small)', category: 'Serveware', regular_price: '299', sale_price: '179', description: 'A perfectly sized small jug.' },
+  { name: 'Terracotta Jug (Big)', category: 'Serveware', regular_price: '499', sale_price: '299', description: 'A large, elegant terracotta jug.' }
 ];
 
 async function run() {
@@ -49,17 +49,26 @@ async function run() {
     const neededCategories = [...new Set(productsToAdd.map(p => p.category))];
     
     for (const catName of neededCategories) {
-      if (!categories.find(c => c.name === catName)) {
+      let existingCat = categories.find(c => c.name === catName || c.name === catName.replace('&', '&amp;'));
+      if (!existingCat) {
         console.log(`Creating category: ${catName}`);
-        const newCatRes = await axios.post(`${baseUrl}/products/categories`, { name: catName }, { headers });
-        categories.push(newCatRes.data);
+        try {
+          const newCatRes = await axios.post(`${baseUrl}/products/categories`, { name: catName }, { headers });
+          categories.push(newCatRes.data);
+        } catch (e) {
+          if (e.response?.data?.code === 'term_exists') {
+            categories.push({ id: e.response.data.data.resource_id, name: catName });
+          } else {
+            throw e;
+          }
+        }
       }
     }
 
     // 3. Add products
     for (const p of productsToAdd) {
       console.log(`Adding ${p.name}...`);
-      const catObj = categories.find(c => c.name === p.category);
+      const catObj = categories.find(c => c.name === p.category || c.name === p.category.replace('&', '&amp;'));
       await axios.post(`${baseUrl}/products`, {
         name: p.name,
         type: 'simple',

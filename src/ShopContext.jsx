@@ -94,7 +94,17 @@ export const ShopProvider = ({ children }) => {
           name: wpProduct.name,
           price: parseFloat(wpProduct.price || 0),
           regular_price: parseFloat(wpProduct.regular_price) || parseFloat(wpProduct.price || 0),
-          image: wpProduct.images.length > 0 ? wpProduct.images[0].src : '/assets/vase.png',
+          image: wpProduct.images.length > 0 ? wpProduct.images[0].src : (
+            wpProduct.name.includes('Drinkware') ? '/assets/p4-clay-glass.png' :
+            wpProduct.name.includes('Surahi') ? '/assets/sc2.png' :
+            wpProduct.name.includes('Bell') ? '/assets/sc2.png' :
+            wpProduct.name.includes('Jug') ? '/assets/serb.png' :
+            wpProduct.name.includes('Brick') ? '/assets/p1-brick-mug.png' :
+            wpProduct.name.includes('Tombol') ? '/assets/p2-tall-coffee-mug.png' :
+            wpProduct.name.includes('Tea Cup') || wpProduct.name.includes('Chai Set') || wpProduct.name.includes('Tea Cups') ? '/assets/drink.png' :
+            wpProduct.name.includes('Bottle') ? '/assets/waterbottle.png' :
+            '/assets/vase.png'
+          ),
           images: wpProduct.images.length > 0 ? wpProduct.images.map(img => img.src) : ['/assets/vase.png'],
           description: wpProduct.short_description ? wpProduct.short_description.replace(/<[^>]*>?/gm, '') : (wpProduct.description ? wpProduct.description.replace(/<[^>]*>?/gm, '') : 'Handcrafted ceramic piece'),
           rating: wpProduct.average_rating || 5.0,
