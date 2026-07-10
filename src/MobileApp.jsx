@@ -677,10 +677,7 @@ export default function MobileApp() {
                     {/* Step 1: Shipping Details */}
                     {checkoutStep === 1 && (
                       <div className="space-y-10 animate-fade-in pb-4 px-2">
-                        <div className="text-center pt-2">
-                          <h2 className="font-serif text-[28px] text-[#263228] mb-2 leading-tight">Complete your order</h2>
-                          <p className="text-[#7A746D] text-[16px]">Your handcrafted pottery is almost home.</p>
-                        </div>                        <section>
+                        <section>
                           <h3 className="font-serif text-[22px] text-[#263228] mb-8 border-b border-[#E8E2D8] pb-3">Contact Information</h3>
                           <div className="flex flex-col gap-10">
                             <div className="relative group">
