@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useShop } from './ShopContext';
+import { ArrowRight } from 'lucide-react';
 
 function DesktopApp() {
   const { products, cart, addToCart, removeFromCart, cartTotal, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
@@ -12,6 +13,16 @@ function DesktopApp() {
   const [authForm, setAuthForm] = useState({ username: '', email: '', password: '' });
   const [authError, setAuthError] = useState('');
   const [isAuthLoading, setIsAuthLoading] = useState(false);
+
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Checkout States
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -126,7 +137,7 @@ function DesktopApp() {
 
   return (
     <div className="desktop-root">
-      <nav className="navbar">
+      <nav className={`navbar ${!isScrolled ? 'transparent' : ''}`}>
         <div className="logo" style={{ textTransform: 'none', fontWeight: 300, letterSpacing: '0.05em', fontSize: '1.5rem' }}>
           Clay & Craft
         </div>
@@ -364,9 +375,13 @@ function DesktopApp() {
         </video>
         <div className="hero-overlay"></div>
         <div className="hero-content">
-          <h1>Formed by Earth.<br/>Finished by Hand.</h1>
-          <p>Discover our new collection of minimalist, handcrafted ceramics designed to elevate your everyday rituals.</p>
-          <button className="btn-primary">Shop the Collection</button>
+          <span className="hero-subtitle">New Collection</span>
+          <h1>Timeless<br/>Tradition</h1>
+          <div className="hero-divider"></div>
+          <p>Handcrafted clay pieces,<br/>rooted in culture,<br/>made for today.</p>
+          <button className="btn-primary" onClick={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })}>
+            Explore Collection <ArrowRight size={16} strokeWidth={1.5} />
+          </button>
         </div>
       </header>
 

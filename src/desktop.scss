@@ -34,7 +34,12 @@
   width: 100%;
   top: 0;
   z-index: 100;
-  transition: var(--transition);
+  transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+.navbar.transparent {
+  background: transparent;
+  backdrop-filter: none;
 }
 
 .logo {
@@ -86,25 +91,23 @@
 /* Hero Section */
 .hero {
   position: relative;
+  z-index: 0;
   height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
+  justify-content: flex-start;
+  text-align: left;
   color: var(--color-white);
-  padding: 0 2rem;
+  padding: 0 8%;
   overflow: hidden;
 }
 
 .hero-video {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  transform: translateX(-50%) translateY(-50%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   z-index: -2;
 }
@@ -115,12 +118,12 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0) 100%);
   z-index: -1;
 }
 
 .hero-content {
-  max-width: 800px;
+  max-width: 550px;
   opacity: 0;
   transform: translateY(30px);
   animation: fadeInUp 1s forwards 0.3s;
@@ -133,20 +136,58 @@
   }
 }
 
-.hero h1 {
-  font-size: 4.5rem;
+.hero-subtitle {
+  font-size: 0.8rem;
   font-weight: 300;
-  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  opacity: 0.9;
+  margin-bottom: 1.2rem;
+  display: block;
+}
+
+.hero h1 {
+  font-family: var(--font-serif);
+  font-size: 6rem;
+  font-weight: 100;
   margin-bottom: 1.5rem;
-  letter-spacing: -1px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.hero-divider {
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(to right, #D06C47, transparent);
+  margin-bottom: 2rem;
 }
 
 .hero p {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 300;
-  margin-bottom: 2.5rem;
-  max-width: 600px;
-  margin-inline: auto;
+  opacity: 0.9;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+}
+
+.hero .btn-primary {
+  background-color: #D3CAB6;
+  color: #3A332C;
+  border: none;
+  border-radius: 999px;
+  padding: 1.25rem 2.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: background-color 0.3s;
+}
+
+.hero .btn-primary:hover {
+  background-color: #c4baa4;
 }
 
 .btn-primary {

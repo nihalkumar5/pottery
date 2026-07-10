@@ -140,31 +140,38 @@ export default function MobileApp() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative h-[85vh] w-full overflow-hidden rounded-b-[40px]">
+      <section className="relative h-[85vh] w-full overflow-hidden">
         <img src="/assets/hero-mobile.png" alt="Handcrafted Pottery" className="absolute inset-0 w-full h-full object-cover" />
         {/* Removed gradient overlay to keep it full opacity and natural */}
         
         <div className="relative z-10 px-8 pt-32 text-[#EAE6DF] text-left h-full flex flex-col justify-start">
           <motion.span 
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
-            className="text-[9px] uppercase tracking-[0.25em] text-[#EAE6DF]/80 mb-3 block font-medium"
+            className="text-[9px] font-thin uppercase tracking-[0.35em] text-white/90 mb-3 block"
           >
             New Collection
           </motion.span>
           <motion.h2 
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-serif font-thin text-[2.75rem] leading-[1.05] tracking-tight mb-5"
+            className="font-hero font-light text-[2.75rem] leading-[1.05] tracking-tight mb-5"
+            style={{ fontWeight: 300 }}
           >
             Timeless<br />Tradition
           </motion.h2>
+          
+          <motion.div
+            initial={{ opacity: 0, width: 0 }} animate={{ opacity: 1, width: '40px' }} transition={{ duration: 0.8, delay: 0.2 }}
+            className="h-[1px] bg-gradient-to-r from-[#D06C47] to-transparent mb-5"
+          />
+
           <motion.p 
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-[11px] font-light text-[#EAE6DF]/90 mb-8 max-w-[180px] leading-relaxed"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
+            className="text-[12px] font-light text-white/90 mb-8 leading-[1.6]"
           >
-            Handcrafted clay pieces, rooted in culture, made for today.
+            Handcrafted clay pieces,<br/>rooted in culture,<br/>made for today.
           </motion.p>
           <motion.div 
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}
             className="flex flex-col items-start"
           >
             <button 
@@ -174,9 +181,9 @@ export default function MobileApp() {
                   shopSection.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className="bg-white/10 backdrop-blur-md border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.1)] text-white py-2.5 px-6 rounded-full font-light text-[10px] uppercase tracking-[0.15em] hover:bg-white/20 hover:border-white/40 transition-all flex items-center gap-3"
+              className="bg-[#D3CAB6] text-[#3A332C] py-2.5 px-6 rounded-full font-medium text-[11px] tracking-[0.05em] hover:bg-[#c4baa4] transition-colors flex items-center gap-3"
             >
-              Explore Collection <ArrowRight className="w-3 h-3" />
+              Explore Collection <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.5} />
             </button>
           </motion.div>
         </div>
