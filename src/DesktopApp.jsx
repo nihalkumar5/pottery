@@ -179,8 +179,9 @@ function DesktopApp({ setCurrentPage, currentPage }) {
           <li><a href="#" onClick={(e) => { e.preventDefault(); user ? setIsAuthOpen(true) : openTrackOrder(); }}>Track Order</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); setIsAuthOpen(true); }}>{user ? 'My Account' : 'Sign In'}</a></li>
         </ul>
-        <div className="cart-icon" onClick={toggleCart}>
-          Cart ({cartItemCount})
+        <div className="cart-icon" onClick={toggleCart} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+          <ShoppingBag size={20} strokeWidth={1.5} />
+          {cartItemCount > 0 && <span style={{ background: '#1A2E25', color: '#F8F6F2', borderRadius: '50%', padding: '0.1rem 0.4rem', fontSize: '0.75rem', fontWeight: 'bold', minWidth: '1.2rem', textAlign: 'center' }}>{cartItemCount}</span>}
         </div>
       </nav>
 
