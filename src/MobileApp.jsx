@@ -274,14 +274,14 @@ export default function MobileApp() {
       </section>
 
       {/* Brand Story */}
-      <section className="py-20 bg-white text-center">
+      <section className="pb-20 bg-white text-center">
         <div className="w-full h-[500px] mb-10">
           <video 
             autoPlay 
             loop 
             muted 
             playsInline 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
           >
             <source src="/assets/hero-video.mp4" type="video/mp4" />
           </video>
