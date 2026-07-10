@@ -131,36 +131,41 @@ export default function MobileApp() {
   return (
     <div className="mobile-root font-sans bg-background text-primary min-h-screen relative overflow-hidden">
       {/* Sticky Top Navigation */}
-      <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isScrolled ? 'bg-background/80 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'}`}>
+      <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isScrolled ? 'bg-background/90 backdrop-blur-md shadow-sm py-4 text-primary' : 'bg-transparent py-6 text-white'}`}>
         <div className="flex items-center justify-between px-6">
-          <Menu className="w-6 h-6 text-primary cursor-pointer" onClick={() => setIsMenuOpen(true)} />
-          <h1 className="font-serif text-2xl tracking-widest font-bold">CLAY & CRAFT</h1>
+          <Menu className={`w-6 h-6 cursor-pointer transition-colors ${isScrolled ? 'text-primary' : 'text-white'}`} onClick={() => setIsMenuOpen(true)} />
+          <h1 className="font-serif text-[1.35rem] font-light tracking-wide">Clay & Craft</h1>
           <div className="w-6" /> {/* Spacer for centering */}
         </div>
       </nav>
 
       {/* Hero Section */}
       <section className="relative h-[85vh] w-full overflow-hidden rounded-b-[40px]">
-        <div className="absolute inset-0 bg-black/40 z-10"></div>
         <img src="/assets/hero-mobile.png" alt="Handcrafted Pottery" className="absolute inset-0 w-full h-full object-cover" />
+        {/* Removed gradient overlay to keep it full opacity and natural */}
         
-        <div className="relative z-10 px-8 text-white text-center h-full flex flex-col justify-center">
-          <motion.h2 
-            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
-            className="font-serif text-4xl leading-[1.2] tracking-tight mb-6"
+        <div className="relative z-10 px-8 pt-32 text-[#EAE6DF] text-left h-full flex flex-col justify-start">
+          <motion.span 
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
+            className="text-[9px] uppercase tracking-[0.25em] text-[#EAE6DF]/80 mb-3 block font-medium"
           >
-            Formed by Earth.<br />
-            <span className="italic text-white/90 font-light">Finished by hand.</span>
+            New Collection
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
+            className="font-serif font-thin text-[2.75rem] leading-[1.05] tracking-tight mb-5"
+          >
+            Timeless<br />Tradition
           </motion.h2>
           <motion.p 
-            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-sm font-light text-white/80 mb-10 max-w-sm mx-auto leading-relaxed tracking-wide"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-[11px] font-light text-[#EAE6DF]/90 mb-8 max-w-[180px] leading-relaxed"
           >
-            Every piece is shaped by skilled artisans using natural clay and timeless techniques.
+            Handcrafted clay pieces, rooted in culture, made for today.
           </motion.p>
           <motion.div 
-            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col gap-4 items-center"
+            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
+            className="flex flex-col items-start"
           >
             <button 
               onClick={() => {
@@ -169,9 +174,9 @@ export default function MobileApp() {
                   shopSection.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className="bg-white text-primary py-4 px-10 rounded-full font-medium text-sm tracking-widest shadow-xl hover:scale-105 transition-transform uppercase"
+              className="bg-white/10 backdrop-blur-md border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.1)] text-white py-2.5 px-6 rounded-full font-light text-[10px] uppercase tracking-[0.15em] hover:bg-white/20 hover:border-white/40 transition-all flex items-center gap-3"
             >
-              Shop Collection
+              Explore Collection <ArrowRight className="w-3 h-3" />
             </button>
           </motion.div>
         </div>

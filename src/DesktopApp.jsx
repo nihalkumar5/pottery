@@ -127,7 +127,9 @@ function DesktopApp() {
   return (
     <div className="desktop-root">
       <nav className="navbar">
-        <div className="logo">CLAY & CRAFT</div>
+        <div className="logo" style={{ textTransform: 'none', fontWeight: 300, letterSpacing: '0.05em', fontSize: '1.5rem' }}>
+          Clay & Craft
+        </div>
         <ul className="nav-links">
           <li><a href="#shop">Shop</a></li>
           <li><a href="#collections">Collections</a></li>
