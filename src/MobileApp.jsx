@@ -788,7 +788,7 @@ export default function MobileApp() {
                       </button>
                     )}
                     <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#415a46] text-white py-4 rounded-2xl font-sans font-bold tracking-wide shadow-lg hover:bg-[#2f4233] transition-colors flex justify-center items-center gap-2">
-                      {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? `PLACE ORDER • ₹${cartTotal.toFixed(2)}` : 'CONTINUE'}
+                      {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? (paymentMethod === 'upi' ? `PAY WITH RAZORPAY • ₹${cartTotal.toFixed(2)}` : `PLACE ORDER • ₹${cartTotal.toFixed(2)}`) : 'CONTINUE'}
                     </button>
                   </div>
                 </form>
