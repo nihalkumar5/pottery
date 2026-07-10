@@ -518,12 +518,12 @@ export default function MobileApp() {
           <motion.div 
             initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-[#FDFBF7] z-50 flex flex-col"
+            className="fixed inset-0 bg-[#EAE6DF] z-50 flex flex-col"
           >
-            <div className="p-6 flex justify-between items-center bg-white sticky top-0 z-10 border-b border-gray-100">
-              <h2 className="font-serif text-[1.4rem] font-medium text-gray-900 tracking-wide">Secure Checkout</h2>
-              <button onClick={() => setIsCheckoutOpen(false)} className="p-2 bg-gray-50 rounded-full hover:bg-gray-100 transition-colors">
-                <X className="w-5 h-5 text-gray-600" />
+            <div className="p-6 flex justify-between items-center bg-[#EAE6DF] sticky top-0 z-10 border-b border-[#D8D4CC]">
+              <h1 className="font-serif text-[1.4rem] font-light tracking-wide text-gray-900">Clay & Craft <span className="text-[12px] font-sans font-medium text-gray-500 ml-2 uppercase tracking-widest hidden sm:inline">Checkout</span></h1>
+              <button onClick={() => setIsCheckoutOpen(false)} className="p-2 bg-[#D8D4CC]/50 rounded-full hover:bg-[#D8D4CC] transition-colors">
+                <X className="w-5 h-5 text-gray-800" />
               </button>
             </div>
             
@@ -545,23 +545,23 @@ export default function MobileApp() {
               ) : (
                 <form onSubmit={handleCheckoutSubmit} className="flex flex-col">
                   {/* Order Summary Strip */}
-                  <div className="bg-white px-6 py-5 mb-3 flex justify-between items-center shadow-sm">
-                    <span className="font-sans text-gray-500 text-[14px] uppercase tracking-wider font-semibold">Total to Pay</span>
-                    <span className="font-sans font-bold text-[22px] text-[#1A2E25]">₹{cartTotal.toFixed(2)}</span>
+                  <div className="bg-[#EAE6DF] px-6 py-5 mb-3 flex justify-between items-center border-b border-[#D8D4CC]">
+                    <span className="font-sans text-gray-600 text-[14px] uppercase tracking-wider font-bold">Total to Pay</span>
+                    <span className="font-sans font-bold text-[22px] text-[#415a46]">₹{cartTotal.toFixed(2)}</span>
                   </div>
                   
                   <div className="px-5 py-4 space-y-8">
                     {/* Contact Info */}
                     <section>
                       <h3 className="font-serif text-[18px] text-gray-800 mb-4 ml-1">Contact Information</h3>
-                      <div className="bg-white p-5 rounded-3xl shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-gray-100 flex flex-col gap-4">
+                      <div className="bg-[#F5F3ED] p-5 rounded-3xl shadow-sm border border-[#D8D4CC] flex flex-col gap-4">
                         <div className="relative">
                           <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Email Address</label>
-                          <input type="email" name="email" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-gray-50/50 border border-gray-200 focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.email} onChange={handleInputChange} />
+                          <input type="email" name="email" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.email} onChange={handleInputChange} />
                         </div>
                         <div className="relative">
                           <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Phone Number</label>
-                          <input type="tel" name="phone" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-gray-50/50 border border-gray-200 focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.phone} onChange={handleInputChange} />
+                          <input type="tel" name="phone" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.phone} onChange={handleInputChange} />
                         </div>
                       </div>
                     </section>
@@ -569,29 +569,29 @@ export default function MobileApp() {
                     {/* Shipping Address */}
                     <section>
                       <h3 className="font-serif text-[18px] text-gray-800 mb-4 ml-1">Shipping Details</h3>
-                      <div className="bg-white p-5 rounded-3xl shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-gray-100 flex flex-col gap-4">
+                      <div className="bg-[#F5F3ED] p-5 rounded-3xl shadow-sm border border-[#D8D4CC] flex flex-col gap-4">
                         <div className="flex gap-4">
                           <div className="relative w-1/2">
                             <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">First Name</label>
-                            <input type="text" name="firstName" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-gray-50/50 border border-gray-200 focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.firstName} onChange={handleInputChange} />
+                            <input type="text" name="firstName" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.firstName} onChange={handleInputChange} />
                           </div>
                           <div className="relative w-1/2">
                             <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Last Name</label>
-                            <input type="text" name="lastName" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-gray-50/50 border border-gray-200 focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.lastName} onChange={handleInputChange} />
+                            <input type="text" name="lastName" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.lastName} onChange={handleInputChange} />
                           </div>
                         </div>
                         <div className="relative">
                           <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Full Address</label>
-                          <input type="text" name="address" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-gray-50/50 border border-gray-200 focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.address} onChange={handleInputChange} />
+                          <input type="text" name="address" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.address} onChange={handleInputChange} />
                         </div>
                         <div className="flex gap-4">
                           <div className="relative w-2/3">
                             <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">City</label>
-                            <input type="text" name="city" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-gray-50/50 border border-gray-200 focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.city} onChange={handleInputChange} />
+                            <input type="text" name="city" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.city} onChange={handleInputChange} />
                           </div>
                           <div className="relative w-1/3">
                             <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">PIN</label>
-                            <input type="text" name="postcode" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-gray-50/50 border border-gray-200 focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.postcode} onChange={handleInputChange} />
+                            <input type="text" name="postcode" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.postcode} onChange={handleInputChange} />
                           </div>
                         </div>
                       </div>
@@ -599,8 +599,8 @@ export default function MobileApp() {
                   </div>
 
                   {/* Sticky Checkout Button */}
-                  <div className="fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-md p-6 border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
-                    <button type="submit" disabled={isSubmitting} className="w-full bg-[#1A2E25] text-white py-4 rounded-2xl font-sans font-bold tracking-wide shadow-lg hover:bg-[#111e18] transition-colors flex justify-center items-center gap-2">
+                  <div className="fixed bottom-0 left-0 w-full bg-[#EAE6DF]/90 backdrop-blur-md p-6 border-t border-[#D8D4CC] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] z-20">
+                    <button type="submit" disabled={isSubmitting} className="w-full bg-[#415a46] text-white py-4 rounded-2xl font-sans font-bold tracking-wide shadow-lg hover:bg-[#2f4233] transition-colors flex justify-center items-center gap-2">
                       {isSubmitting ? 'PROCESSING...' : `PLACE COD ORDER • ₹${cartTotal.toFixed(2)}`}
                     </button>
                   </div>
