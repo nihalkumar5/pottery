@@ -433,32 +433,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
         </div>
       </section>
 
-      {/* Featured Categories */}
-      <section id="shop-section" className="py-16 pl-6">
-        <h2 className="font-serif text-3xl mb-8 pr-6">Shop by Category</h2>
-        <div className="flex gap-4 overflow-x-auto pb-8 pr-6 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-          {CATEGORIES.map((cat, i) => (
-            <motion.div 
-              whileHover={{ y: -5 }} 
-              key={i} 
-              className="min-w-[200px] flex-shrink-0 cursor-pointer group"
-              onClick={() => {
-                setSelectedCategory(cat.name);
-                setIsShopOpen(true);
-              }}
-            >
-              <div className="w-full h-[250px] rounded-3xl overflow-hidden mb-4 relative">
-                <img src={cat.img} alt={cat.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
-              </div>
-              <div className="flex items-center justify-between">
-                <h3 className="font-serif text-xl">{cat.name}</h3>
-                <ArrowRight className="w-5 h-5 text-accent opacity-0 -translate-x-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+
 
       {/* Brand Values Banner */}
       <section id="story-section" className="py-8 bg-[#E6DEC4]">
@@ -879,7 +854,12 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                       </div>
                       <div className="flex-1">
                         <h4 className="font-serif text-[18px] leading-tight text-[#1A2E25] font-bold mb-2 cursor-pointer" onClick={() => { setIsWishlistOpen(false); setSelectedProduct(item); setActiveImageIndex(0); }}>{item.name}</h4>
-                        <p className="font-sans text-[16px] font-bold text-[#8C7A6B] mb-4">₹{item.price.toFixed(2)}</p>
+                        <div className="flex items-baseline gap-2 mb-4">
+                          <p className="font-sans text-[16px] font-bold text-[#8C7A6B]">₹{item.price.toFixed(2)}</p>
+                          {item.regular_price > item.price && (
+                            <p className="font-sans text-[13px] font-medium text-gray-400 line-through">₹{item.regular_price}</p>
+                          )}
+                        </div>
                         <div className="flex items-center justify-between">
                           <button 
                             onClick={() => {
@@ -1424,7 +1404,12 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                       <p className="text-[10px] text-[#8C7A6B] uppercase tracking-wider mb-1 font-medium">{product.category}</p>
                       <h3 className="font-serif text-[#1A2E25] text-sm leading-snug mb-1 line-clamp-2 flex-1">{product.name}</h3>
                       <div className="flex items-center justify-between mt-2">
-                        <span className="font-medium text-[#1A2E25]">₹{product.price}</span>
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-medium text-[#1A2E25]">₹{product.price}</span>
+                          {product.regular_price > product.price && (
+                            <span className="text-[11px] text-gray-400 line-through">₹{product.regular_price}</span>
+                          )}
+                        </div>
                         {(() => {
                           const qty = cart.find(c => c.id === product.id)?.quantity || 0;
                           return (
@@ -1583,10 +1568,13 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
               </div>
               <h2 className="font-serif text-[28px] leading-tight font-light text-[#1A2E25] mb-3">{selectedProduct.name}</h2>
               
-              {/* Price Row - clean, no fake discount */}
+              {/* Price Row */}
               <div className="flex items-baseline gap-3 mb-6">
                 <span className="font-serif text-[30px] font-light text-[#0A4736]">₹{selectedProduct.price}</span>
-                <span className="text-[13px] text-[#8C7A6B] font-medium">Incl. of all taxes</span>
+                {selectedProduct.regular_price > selectedProduct.price && (
+                  <span className="font-sans text-[18px] text-gray-400 line-through">₹{selectedProduct.regular_price}</span>
+                )}
+                <span className="text-[13px] text-[#8C7A6B] font-medium ml-2">Incl. of all taxes</span>
               </div>
 
               {/* Divider */}
