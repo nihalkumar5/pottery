@@ -717,11 +717,11 @@ export default function MobileApp() {
                           <div className="flex flex-col gap-10">
                             <div className="relative group">
                               <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">Email</label>
-                              <input type="email" name="email" required className="w-full bg-transparent border-b border-[#E8E2D8] pb-2 focus:border-[#263228] focus:outline-none transition-all text-[16px] text-[#263228]" value={formData.email} onChange={handleInputChange} />
+                              <input type="email" name="email" required className="w-full bg-transparent border-0 border-b border-[#E8E2D8] px-0 pb-2 focus:ring-0 focus:border-[#263228] transition-all text-[16px] text-[#263228] shadow-none" value={formData.email} onChange={handleInputChange} />
                             </div>
                             <div className="relative group">
                               <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">Phone Number</label>
-                              <input type="tel" name="phone" required className="w-full bg-transparent border-b border-[#E8E2D8] pb-2 focus:border-[#263228] focus:outline-none transition-all text-[16px] text-[#263228]" value={formData.phone} onChange={handleInputChange} />
+                              <input type="tel" name="phone" required className="w-full bg-transparent border-0 border-b border-[#E8E2D8] px-0 pb-2 focus:ring-0 focus:border-[#263228] transition-all text-[16px] text-[#263228] shadow-none" value={formData.phone} onChange={handleInputChange} />
                             </div>
                           </div>
                         </section>
@@ -732,25 +732,25 @@ export default function MobileApp() {
                             <div className="flex gap-6">
                               <div className="relative group w-1/2">
                                 <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">First Name</label>
-                                <input type="text" name="firstName" required className="w-full bg-transparent border-b border-[#E8E2D8] pb-2 focus:border-[#263228] focus:outline-none transition-all text-[16px] text-[#263228]" value={formData.firstName} onChange={handleInputChange} />
+                                <input type="text" name="firstName" required className="w-full bg-transparent border-0 border-b border-[#E8E2D8] px-0 pb-2 focus:ring-0 focus:border-[#263228] transition-all text-[16px] text-[#263228] shadow-none" value={formData.firstName} onChange={handleInputChange} />
                               </div>
                               <div className="relative group w-1/2">
                                 <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">Last Name</label>
-                                <input type="text" name="lastName" required className="w-full bg-transparent border-b border-[#E8E2D8] pb-2 focus:border-[#263228] focus:outline-none transition-all text-[16px] text-[#263228]" value={formData.lastName} onChange={handleInputChange} />
+                                <input type="text" name="lastName" required className="w-full bg-transparent border-0 border-b border-[#E8E2D8] px-0 pb-2 focus:ring-0 focus:border-[#263228] transition-all text-[16px] text-[#263228] shadow-none" value={formData.lastName} onChange={handleInputChange} />
                               </div>
                             </div>
                             <div className="relative group">
                               <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">Address</label>
-                              <input type="text" name="address" required className="w-full bg-transparent border-b border-[#E8E2D8] pb-2 focus:border-[#263228] focus:outline-none transition-all text-[16px] text-[#263228]" value={formData.address} onChange={handleInputChange} />
+                              <input type="text" name="address" required className="w-full bg-transparent border-0 border-b border-[#E8E2D8] px-0 pb-2 focus:ring-0 focus:border-[#263228] transition-all text-[16px] text-[#263228] shadow-none" value={formData.address} onChange={handleInputChange} />
                             </div>
                             <div className="flex gap-6">
                               <div className="relative group w-2/3">
                                 <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">City</label>
-                                <input type="text" name="city" required className="w-full bg-transparent border-b border-[#E8E2D8] pb-2 focus:border-[#263228] focus:outline-none transition-all text-[16px] text-[#263228]" value={formData.city} onChange={handleInputChange} />
+                                <input type="text" name="city" required className="w-full bg-transparent border-0 border-b border-[#E8E2D8] px-0 pb-2 focus:ring-0 focus:border-[#263228] transition-all text-[16px] text-[#263228] shadow-none" value={formData.city} onChange={handleInputChange} />
                               </div>
                               <div className="relative group w-1/3">
                                 <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">PIN</label>
-                                <input type="text" name="postcode" required className="w-full bg-transparent border-b border-[#E8E2D8] pb-2 focus:border-[#263228] focus:outline-none transition-all text-[16px] text-[#263228]" value={formData.postcode} onChange={handleInputChange} />
+                                <input type="text" name="postcode" required className="w-full bg-transparent border-0 border-b border-[#E8E2D8] px-0 pb-2 focus:ring-0 focus:border-[#263228] transition-all text-[16px] text-[#263228] shadow-none" value={formData.postcode} onChange={handleInputChange} />
                               </div>
                             </div>
                           </div>
