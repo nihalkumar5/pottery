@@ -3,6 +3,7 @@ import { useShop } from './ShopContext';
 import { ArrowRight, Heart, Plus, Minus, ShoppingBag, User, Truck, ShieldCheck, HandHeart, Leaf, Flower2, Star } from 'lucide-react';
 import DesktopCollections from './DesktopCollections';
 import DesktopAbout from './DesktopAbout';
+import DesktopContact from './DesktopContact';
 
 function DesktopApp({ setCurrentPage, currentPage }) {
   const { products, cart, addToCart, removeFromCart, decreaseQuantity, cartItemCount, cartTotal, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
@@ -689,6 +690,8 @@ function DesktopApp({ setCurrentPage, currentPage }) {
         <DesktopCollections initialCategory={selectedCategory || 'All'} />
       ) : currentPage === 'about' || currentPage === 'About Us' ? (
         <DesktopAbout onShopClick={() => { setCurrentPage('shop'); window.scrollTo(0, 0); }} />
+      ) : currentPage === 'Contact Us' ? (
+        <DesktopContact />
       ) : null}
 
       {/* Premium Footer */}

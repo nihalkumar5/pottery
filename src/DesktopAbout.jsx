@@ -55,13 +55,13 @@ export default function DesktopAbout({ onShopClick }) {
       </section>
 
       {/* Call to Action */}
-      <section className="bg-[#1A2E25] py-24">
-        <div className="max-w-[800px] mx-auto px-8 text-center text-white">
+      <section className="bg-[#E6DEC8] py-24">
+        <div className="max-w-[800px] mx-auto px-8 text-center text-[#263228]">
           <h2 className="font-serif text-4xl mb-6">Bring the Earth Home</h2>
-          <p className="font-sans text-[16px] text-gray-300 mb-10">Explore our latest collection of handcrafted ceramics and find the perfect piece for your daily rituals.</p>
+          <p className="font-sans text-[16px] text-[#5C4D3C] mb-10">Explore our latest collection of handcrafted ceramics and find the perfect piece for your daily rituals.</p>
           <button 
             onClick={onShopClick}
-            className="inline-flex items-center gap-2 bg-[#F8F6F2] text-[#1A2E25] px-8 py-4 rounded-full font-bold hover:bg-white transition-colors"
+            className="inline-flex items-center gap-2 bg-[#1A2E25] text-white px-8 py-4 rounded-full font-bold hover:bg-[#263228] transition-colors"
           >
             Shop the Collection <ArrowRight size={20} strokeWidth={1.5} />
           </button>
