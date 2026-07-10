@@ -487,9 +487,9 @@ function DesktopApp({ setCurrentPage, currentPage }) {
         <div className="hero-overlay"></div>
         <div className="hero-content">
           <span className="hero-subtitle">New Collection</span>
-          <h1>Timeless Tradition</h1>
+          <h1>Artisan Drinkware</h1>
           <div className="hero-divider"></div>
-          <p>Handcrafted clay pieces, rooted in culture, made for today.</p>
+          <p>Handcrafted terracotta mugs, cups, and bottles, designed to elevate your daily rituals.</p>
           <button className="btn-primary" onClick={() => document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })}>
             Explore Collection <ArrowRight size={16} strokeWidth={1.5} />
           </button>

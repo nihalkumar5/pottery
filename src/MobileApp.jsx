@@ -43,9 +43,9 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   const heroTexts = [
-    <React.Fragment key="1">Timeless<br />Tradition</React.Fragment>,
-    <React.Fragment key="2">Natural<br />Decor</React.Fragment>,
-    <React.Fragment key="3">Handcrafted<br />Pottery</React.Fragment>
+    <React.Fragment key="1">Elevate Your<br />Daily Sips</React.Fragment>,
+    <React.Fragment key="2">Artisan<br />Drinkware</React.Fragment>,
+    <React.Fragment key="3">Handcrafted<br />Mugs & Cups</React.Fragment>
   ];
 
   useEffect(() => {
