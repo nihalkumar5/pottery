@@ -596,7 +596,12 @@ export default function MobileApp() {
           >
             <div className="p-6 pb-2 flex flex-col bg-[#F8F6F2]/90 backdrop-blur sticky top-0 z-10">
               <div className="flex justify-between items-center mb-4">
-                <h1 className="font-serif text-[38px] font-semibold tracking-tight text-[#263228]">Checkout</h1>
+                <h1 className="font-serif text-[38px] font-semibold tracking-tight text-[#263228] flex items-center gap-3">
+                  <div className="w-9 h-9 bg-[#263228] text-[#F8F6F2] rounded-full flex items-center justify-center">
+                    <Leaf className="w-[18px] h-[18px]" strokeWidth={1.5} />
+                  </div>
+                  Checkout
+                </h1>
                 <button onClick={() => { setIsCheckoutOpen(false); setCheckoutStep(1); }} className="p-2 bg-transparent rounded-full hover:bg-black/5 transition-colors">
                   <X className="w-5 h-5 text-[#263228]" />
                 </button>
@@ -705,8 +710,12 @@ export default function MobileApp() {
                               </div>
                             </div>
                             <div className="relative group">
-                              <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">Address</label>
+                              <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">Address Line 1</label>
                               <input type="text" name="address" required className="w-full bg-transparent border-0 border-b border-[#E8E2D8] px-0 pb-2 focus:ring-0 focus:border-[#263228] transition-all text-[16px] text-[#263228] shadow-none" value={formData.address} onChange={handleInputChange} />
+                            </div>
+                            <div className="relative group">
+                              <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">Address Line 2 <span className="text-[#A39D96] normal-case tracking-normal">(Optional)</span></label>
+                              <input type="text" name="address2" className="w-full bg-transparent border-0 border-b border-[#E8E2D8] px-0 pb-2 focus:ring-0 focus:border-[#263228] transition-all text-[16px] text-[#263228] shadow-none" value={formData.address2 || ''} onChange={handleInputChange} />
                             </div>
                             <div className="flex gap-6">
                               <div className="relative group w-2/3">
