@@ -746,7 +746,7 @@ export default function MobileApp() {
                           <h2 className="font-serif text-[28px] text-[#F8F6F2] tracking-wide">Clay & Craft</h2>
                         </div>
                         {/* Minimalist Order Summary */}
-                        <div className="border-b border-[#D8D4CC] pb-6">
+                        <div className="pb-6">
                           <h3 className="font-serif text-[18px] text-gray-800 mb-4">Order Summary</h3>
                           
                           <div className="space-y-4 mb-5">
@@ -772,14 +772,14 @@ export default function MobileApp() {
                             </div>
                           </div>
                           
-                          <div className="flex justify-between items-center pt-4 border-t border-[#D8D4CC]">
+                          <div className="flex justify-between items-center pt-4">
                             <span className="font-medium text-gray-900 text-[16px]">Total</span>
                             <span className="font-medium text-[16px] text-[#415a46]">₹{(cartTotal + (cartTotal >= 999 ? 0 : 99)).toFixed(2)}</span>
                           </div>
                         </div>
 
                         {/* Minimalist Payment Method */}
-                        <div className="border-b border-[#D8D4CC] pb-6">
+                        <div className="pb-6">
                           <h3 className="font-serif text-[18px] text-gray-800 mb-4">Payment Method</h3>
                           
                           <div className="space-y-4">
@@ -805,7 +805,7 @@ export default function MobileApp() {
                         </div>
 
                         {/* Branding & Trust */}
-                        <div className="flex flex-col items-center justify-center pt-6 pb-20 gap-5 border-t border-[#E8E2D8] mt-2">
+                        <div className="flex flex-col items-center justify-center pt-2 pb-20 gap-5 mt-2">
                           <div className="flex flex-col items-center gap-1.5 text-gray-500">
                             <p className="text-[12px] font-medium flex items-center gap-1.5">
                               <Lock className="w-3 h-3" /> 100% Secure Payment
