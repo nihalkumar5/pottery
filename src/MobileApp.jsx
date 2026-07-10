@@ -850,8 +850,8 @@ export default function MobileApp() {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed inset-0 bg-[#F8F6F2] z-50 flex flex-col font-sans"
           >
-            <div className="p-6 pb-2 flex flex-col bg-[#F8F6F2]/90 backdrop-blur sticky top-0 z-10">
-              <div className="flex justify-between items-center mb-4">
+            <div className="pt-6 flex flex-col bg-[#F8F6F2]/90 backdrop-blur sticky top-0 z-10">
+              <div className="flex justify-between items-center mb-4 px-6">
                 <h1 className="font-serif text-[38px] font-semibold tracking-tight text-[#263228] flex items-center gap-3">
                   <ShoppingBag className="w-8 h-8 text-[#263228]" strokeWidth={1.5} />
                   Checkout
@@ -863,7 +863,7 @@ export default function MobileApp() {
               
               {/* Minimalist Stepper */}
               {!orderSuccess && (
-                <div className="flex items-center justify-center px-4 mt-2 gap-3 mb-2">
+                <div className="flex items-center justify-center px-4 mt-2 gap-3 mb-4">
                   <div 
                     className="flex items-center gap-2 cursor-pointer" 
                     onClick={() => setCheckoutStep(1)}
@@ -876,6 +876,13 @@ export default function MobileApp() {
                     <div className={`w-1.5 h-1.5 rounded-full ${checkoutStep >= 2 ? 'bg-[#263228]' : 'bg-[#E8E2D8]'}`}></div>
                     <span className={`text-[12px] font-medium tracking-wide uppercase ${checkoutStep >= 2 ? 'text-[#263228]' : 'text-[#7A746D]'}`}>Payment</span>
                   </div>
+                </div>
+              )}
+
+              {/* Fixed Banner */}
+              {!orderSuccess && (
+                <div className="text-center py-4 bg-[#82634F] w-full shadow-inner">
+                  <h2 className="font-serif text-[1.35rem] font-light tracking-wide text-[#F8F6F2]">Clay & Craft</h2>
                 </div>
               )}
             </div>
@@ -933,9 +940,6 @@ export default function MobileApp() {
                     {/* Step 1: Shipping Details */}
                     {checkoutStep === 1 && (
                       <div className="space-y-8 animate-fade-in pb-4 px-2">
-                        <div className="text-center py-4 bg-[#263228] mb-8 -mx-7 shadow-inner">
-                          <h2 className="font-serif text-[1.35rem] font-light tracking-wide text-[#F8F6F2]">Clay & Craft</h2>
-                        </div>
                         <section>
                           <h3 className="font-sans text-lg font-medium tracking-wide text-[#263228] mb-5 border-b border-[#E8E2D8] pb-2">Contact Information</h3>
                           <div className="flex flex-col gap-6">
@@ -989,9 +993,6 @@ export default function MobileApp() {
                     {/* Step 2: Payment */}
                     {checkoutStep === 2 && (
                       <div className="space-y-6 animate-fade-in pb-4 px-2">
-                        <div className="text-center py-4 bg-[#263228] mb-4 -mx-7 shadow-inner">
-                          <h2 className="font-serif text-[1.35rem] font-light tracking-wide text-[#F8F6F2]">Clay & Craft</h2>
-                        </div>
                         {/* Minimalist Order Summary */}
                         <div className="pb-10">
                           <h3 className="font-serif text-[18px] text-gray-800 mb-4">Order Summary</h3>
@@ -1123,7 +1124,7 @@ export default function MobileApp() {
 
                   {/* Sticky Checkout Button */}
                   <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-[#F8F6F2] via-[#F8F6F2]/95 to-transparent pt-12 pb-6 px-5 z-20">
-                    <button type="submit" disabled={isSubmitting} className="w-full bg-[#263228] text-white h-[64px] rounded-[18px] font-sans font-bold tracking-wide shadow-[0_8px_30px_rgb(38,50,40,0.25)] hover:bg-[#1a231c] transition-all flex justify-center items-center gap-3 group hover:-translate-y-1">
+                    <button type="submit" disabled={isSubmitting} className="w-full bg-[#82634F] text-white h-[64px] rounded-[18px] font-sans font-bold tracking-wide shadow-[0_8px_30px_rgba(130,99,79,0.3)] hover:bg-[#6A4E3D] transition-all flex justify-center items-center gap-3 group hover:-translate-y-1">
                       {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? (
                         <>
                           <Lock className="w-4 h-4 text-white/80" /> Complete Order • ₹{(cartTotal + (cartTotal >= 999 ? 0 : 99) - (paymentMethod === 'razorpay' ? cartTotal * 0.05 : 0) - (isCouponApplied ? cartTotal * 0.1 : 0)).toFixed(2)}
