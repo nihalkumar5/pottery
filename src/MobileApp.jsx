@@ -1208,19 +1208,30 @@ export default function MobileApp() {
                 <ArrowLeft className="w-6 h-6" />
               </button>
               <h1 className="font-serif text-[1.35rem] font-light tracking-wide text-primary cursor-pointer" onClick={returnToHome}>Clay & Craft</h1>
-              <motion.button 
-                className="p-2 -mr-2 text-gray-800 relative border-none outline-none bg-transparent" 
-                onClick={() => { setSelectedProduct(null); setIsCartOpen(true); }}
-                animate={isAdding ? { scale: [1, 1.2, 1], y: [0, -5, 0] } : {}}
-                transition={{ duration: 0.3, delay: 0.2 }}
-              >
-                <ShoppingBag className="w-6 h-6" />
-                {cartItemCount > 0 && (
-                  <span className="absolute top-1 right-1 w-4 h-4 bg-accent text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-sm">
-                    {cartItemCount}
-                  </span>
-                )}
-              </motion.button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => toggleWishlist(selectedProduct)}
+                  className="p-2 text-gray-800 border-none outline-none bg-transparent"
+                >
+                  <Heart
+                    className={`w-5 h-5 transition-colors ${isInWishlist(selectedProduct.id) ? 'fill-red-500 text-red-500' : ''}`}
+                    strokeWidth={1.5}
+                  />
+                </button>
+                <motion.button 
+                  className="p-2 -mr-2 text-gray-800 relative border-none outline-none bg-transparent" 
+                  onClick={() => { setSelectedProduct(null); setIsCartOpen(true); }}
+                  animate={isAdding ? { scale: [1, 1.2, 1], y: [0, -5, 0] } : {}}
+                  transition={{ duration: 0.3, delay: 0.2 }}
+                >
+                  <ShoppingBag className="w-6 h-6" />
+                  {cartItemCount > 0 && (
+                    <span className="absolute top-1 right-1 w-4 h-4 bg-accent text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-sm">
+                      {cartItemCount}
+                    </span>
+                  )}
+                </motion.button>
+              </div>
             </div>
 
             {/* Fly to Cart Animation */}
@@ -1236,19 +1247,7 @@ export default function MobileApp() {
             {/* Image Slider */}
             <div className="px-4 pt-2">
               <div className="bg-[#F5F5F5] rounded-3xl w-full aspect-square relative overflow-hidden group">
-                {/* Minimal Wishlist Icon */}
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleWishlist(selectedProduct);
-                  }}
-                  className="absolute top-4 right-4 z-10 p-2.5 bg-white/70 backdrop-blur-md rounded-full hover:bg-white transition-all duration-300 shadow-sm border border-white/40"
-                >
-                  <Heart 
-                    className={`w-5 h-5 transition-colors ${isInWishlist(selectedProduct.id) ? 'fill-red-500 text-red-500' : 'text-gray-800'}`} 
-                    strokeWidth={1.5} 
-                  />
-                </button>
+
                 
                 {/* Scrolling Images */}
                 <div 
@@ -1279,81 +1278,93 @@ export default function MobileApp() {
             </div>
             
             <div className="px-6 pt-6">
-              <h2 className="font-sans text-[26px] leading-tight font-semibold text-gray-900 mb-2">{selectedProduct.name}</h2>
-              <p className="text-gray-600 text-[15px] mb-4">Insulated. Leakproof. Built for everyday.</p>
+              {/* Product Name & Category Badge */}
+              <div className="mb-1">
+                <span className="text-[11px] uppercase tracking-[0.15em] text-[#8C7A6B] font-medium">{selectedProduct.category}</span>
+              </div>
+              <h2 className="font-serif text-[28px] leading-tight font-light text-[#1A2E25] mb-3">{selectedProduct.name}</h2>
               
-              <div className="mt-8 mb-8">
-                <h3 className="font-serif font-semibold text-gray-800 mb-2 text-xl">Product Details</h3>
-                <p className="text-gray-500 text-[14px] leading-relaxed max-w-[95%]">
-                  {selectedProduct.desc || 'A beautiful, handcrafted piece designed to elevate your everyday living. Made with premium materials and sustainable practices.'}
+              {/* Price Row - clean, no fake discount */}
+              <div className="flex items-baseline gap-3 mb-6">
+                <span className="font-serif text-[30px] font-light text-[#0A4736]">₹{selectedProduct.price}</span>
+                <span className="text-[13px] text-[#8C7A6B] font-medium">Incl. of all taxes</span>
+              </div>
+
+              {/* Divider */}
+              <div className="w-full h-px bg-[#E8E0D5] mb-6" />
+
+              {/* Description */}
+              <div className="mb-6">
+                <h3 className="text-[11px] uppercase tracking-[0.15em] text-[#8C7A6B] font-medium mb-3">About This Piece</h3>
+                <p className="text-[#3D3029] text-[14.5px] leading-[1.75] font-light">
+                  {selectedProduct.description || selectedProduct.desc || 'A beautifully handcrafted piece made by skilled artisans using 100% natural terracotta clay. Each piece is unique — minor variations in texture and tone are a natural part of the handmade process.'}
                 </p>
-                <div className="flex items-center gap-2 text-sm text-green-700 font-medium mt-4 bg-green-50 p-4 rounded-2xl w-fit">
-                  <CheckCircle className="w-4 h-4" /> In Stock & Ready to Ship
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-1.5 mb-6">
-                <div className="flex text-[#3F5B46]">
-                  {[1, 2, 3, 4, 5].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-current" />
-                  ))}
-                </div>
-                <span className="text-gray-500 text-sm ml-1">4.8 (1,247 reviews)</span>
               </div>
 
-              <div className="flex items-center gap-3 mb-10">
-                <span className="font-sans text-[24px] font-semibold text-[#3F5B46]">₹{selectedProduct.price}</span>
-                <span className="font-sans text-[16px] text-gray-400 line-through">₹{(selectedProduct.price * 1.5).toFixed(2)}</span>
-                <span className="bg-[#E7F0E9] text-[#3F5B46] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Save 33%</span>
+              {/* Availability Badge */}
+              <div className="flex items-center gap-2 text-sm text-[#0A4736] font-medium mb-8 bg-[#EDF5F0] px-4 py-3 rounded-xl w-fit">
+                <CheckCircle className="w-4 h-4" />
+                In Stock & Ready to Ship
               </div>
 
-              {/* Horizontal Scrollable Features */}
-              <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 -mx-6 px-6">
-                <div className="flex flex-col items-center text-center min-w-[90px]">
-                  <div className="w-14 h-14 rounded-full bg-[#F5F5F5] flex items-center justify-center mb-3 text-[#3F5B46]">
-                    <Snowflake className="w-6 h-6" />
+              {/* Divider */}
+              <div className="w-full h-px bg-[#E8E0D5] mb-6" />
+
+              {/* Pottery Feature Icons — 2×2 Grid */}
+              <h3 className="text-[11px] uppercase tracking-[0.15em] text-[#8C7A6B] font-medium mb-4">Craft Highlights</h3>
+              <div className="grid grid-cols-2 gap-3 mb-6">
+                <div className="flex items-center gap-3 bg-[#FAF7F4] rounded-2xl px-4 py-3">
+                  <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-sm flex-shrink-0">
+                    <Leaf className="w-4 h-4 text-[#0A4736]" />
                   </div>
-                  <span className="text-[12px] font-medium text-gray-700 leading-tight">Keeps Drinks<br/>Cold 24 Hrs</span>
+                  <span className="text-[12px] font-medium text-[#3D3029] leading-tight">Natural Clay</span>
                 </div>
-                <div className="flex flex-col items-center text-center min-w-[90px]">
-                  <div className="w-14 h-14 rounded-full bg-[#F5F5F5] flex items-center justify-center mb-3 text-gray-700">
-                    <Droplets className="w-6 h-6" />
+                <div className="flex items-center gap-3 bg-[#FAF7F4] rounded-2xl px-4 py-3">
+                  <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-sm flex-shrink-0">
+                    <ShieldCheck className="w-4 h-4 text-[#0A4736]" />
                   </div>
-                  <span className="text-[12px] font-medium text-gray-700 leading-tight">Leakproof<br/>Design</span>
+                  <span className="text-[12px] font-medium text-[#3D3029] leading-tight">Food Safe</span>
                 </div>
-                <div className="flex flex-col items-center text-center min-w-[90px]">
-                  <div className="w-14 h-14 rounded-full bg-[#F5F5F5] flex items-center justify-center mb-3 text-[#3F5B46]">
-                    <Leaf className="w-6 h-6" />
+                <div className="flex items-center gap-3 bg-[#FAF7F4] rounded-2xl px-4 py-3">
+                  <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-sm flex-shrink-0">
+                    <RotateCcw className="w-4 h-4 text-[#0A4736]" />
                   </div>
-                  <span className="text-[12px] font-medium text-gray-700 leading-tight">BPA-Free<br/>Materials</span>
+                  <span className="text-[12px] font-medium text-[#3D3029] leading-tight">Handmade</span>
+                </div>
+                <div className="flex items-center gap-3 bg-[#FAF7F4] rounded-2xl px-4 py-3">
+                  <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center shadow-sm flex-shrink-0">
+                    <Droplets className="w-4 h-4 text-[#0A4736]" />
+                  </div>
+                  <span className="text-[12px] font-medium text-[#3D3029] leading-tight">Eco-Friendly</span>
                 </div>
               </div>
             </div>
 
+
             {/* Sticky Bottom Bar */}
-            <div className="fixed bottom-0 left-0 w-full bg-white pb-6 pt-4 px-6 border-t border-gray-100 z-20">
+            <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm pb-8 pt-4 px-6 border-t border-[#E8E0D5] z-20">
               {cart.find(item => item.id === selectedProduct.id) ? (
-                <div className="flex items-center justify-between w-full bg-[#F5F5F5] rounded-full py-2 px-6 mb-3 border border-gray-200">
-                  <button onClick={() => decreaseQuantity(selectedProduct.id)} className="p-3 text-gray-800 hover:text-black hover:bg-gray-200 rounded-full transition-colors">
+                <div className="flex items-center justify-between w-full bg-[#F5F0EA] rounded-full py-2 px-6 mb-3 border border-[#D9CFC4]">
+                  <button onClick={() => decreaseQuantity(selectedProduct.id)} className="p-3 text-[#1A2E25] hover:text-black hover:bg-[#E8E0D5] rounded-full transition-colors">
                     <Minus className="w-5 h-5" />
                   </button>
-                  <span className="font-sans font-bold text-[18px] text-gray-900 w-12 text-center">
+                  <span className="font-serif font-light text-[20px] text-[#1A2E25] w-12 text-center">
                     {cart.find(item => item.id === selectedProduct.id).quantity}
                   </span>
-                  <button onClick={() => handleAddToCartAnim(selectedProduct)} className="p-3 text-gray-800 hover:text-black hover:bg-gray-200 rounded-full transition-colors">
+                  <button onClick={() => handleAddToCartAnim(selectedProduct)} className="p-3 text-[#1A2E25] hover:text-black hover:bg-[#E8E0D5] rounded-full transition-colors">
                     <Plus className="w-5 h-5" />
                   </button>
                 </div>
               ) : (
                 <button 
                   onClick={() => handleAddToCartAnim(selectedProduct)}
-                  className="w-full bg-[#415a46] text-white py-4 rounded-full font-sans font-bold text-[15px] tracking-wide mb-3 hover:bg-[#2f4233] transition-colors"
+                  className="w-full bg-[#0A4736] text-white py-4 rounded-full font-sans font-medium text-[15px] tracking-[0.08em] mb-3 hover:bg-[#0d5c46] active:scale-[0.98] transition-all duration-200"
                 >
-                  ADD TO CART • ₹{selectedProduct.price}
+                  Add to Bag · ₹{selectedProduct.price}
                 </button>
               )}
-              <div className="flex items-center justify-center gap-2 text-gray-600 text-[12px] font-medium">
-                <ShieldCheck className="w-4 h-4 text-[#415a46]" />
+              <div className="flex items-center justify-center gap-2 text-[#8C7A6B] text-[11px] font-medium tracking-wide">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#0A4736]" />
                 Free Shipping on Orders Above ₹999
               </div>
             </div>
