@@ -184,7 +184,7 @@ export default function MobileApp() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    if (paymentMethod === 'upi') {
+    if (paymentMethod === 'razorpay') {
       const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
       
       if (!res) {
