@@ -152,8 +152,18 @@ export default function MobileApp() {
             New Collection
           </motion.span>
           <motion.h2 
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-hero font-light text-[2.75rem] leading-[1.05] tracking-tight mb-5"
+            animate={{ 
+              opacity: [0, 1, 1, 0], 
+              filter: ['blur(12px)', 'blur(0px)', 'blur(0px)', 'blur(12px)'],
+              scale: [0.95, 1, 1, 0.95]
+            }}
+            transition={{ 
+              duration: 7, 
+              repeat: Infinity,
+              times: [0, 0.15, 0.9, 1],
+              ease: "easeInOut"
+            }}
+            className="font-hero font-light text-[2.75rem] leading-[1.05] tracking-tight mb-5 mt-4"
             style={{ fontWeight: 300 }}
           >
             Timeless<br />Tradition
