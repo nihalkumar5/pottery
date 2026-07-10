@@ -47,8 +47,9 @@ export default function MobileApp() {
     const customImages = {
       'Home Decor': '/assets/homedecor.png',
       'Water Bottles': '/assets/thermo.png',
-      'Water Storage': '/assets/thermo.png',
-      'Spiritual Collection': '/assets/sp.png'
+      'Water Storage': '/assets/waterstorage.png',
+      'Spiritual Collection': '/assets/sp.png',
+      'Serveware': '/assets/serve.png'
     };
 
     return uniqueCats.map(name => {
