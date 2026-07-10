@@ -680,13 +680,11 @@ export default function MobileApp() {
             className="fixed inset-0 bg-white z-50 overflow-y-auto pb-40"
           >
             {/* Top Navigation */}
-            <div className="sticky top-0 w-full bg-white/90 backdrop-blur-md z-10 px-6 py-4 flex justify-between items-center">
+            <div className="sticky top-0 w-full bg-white/90 backdrop-blur-md z-10 px-6 py-4 flex justify-between items-center border-b border-gray-100">
               <button onClick={() => setSelectedProduct(null)} className="p-2 -ml-2 text-gray-800 border-none outline-none bg-transparent">
-                <Menu className="w-6 h-6" />
+                <ArrowLeft className="w-6 h-6" />
               </button>
-              <h1 className="font-sans font-bold tracking-widest text-[12px] uppercase text-gray-900 leading-tight text-center">
-                Everyday<br/>Essentials
-              </h1>
+              <h1 className="font-serif text-[1.35rem] font-light tracking-wide text-primary">Clay & Craft</h1>
               <button className="p-2 -mr-2 text-gray-800 relative border-none outline-none bg-transparent" onClick={() => { setSelectedProduct(null); setIsCartOpen(true); }}>
                 <ShoppingBag className="w-6 h-6" />
                 {cartItemCount > 0 && (
@@ -718,6 +716,16 @@ export default function MobileApp() {
             <div className="px-6 pt-8">
               <h2 className="font-sans text-[26px] leading-tight font-semibold text-gray-900 mb-2">{selectedProduct.name}</h2>
               <p className="text-gray-600 text-[15px] mb-4">Insulated. Leakproof. Built for everyday.</p>
+              
+              <div className="mt-8 mb-8">
+                <h3 className="font-serif font-semibold text-gray-800 mb-2 text-xl">Product Details</h3>
+                <p className="text-gray-500 text-[14px] leading-relaxed max-w-[95%]">
+                  {selectedProduct.desc || 'A beautiful, handcrafted piece designed to elevate your everyday living. Made with premium materials and sustainable practices.'}
+                </p>
+                <div className="flex items-center gap-2 text-sm text-green-700 font-medium mt-4 bg-green-50 p-4 rounded-2xl w-fit">
+                  <CheckCircle className="w-4 h-4" /> In Stock & Ready to Ship
+                </div>
+              </div>
               
               <div className="flex items-center gap-1.5 mb-6">
                 <div className="flex text-[#3F5B46]">
