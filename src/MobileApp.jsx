@@ -140,16 +140,11 @@ export default function MobileApp() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative h-screen flex flex-col justify-center pt-20 pb-32 overflow-hidden">
-        <motion.div 
-          initial={{ scale: 1.1 }} animate={{ scale: 1 }} transition={{ duration: 10, ease: "easeOut" }}
-          className="absolute inset-0 z-0"
-        >
-          <img src="/assets/hero.png" alt="Pottery Artisan" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-black/40"></div>
-        </motion.div>
+      <section className="relative h-[85vh] w-full overflow-hidden rounded-b-[40px]">
+        <div className="absolute inset-0 bg-black/40 z-10"></div>
+        <img src="/assets/hero-mobile.png" alt="Handcrafted Pottery" className="absolute inset-0 w-full h-full object-cover" />
         
-        <div className="relative z-10 px-8 text-white text-center">
+        <div className="relative z-10 px-8 text-white text-center h-full flex flex-col justify-center">
           <motion.h2 
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
             className="font-serif text-4xl leading-[1.2] tracking-tight mb-6"
