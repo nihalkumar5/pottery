@@ -1433,7 +1433,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed inset-0 bg-[#F8F6F2] z-30 flex flex-col font-sans"
           >
-            <div className="p-6 pb-4 flex flex-col bg-[#F8F6F2]/90 backdrop-blur sticky top-0 z-10">
+            <div className="p-6 pb-3 flex flex-col bg-[#F8F6F2]/90 backdrop-blur sticky top-0 z-10">
               {/* Shop Modal Hero Banner */}
               <div className="relative w-[calc(100%+3rem)] -mx-6 -mt-6 h-[240px] overflow-hidden mb-3 flex flex-col items-center justify-center">
                 <img src="/assets/homedecor.png" className="absolute inset-0 w-full h-full object-cover" alt="Shop Hero" />
@@ -1448,7 +1448,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
               </div>
 
               {/* Category Filter Pills */}
-              <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
+              <div className="flex overflow-x-auto gap-3 scrollbar-hide pt-1 pb-1">
                 <button 
                   id={selectedCategory === 'All' ? 'selected-category-pill' : undefined}
                   onClick={() => setSelectedCategory('All')}
