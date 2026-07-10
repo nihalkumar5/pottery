@@ -351,6 +351,16 @@ function DesktopApp() {
 
       {/* Hero Section */}
       <header className="hero">
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className="hero-video"
+        >
+          <source src="/assets/hero-video.mp4" type="video/mp4" />
+        </video>
+        <div className="hero-overlay"></div>
         <div className="hero-content">
           <h1>Formed by Earth.<br/>Finished by Hand.</h1>
           <p>Discover our new collection of minimalist, handcrafted ceramics designed to elevate your everyday rituals.</p>
