@@ -682,6 +682,9 @@ export default function MobileApp() {
                     {/* Step 1: Shipping Details */}
                     {checkoutStep === 1 && (
                       <div className="space-y-10 animate-fade-in pb-4 px-2">
+                        <div className="text-center pt-2 pb-2">
+                          <h2 className="font-serif text-[32px] text-[#263228]">Clay & Craft</h2>
+                        </div>
                         <section>
                           <h3 className="font-serif text-[22px] text-[#263228] mb-8 border-b border-[#E8E2D8] pb-3">Contact Information</h3>
                           <div className="flex flex-col gap-10">
