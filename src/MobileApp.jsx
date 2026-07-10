@@ -126,9 +126,12 @@ export default function MobileApp() {
         return;
       }
 
+      const shippingCost = cartTotal >= 999 ? 0 : 99;
+      const finalTotal = cartTotal + shippingCost;
+
       const options = {
         key: 'rzp_test_YOUR_TEST_KEY', // Dummy key for UI test mode
-        amount: Math.round(cartTotal * 100), // Amount in paise
+        amount: Math.round(finalTotal * 100), // Amount in paise
         currency: 'INR',
         name: 'Clay & Craft',
         description: 'Premium Handcrafted Ceramics',
@@ -608,7 +611,10 @@ export default function MobileApp() {
               {/* Minimalist Stepper */}
               {!orderSuccess && (
                 <div className="flex items-center justify-center px-4 mt-2 gap-3 mb-2">
-                  <div className="flex items-center gap-2">
+                  <div 
+                    className="flex items-center gap-2 cursor-pointer" 
+                    onClick={() => setCheckoutStep(1)}
+                  >
                     <div className={`w-1.5 h-1.5 rounded-full ${checkoutStep >= 1 ? 'bg-[#263228]' : 'bg-[#E8E2D8]'}`}></div>
                     <span className={`text-[12px] font-medium tracking-wide uppercase ${checkoutStep >= 1 ? 'text-[#263228]' : 'text-[#7A746D]'}`}>Shipping</span>
                   </div>
@@ -756,13 +762,13 @@ export default function MobileApp() {
                             </div>
                             <div className="flex justify-between">
                               <span>Shipping</span>
-                              <span>Free</span>
+                              <span>{cartTotal >= 999 ? 'Free' : '₹99.00'}</span>
                             </div>
                           </div>
                           
                           <div className="flex justify-between items-center pt-4 border-t border-[#D8D4CC]">
                             <span className="font-medium text-gray-900 text-[16px]">Total</span>
-                            <span className="font-medium text-[16px] text-[#415a46]">₹{cartTotal.toFixed(2)}</span>
+                            <span className="font-medium text-[16px] text-[#415a46]">₹{(cartTotal + (cartTotal >= 999 ? 0 : 99)).toFixed(2)}</span>
                           </div>
                         </div>
 
@@ -816,20 +822,15 @@ export default function MobileApp() {
 
                   {/* Sticky Checkout Button */}
                   <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-[#F8F6F2] via-[#F8F6F2]/95 to-transparent pt-12 pb-6 px-5 z-20">
-                    <div className="flex gap-3">
-                      {checkoutStep > 1 && (
-                        <button type="button" onClick={() => setCheckoutStep(prev => prev - 1)} className="px-6 bg-transparent border border-[#E8E2D8] text-[#263228] h-[60px] rounded-full font-sans font-medium tracking-wide hover:bg-black/5 transition-colors">
-                          BACK
-                        </button>
+                    <button type="submit" disabled={isSubmitting} className="w-full bg-[#263228] text-white h-[64px] rounded-[18px] font-sans font-bold tracking-wide shadow-[0_8px_30px_rgb(38,50,40,0.25)] hover:bg-[#1a231c] transition-all flex justify-center items-center gap-3 group hover:-translate-y-1">
+                      {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? (
+                        <>
+                          <Lock className="w-4 h-4 text-white/80" /> Complete Order • ₹{(cartTotal + (cartTotal >= 999 ? 0 : 99)).toFixed(2)}
+                        </>
+                      ) : (
+                        <>Continue to Payment <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></>
                       )}
-                      <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#263228] text-white h-[60px] rounded-full font-sans font-medium tracking-wide shadow-xl shadow-[#263228]/20 hover:bg-[#1a231c] transition-all flex justify-center items-center gap-2 group hover:-translate-y-0.5">
-                        {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? (
-                          `Complete Order ₹${cartTotal.toFixed(2)}`
-                        ) : (
-                          <>Continue to Payment <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></>
-                        )}
-                      </button>
-                    </div>
+                    </button>
                   </div>
                 </form>
               )}
