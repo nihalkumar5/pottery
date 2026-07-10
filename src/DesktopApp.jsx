@@ -13,7 +13,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
 
   // Compute categories dynamically based on fetched products
   const CATEGORIES = useMemo(() => {
-    const uniqueCats = [...new Set(products.map(p => p.category).filter(Boolean))];
+    const uniqueCats = [...new Set(products.map(p => p.category).filter(Boolean))].filter(c => c !== 'Glasses & Tumblers' && c !== 'Glasses &amp; Tumblers');
     const spiritualIndex = uniqueCats.indexOf('Spiritual Collection');
     if (spiritualIndex > -1) {
       uniqueCats.splice(spiritualIndex, 1);
