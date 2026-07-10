@@ -471,9 +471,9 @@ export default function MobileApp() {
               </div>
               {cart.length > 0 && (
                 <div className="p-6 bg-white border-t border-[#E5E0D8] rounded-t-3xl shadow-[0_-10px_30px_rgba(0,0,0,0.03)] mt-auto">
-                  <div className="flex justify-between font-serif text-[22px] font-bold text-[#1A2E25] mb-6">
+                  <div className="flex justify-between items-center font-serif text-[22px] font-bold text-[#1A2E25] mb-6">
                     <span>Total</span>
-                    <span>₹{cartTotal.toFixed(2)}</span>
+                    <span className="font-sans text-[20px]">₹{cartTotal.toFixed(2)}</span>
                   </div>
                   <button 
                     onClick={() => { setIsCartOpen(false); setIsCheckoutOpen(true); }}
