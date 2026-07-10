@@ -401,9 +401,9 @@ function DesktopApp() {
                 <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <button 
                   onClick={(e) => { e.stopPropagation(); addToCart(product); }}
-                  className="absolute top-4 right-4 bg-white/90 backdrop-blur-md text-gray-400 p-2.5 rounded-xl shadow-sm hover:text-red-500 transition-colors"
+                  className="absolute top-4 right-4 text-gray-500/70 hover:text-red-400 transition-colors p-2"
                 >
-                  <Heart className="w-4 h-4" strokeWidth={2} />
+                  <Heart className="w-5 h-5" strokeWidth={1.25} />
                 </button>
               </div>
               <div className="p-5 flex items-center justify-between gap-4">

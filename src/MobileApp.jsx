@@ -248,9 +248,9 @@ export default function MobileApp() {
                 <img src={item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <button 
                   onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
-                  className="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-gray-400 p-2 rounded-xl shadow-sm hover:text-red-500 transition-colors"
+                  className="absolute top-3 right-3 text-gray-500/70 hover:text-red-400 transition-colors p-2"
                 >
-                  <Heart className="w-3.5 h-3.5" strokeWidth={2} />
+                  <Heart className="w-4 h-4" strokeWidth={1.25} />
                 </button>
               </div>
               <div className="p-3 flex items-center justify-between gap-2">
