@@ -733,7 +733,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.5 }}
                 href="#story" 
                 className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
-                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); document.getElementById('story-section')?.scrollIntoView({behavior: 'smooth'}); }}
+                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); setCurrentPage('About Us'); window.scrollTo(0,0); }}
               >
                 <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">03</span>
                 Our Story
@@ -742,7 +742,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4, duration: 0.5 }}
                 href="#contact" 
                 className="font-serif text-5xl text-white no-underline hover:text-accent hover:translate-x-4 transition-all duration-300 flex items-center gap-4 group" 
-                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); document.getElementById('contact-section')?.scrollIntoView({behavior: 'smooth'}); }}
+                onClick={(e) => { e.preventDefault(); setIsMenuOpen(false); setCurrentPage('Contact Us'); window.scrollTo(0,0); }}
               >
                 <span className="text-sm font-sans text-white/30 group-hover:text-accent transition-colors">04</span>
                 Contact
