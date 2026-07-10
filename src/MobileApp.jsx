@@ -673,7 +673,16 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
             <h2 className="font-serif text-2xl text-[#1A2E25] mb-2">#ClayAndCraft</h2>
             <p className="text-secondary text-xs">Join our community</p>
           </div>
-          <a href="#" className="text-[#82634F] text-xs font-bold uppercase tracking-wider">Follow</a>
+          <a 
+            href="#contact-section" 
+            onClick={(e) => { 
+              e.preventDefault(); 
+              document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' }); 
+            }} 
+            className="text-[#82634F] text-xs font-bold uppercase tracking-wider"
+          >
+            Follow
+          </a>
         </div>
         <div className="grid grid-cols-2 gap-2 px-6">
           <div className="aspect-square rounded-2xl overflow-hidden">
