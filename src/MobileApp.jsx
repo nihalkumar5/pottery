@@ -550,39 +550,39 @@ export default function MobileApp() {
         {/* Horizontal Scroll Cards */}
         <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4" style={{ scrollSnapType: 'x mandatory' }}>
           {[
-            { name: 'Priya Sharma', location: 'Mumbai', text: 'The terracotta mugs are stunning! My morning chai tastes better in them. Craftsmanship is top notch.', stars: 5, initials: 'PS', gradient: 'linear-gradient(135deg, #9C4B35 0%, #C26B51 100%)' },
-            { name: 'Rahul Mehta', location: 'Delhi', text: 'The water dispenser keeps water naturally cool. Delivery was fast and quality exceeded expectations!', stars: 5, initials: 'RM', gradient: 'linear-gradient(135deg, #4A5D44 0%, #6A8263 100%)' },
-            { name: 'Anjali Verma', location: 'Bangalore', text: 'The hand-painted vase is a masterpiece. You can tell a real artisan made this with love and care.', stars: 5, initials: 'AV', gradient: 'linear-gradient(135deg, #7A5B44 0%, #9F7E64 100%)' },
-            { name: 'Karan Patel', location: 'Ahmedabad', text: 'Gift wrapped beautifully, my mother loved the serving set! Earthy tones go perfectly with our décor.', stars: 5, initials: 'KP', gradient: 'linear-gradient(135deg, #B58542 0%, #D8A55B 100%)' },
+            { name: 'Priya Sharma', location: 'Mumbai', text: 'The terracotta mugs are stunning! My morning chai tastes better in them. Craftsmanship is top notch.', stars: 5, initials: 'PS' },
+            { name: 'Rahul Mehta', location: 'Delhi', text: 'The water dispenser keeps water naturally cool. Delivery was fast and quality exceeded expectations!', stars: 5, initials: 'RM' },
+            { name: 'Anjali Verma', location: 'Bangalore', text: 'The hand-painted vase is a masterpiece. You can tell a real artisan made this with love and care.', stars: 5, initials: 'AV' },
+            { name: 'Karan Patel', location: 'Ahmedabad', text: 'Gift wrapped beautifully, my mother loved the serving set! Earthy tones go perfectly with our décor.', stars: 5, initials: 'KP' },
           ].map((review, idx) => (
             <div
               key={idx}
-              className="flex-shrink-0 w-[260px] rounded-3xl p-5 flex flex-col justify-between first:ml-6 last:mr-6"
-              style={{ background: review.gradient, scrollSnapAlign: 'start', minHeight: '210px' }}
+              className="flex-shrink-0 w-[260px] rounded-2xl p-4 flex flex-col justify-between first:ml-6 last:mr-6 bg-white border border-[#E5E0D8] shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
+              style={{ scrollSnapAlign: 'start' }}
             >
               {/* Quote mark */}
               <div>
-                <span className="text-white/30 text-[48px] font-serif leading-none block -mb-2">"</span>
-                <p className="text-white/90 text-[13px] leading-relaxed font-light">
+                <span className="text-[#E8E0D5] text-[44px] font-serif leading-none block -mt-1 -mb-1">"</span>
+                <p className="text-[#4A4A4A] text-[12px] leading-relaxed font-light">
                   {review.text}
                 </p>
               </div>
 
               {/* Bottom: Stars + Avatar + Name */}
-              <div className="mt-5">
+              <div className="mt-3">
                 {/* Stars */}
-                <div className="flex gap-0.5 mb-3">
+                <div className="flex gap-0.5 mb-2.5">
                   {[...Array(review.stars)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-[#F4C430] text-[#F4C430]" />
+                    <Star key={i} className="w-3 h-3 fill-[#B68D5A] text-[#B68D5A]" />
                   ))}
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white font-bold text-[12px] flex-shrink-0">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-full bg-[#F9F6F2] border border-[#E5E0D8] flex items-center justify-center text-[#8C7A6B] font-medium text-[11px] flex-shrink-0">
                     {review.initials}
                   </div>
                   <div>
-                    <p className="text-white font-semibold text-[13px] leading-none mb-0.5">{review.name}</p>
-                    <p className="text-white/60 text-[11px]">{review.location}</p>
+                    <p className="text-[#1A2E25] font-serif text-[13px] leading-none mb-0.5">{review.name}</p>
+                    <p className="text-[#8C7A6B] text-[10px] uppercase tracking-wider">{review.location}</p>
                   </div>
                 </div>
               </div>
