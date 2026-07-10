@@ -88,7 +88,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
       const firstProduct = products.find(p => p.category === name);
       return { 
         name, 
-        img: customImages[name] || (firstProduct ? firstProduct.image : '/assets/vase.png') 
+        img: categoryImages[name] || (firstProduct ? firstProduct.image : '/assets/vase.png') 
       };
     });
   }, [products]);
