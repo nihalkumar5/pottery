@@ -785,33 +785,21 @@ export default function MobileApp() {
                           <div className="space-y-4">
                             <div 
                               onClick={() => setPaymentMethod('razorpay')}
-                              className="cursor-pointer group flex flex-col gap-2"
+                              className={`cursor-pointer p-4 rounded-xl border flex flex-col gap-1.5 transition-all ${paymentMethod === 'razorpay' ? 'border-[#263228] bg-[#263228]/5 shadow-sm' : 'border-[#E8E2D8] bg-transparent hover:border-[#D8D4CC]'}`}
                             >
-                              <div className="flex items-center gap-3">
-                                <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 transition-colors ${paymentMethod === 'razorpay' ? 'border-[#415a46]' : 'border-gray-400 group-hover:border-gray-600'}`}>
-                                  {paymentMethod === 'razorpay' && <div className="w-2.5 h-2.5 bg-[#415a46] rounded-full"></div>}
-                                </div>
-                                <span className="text-[15px] text-gray-900 font-medium">Pay via Razorpay</span>
+                              <div className="flex justify-between items-center">
+                                <span className="text-[15px] text-gray-900 font-medium tracking-wide">Pay via Razorpay</span>
+                                <Smartphone className={`w-5 h-5 ${paymentMethod === 'razorpay' ? 'text-[#263228]' : 'text-gray-400'}`} strokeWidth={1.5} />
                               </div>
-                              {paymentMethod === 'razorpay' && (
-                                <div className="pl-8 flex items-center gap-2 opacity-70">
-                                  <span className="text-[11px] font-bold text-gray-600 tracking-wider">CARDS</span>
-                                  <span className="text-[11px] text-gray-400">•</span>
-                                  <span className="text-[11px] font-bold text-gray-600 tracking-wider">UPI</span>
-                                  <span className="text-[11px] text-gray-400">•</span>
-                                  <span className="text-[11px] font-bold text-gray-600 tracking-wider">NETBANKING</span>
-                                </div>
-                              )}
+                              <span className="text-[11px] font-bold text-gray-500 tracking-wider opacity-80">CARDS • UPI • NETBANKING</span>
                             </div>
 
                             <div 
                               onClick={() => setPaymentMethod('cod')}
-                              className="cursor-pointer group flex items-center gap-3"
+                              className={`cursor-pointer p-4 rounded-xl border flex justify-between items-center transition-all ${paymentMethod === 'cod' ? 'border-[#263228] bg-[#263228]/5 shadow-sm' : 'border-[#E8E2D8] bg-transparent hover:border-[#D8D4CC]'}`}
                             >
-                              <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 transition-colors ${paymentMethod === 'cod' ? 'border-[#415a46]' : 'border-gray-400 group-hover:border-gray-600'}`}>
-                                {paymentMethod === 'cod' && <div className="w-2.5 h-2.5 bg-[#415a46] rounded-full"></div>}
-                              </div>
-                              <span className="text-[15px] text-gray-900 font-medium">Cash on Delivery</span>
+                              <span className="text-[15px] text-gray-900 font-medium tracking-wide">Cash on Delivery</span>
+                              <Banknote className={`w-5 h-5 ${paymentMethod === 'cod' ? 'text-[#263228]' : 'text-gray-400'}`} strokeWidth={1.5} />
                             </div>
                           </div>
                         </div>
