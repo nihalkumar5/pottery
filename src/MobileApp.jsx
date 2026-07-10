@@ -274,14 +274,24 @@ export default function MobileApp() {
       </section>
 
       {/* Brand Story */}
-      <section className="py-20 bg-white text-center px-6">
-        <div className="w-full h-80 rounded-[40px] overflow-hidden mb-10">
-          <img src="/assets/hero.png" alt="Artisan working" className="w-full h-full object-cover" />
+      <section className="py-20 bg-white text-center">
+        <div className="w-full h-[500px] mb-10">
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline 
+            className="w-full h-full object-cover"
+          >
+            <source src="/assets/hero-video.mp4" type="video/mp4" />
+          </video>
         </div>
-        <h2 className="font-serif text-3xl mb-4">Made Slowly.<br/>Crafted with Purpose.</h2>
-        <p className="text-secondary text-sm leading-relaxed mb-8 max-w-sm mx-auto">
-          We believe in the beauty of imperfection. Every piece in our collection is handcrafted in small batches using traditional wheel-throwing and hand-building techniques.
-        </p>
+        <div className="px-6">
+          <h2 className="font-serif text-3xl mb-4">Made Slowly.<br/>Crafted with Purpose.</h2>
+          <p className="text-secondary text-sm leading-relaxed mb-8 max-w-sm mx-auto">
+            We believe in the beauty of imperfection. Every piece in our collection is handcrafted in small batches using traditional wheel-throwing and hand-building techniques.
+          </p>
+        </div>
       </section>
 
       {/* Reviews */}
