@@ -1435,7 +1435,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
           >
             <div className="p-6 pb-4 flex flex-col bg-[#F8F6F2]/90 backdrop-blur sticky top-0 z-10">
               {/* Shop Modal Hero Banner */}
-              <div className="relative w-[calc(100%+3rem)] -mx-6 -mt-6 h-[240px] overflow-hidden mb-6 flex flex-col items-center justify-center">
+              <div className="relative w-[calc(100%+3rem)] -mx-6 -mt-6 h-[240px] overflow-hidden mb-3 flex flex-col items-center justify-center">
                 <img src="/assets/homedecor.png" className="absolute inset-0 w-full h-full object-cover" alt="Shop Hero" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20"></div>
                 <button onClick={() => setIsShopOpen(false)} className="absolute top-14 right-6 p-2 z-20 opacity-80 hover:opacity-100 transition-opacity">
