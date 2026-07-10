@@ -242,24 +242,22 @@ export default function MobileApp() {
             <div 
               key={item.id} 
               onClick={() => setSelectedProduct(item)}
-              className="cursor-pointer group flex flex-col"
+              className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm"
             >
-              <div className="w-full aspect-[4/5] rounded-3xl overflow-hidden mb-4 relative bg-white shadow-sm">
+              <div className="w-full aspect-[4/5] relative">
                 <img src={item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <button 
                   onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
-                  className="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md text-primary p-2.5 rounded-full shadow hover:bg-white transition-colors"
+                  className="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-gray-400 p-2 rounded-xl shadow-sm hover:text-red-500 transition-colors"
                 >
-                  <ShoppingBag className="w-4 h-4" />
+                  <Heart className="w-3.5 h-3.5" strokeWidth={2} />
                 </button>
               </div>
-              <div className="px-1 flex-1 flex flex-col mt-1">
-                <h4 className="font-serif text-[0.95rem] leading-snug line-clamp-2 text-[#2C2A29] mb-1">{item.name}</h4>
-                <div className="mt-auto">
-                  <span className="font-sans text-[13px] tracking-wide text-[#2C2A29] font-medium">
-                    ₹ {item.price.toLocaleString('en-IN')}
-                  </span>
-                </div>
+              <div className="p-3 flex items-center justify-between gap-2">
+                <h4 className="font-sans text-[9px] uppercase tracking-wider text-gray-400 font-semibold truncate">{item.name}</h4>
+                <span className="font-sans text-[13px] tracking-wide text-gray-700 font-bold whitespace-nowrap">
+                  $ {item.price}
+                </span>
               </div>
             </div>
           ))}

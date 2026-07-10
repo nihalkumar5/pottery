@@ -393,16 +393,24 @@ function DesktopApp() {
         </div>
         <div className="product-grid">
           {products.map(product => (
-            <div className="product-card" key={product.id}>
-              <div className="product-image-container">
-                <img src={product.image} alt={product.name} className="product-image" />
-                <button className="add-to-cart-btn" onClick={() => addToCart(product)}>
-                  Add to Cart — ₹{product.price.toFixed(2)}
+            <div 
+              key={product.id} 
+              className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div className="w-full aspect-[4/5] relative">
+                <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <button 
+                  onClick={(e) => { e.stopPropagation(); addToCart(product); }}
+                  className="absolute top-4 right-4 bg-white/90 backdrop-blur-md text-gray-400 p-2.5 rounded-xl shadow-sm hover:text-red-500 transition-colors"
+                >
+                  <Heart className="w-4 h-4" strokeWidth={2} />
                 </button>
               </div>
-              <div className="product-info">
-                <div className="product-name">{product.name}</div>
-                <div className="product-price">₹{product.price.toFixed(2)}</div>
+              <div className="p-5 flex items-center justify-between gap-4">
+                <h4 className="font-sans text-[11px] uppercase tracking-wider text-gray-400 font-semibold truncate">{product.name}</h4>
+                <span className="font-sans text-[15px] tracking-wide text-gray-700 font-bold whitespace-nowrap">
+                  $ {product.price}
+                </span>
               </div>
             </div>
           ))}
