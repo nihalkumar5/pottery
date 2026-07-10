@@ -169,11 +169,18 @@ function DesktopApp({ setCurrentPage, currentPage }) {
   return (
     <div className="desktop-root">
       <nav className={`navbar ${!isScrolled ? 'transparent' : ''}`}>
-        <div className="logo" style={{ textTransform: 'none', fontWeight: 300, letterSpacing: '0.05em', fontSize: '1.5rem' }}>
+        <div 
+          className="logo" 
+          style={{ textTransform: 'none', fontWeight: 300, letterSpacing: '0.05em', fontSize: '1.5rem', cursor: 'pointer' }}
+          onClick={() => {
+            setCurrentPage('home');
+            window.scrollTo(0, 0);
+          }}
+        >
           Clay & Craft
         </div>
         <ul className="nav-links">
-          <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('shop'); window.scrollTo(0, 0); }}>Shop</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); setSelectedCategory(null); setCurrentPage('shop'); window.scrollTo(0, 0); }}>Shop</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('shop'); window.scrollTo(0, 0); }}>Collections</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); user ? setIsAuthOpen(true) : openTrackOrder(); }}>Track Order</a></li>
@@ -514,8 +521,12 @@ function DesktopApp({ setCurrentPage, currentPage }) {
           {CATEGORIES.map((cat, i) => (
             <div 
               key={i} 
-              className={`category-card ${selectedCategory === cat.name ? 'active' : ''}`}
-              onClick={() => setSelectedCategory(selectedCategory === cat.name ? null : cat.name)}
+              className="category-card"
+              onClick={() => {
+                setSelectedCategory(cat.name);
+                setCurrentPage('shop');
+                window.scrollTo(0, 0);
+              }}
             >
               <div className="category-image">
                 <img src={cat.img} alt={cat.name} />
@@ -537,10 +548,14 @@ function DesktopApp({ setCurrentPage, currentPage }) {
           <a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('shop'); window.scrollTo(0, 0); }} style={{color: 'var(--color-accent)', textDecoration: 'none'}}>View All</a>
         </div>
         <div className="product-grid">
-          {products.filter(p => !selectedCategory || p.category === selectedCategory).map(product => (
+          {[...products].sort(() => 0.5 - Math.random()).slice(0, 4).map(product => (
             <div 
               key={product.id} 
               className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow pb-5"
+              onClick={() => {
+                // optional: go to product detail if we had one
+                // for now just add to cart or keep as is
+              }}
             >
               <div className="w-full aspect-[4/5] relative">
                 <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />

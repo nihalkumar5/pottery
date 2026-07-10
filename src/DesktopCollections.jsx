@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import { useShop } from './ShopContext';
 import { ArrowLeft, ShoppingBag } from 'lucide-react';
 
-export default function DesktopCollections({ onBack }) {
+export default function DesktopCollections({ initialCategory = 'All' }) {
   const { products, cartItemCount, addToCart } = useShop();
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+
+  React.useEffect(() => {
+    setSelectedCategory(initialCategory);
+  }, [initialCategory]);
 
   const CATEGORIES = [
     'All',
@@ -26,14 +30,14 @@ export default function DesktopCollections({ onBack }) {
     <div className="desktop-collections-page bg-[#F8F6F2]">
       
       {/* Minimal Hero Section with Image */}
-      <div className="relative w-full h-[300px] overflow-hidden">
+      <div className="relative w-full h-[450px] overflow-hidden">
         <img 
           src="/hero-banner.png" 
           alt="Our Collections" 
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center text-center px-4">
-          <h1 className="font-serif text-5xl text-white mb-4 tracking-wide">Our Collections</h1>
+          <h1 className="font-serif text-5xl text-white mb-4 tracking-wide mt-16">Our Collections</h1>
           <p className="text-white/90 font-medium tracking-widest uppercase text-sm">Explore our handcrafted, sustainable clay pieces</p>
         </div>
       </div>
@@ -49,7 +53,7 @@ export default function DesktopCollections({ onBack }) {
                 <li key={cat} className="list-none">
                   <button
                     onClick={() => setSelectedCategory(cat)}
-                    className={`w-full text-left text-sm uppercase tracking-widest transition-all duration-300
+                    className={`w-full text-left text-sm uppercase tracking-widest transition-all duration-300 border-none outline-none bg-transparent m-0 p-0
                       ${selectedCategory === cat 
                         ? 'font-bold text-[#1A2E25]' 
                         : 'font-medium text-[#82634F] hover:text-[#1A2E25]'}`}
