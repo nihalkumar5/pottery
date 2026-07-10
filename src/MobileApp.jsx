@@ -741,7 +741,10 @@ export default function MobileApp() {
 
                     {/* Step 2: Payment */}
                     {checkoutStep === 2 && (
-                      <div className="space-y-6 animate-fade-in pb-4">
+                      <div className="space-y-6 animate-fade-in pb-4 px-2">
+                        <div className="text-center py-4 bg-[#263228] mb-4 -mx-7 shadow-inner">
+                          <h2 className="font-serif text-[28px] text-[#F8F6F2] tracking-wide">Clay & Craft</h2>
+                        </div>
                         {/* Minimalist Order Summary */}
                         <div className="border-b border-[#D8D4CC] pb-6">
                           <h3 className="font-serif text-[18px] text-gray-800 mb-4">Order Summary</h3>
@@ -815,10 +818,6 @@ export default function MobileApp() {
 
                         {/* Branding & Trust */}
                         <div className="flex flex-col items-center justify-center pt-6 pb-20 gap-5 border-t border-[#E8E2D8] mt-2">
-                          <div className="text-center bg-[#263228] px-5 py-2.5 rounded-xl shadow-inner">
-                            <h2 className="font-serif text-[20px] text-[#F8F6F2] tracking-wide">Clay & Craft</h2>
-                          </div>
-                          
                           <div className="flex flex-col items-center gap-1.5 text-gray-500">
                             <p className="text-[12px] font-medium flex items-center gap-1.5">
                               <Lock className="w-3 h-3" /> 100% Secure Payment
