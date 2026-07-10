@@ -1040,7 +1040,9 @@ export default function MobileApp() {
               >
                 <ShoppingBag className="w-6 h-6" />
                 {cartItemCount > 0 && (
-                  <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-black rounded-full"></span>
+                  <span className="absolute top-1 right-1 w-4 h-4 bg-accent text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-sm">
+                    {cartItemCount}
+                  </span>
                 )}
               </motion.button>
             </div>
