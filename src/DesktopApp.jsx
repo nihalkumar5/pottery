@@ -42,8 +42,11 @@ function DesktopApp({ setCurrentPage, currentPage }) {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [authForm, setAuthForm] = useState({ username: '', email: '', password: '' });
-  const [authError, setAuthError] = useState('');
+  const [activeFaq, setActiveFaq] = useState(null);
+  const [subscribeEmail, setSubscribeEmail] = useState('');
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const [isAuthLoading, setIsAuthLoading] = useState(false);
+  const [authError, setAuthError] = useState('');
 
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -753,8 +756,27 @@ function DesktopApp({ setCurrentPage, currentPage }) {
             <h2>Join our community</h2>
             <p>Subscribe to receive updates on new collections, exclusive offers, and the stories behind our craft.</p>
             <div className="newsletter-input-group">
-              <input type="email" placeholder="Your email address" />
-              <button>Subscribe</button>
+              <input 
+                type="email" 
+                placeholder="Your email address" 
+                value={subscribeEmail}
+                onChange={(e) => setSubscribeEmail(e.target.value)}
+                disabled={isSubscribed}
+              />
+              <button
+                onClick={() => {
+                  if (subscribeEmail) {
+                    setIsSubscribed(true);
+                    setTimeout(() => {
+                      setSubscribeEmail('');
+                      setIsSubscribed(false);
+                    }, 3000);
+                  }
+                }}
+                disabled={isSubscribed}
+              >
+                {isSubscribed ? 'Subscribed!' : 'Subscribe'}
+              </button>
             </div>
           </div>
           <div className="premium-footer-links-wrapper">

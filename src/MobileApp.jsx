@@ -145,7 +145,8 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
   const [couponCode, setCouponCode] = useState('');
   const [isCouponApplied, setIsCouponApplied] = useState(false);
   const [showCouponInput, setShowCouponInput] = useState(false);
-
+  const [subscribeEmail, setSubscribeEmail] = useState('');
+  const [isSubscribed, setIsSubscribed] = useState(false);
   // Mobile Track Order States
   const [isTrackOrderOpen, setIsTrackOrderOpen] = useState(false);
   const [trackOrderId, setTrackOrderId] = useState('');
@@ -696,8 +697,29 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
           <h2 className="font-serif text-3xl mb-3">Join our community</h2>
           <p className="text-white/60 text-sm mb-6 leading-relaxed">Subscribe to receive updates on new collections, exclusive offers, and stories behind our craft.</p>
           <div className="relative w-full max-w-[400px]">
-            <input type="email" placeholder="Your email address" className="w-full bg-white/10 border border-white/20 text-white placeholder-white/50 rounded-full py-4 pl-6 pr-32 focus:outline-none focus:border-white/50 focus:bg-white/15 transition-colors text-sm appearance-none" />
-            <button className="absolute right-2 top-2 bottom-2 bg-white text-[#82634F] font-semibold tracking-widest uppercase text-xs px-6 rounded-full hover:bg-white/90 transition-colors">Subscribe</button>
+            <input 
+              type="email" 
+              placeholder="Your email address" 
+              value={subscribeEmail}
+              onChange={(e) => setSubscribeEmail(e.target.value)}
+              disabled={isSubscribed}
+              className="w-full bg-white/10 border border-white/20 text-white placeholder-white/50 rounded-full py-4 pl-6 pr-32 focus:outline-none focus:border-white/50 focus:bg-white/15 transition-colors text-sm appearance-none" 
+            />
+            <button 
+              onClick={() => {
+                if(subscribeEmail) {
+                  setIsSubscribed(true);
+                  setTimeout(() => {
+                    setSubscribeEmail('');
+                    setIsSubscribed(false);
+                  }, 3000);
+                }
+              }}
+              disabled={isSubscribed}
+              className="absolute right-2 top-2 bottom-2 bg-white text-[#82634F] font-semibold tracking-widest uppercase text-xs px-6 rounded-full hover:bg-white/90 transition-colors"
+            >
+              {isSubscribed ? 'Subscribed!' : 'Subscribe'}
+            </button>
           </div>
         </div>
 
@@ -1255,16 +1277,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                         <>Continue to Payment <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></>
                       )}
                     </button>
-                    {/* Trust Badges */}
-                    <div className="flex flex-col items-center mt-4 opacity-80">
-                      <div className="flex gap-3 items-center mb-1.5 p-1.5 bg-white rounded border border-gray-100 shadow-sm">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" className="h-[14px] object-contain px-1" />
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" className="h-[14px] object-contain px-1" />
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" className="h-[14px] object-contain px-1" />
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/American_Express_logo_%282018%29.svg" alt="Amex" className="h-[14px] object-contain px-1" />
-                      </div>
-                      <p className="text-[10px] text-gray-500 font-sans tracking-wide">Guarantee Safe and Secure Payment Checkout</p>
-                    </div>
+
                   </div>
                 </form>
               )}
