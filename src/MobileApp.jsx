@@ -756,15 +756,9 @@ export default function MobileApp() {
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ type: 'spring', damping: 15 }}
-                    className="w-24 h-24 bg-[#415a46] rounded-full flex items-center justify-center mb-8 shadow-xl shadow-[#415a46]/20"
+                    className="mb-6 flex justify-center"
                   >
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-                    >
-                      <Check className="w-12 h-12 text-white" strokeWidth={3} />
-                    </motion.div>
+                    <img src="/assets/success.gif" alt="Order Placed Successfully" className="w-32 h-32 object-contain" />
                   </motion.div>
                   
                   <h3 className="font-serif text-[36px] text-gray-900 mb-2 font-medium tracking-tight">Order Placed</h3>
