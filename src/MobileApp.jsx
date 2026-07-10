@@ -45,7 +45,7 @@ export default function MobileApp() {
     const uniqueCats = [...new Set(products.map(p => p.category).filter(Boolean))];
     
     const customImages = {
-      'Home Decor': '/assets/beanbag.png',
+      'Home Decor': '/assets/homedecor.png',
       'Water Bottles': '/assets/thermo.png',
       'Water Storage': '/assets/thermo.png',
       'Spiritual Collection': '/assets/sp.png'
