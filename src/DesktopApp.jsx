@@ -587,7 +587,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
       </section>
         </>
       ) : currentPage === 'shop' ? (
-        <DesktopCollections />
+        <DesktopCollections initialCategory={selectedCategory || 'All'} />
       ) : null}
 
       {/* Premium Footer */}
