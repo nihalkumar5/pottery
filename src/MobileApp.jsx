@@ -81,7 +81,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
       'Water Storage': '/assets/water.png',
       'Spiritual Collection': '/assets/sc2.png',
       'Serveware': '/assets/serb.png',
-      'Drinkware': '/assets/d2.png'
+      'Drinkware': '/assets/drink.png'
     };
 
     return uniqueCats.map(name => {
