@@ -354,17 +354,22 @@ export default function MobileApp() {
       </div>
 
       {/* Trust Section */}
-      <section className="py-16 px-6 bg-white">
-        <div className="grid grid-cols-1 gap-6">
-          <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-background/50">
-            <User className="w-8 h-8 text-accent mb-4" />
-            <h3 className="font-serif text-xl mb-2">Handmade by Skilled Artisans</h3>
-            <p className="text-secondary text-sm">Crafted with precision and years of heritage.</p>
+      <section className="py-12 px-4 bg-white">
+        <div className="grid grid-cols-3 gap-3">
+          <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-background/50">
+            <User className="w-6 h-6 text-accent mb-3" />
+            <h3 className="font-serif text-[14px] leading-tight mb-2">Handmade by Artisans</h3>
+            <p className="text-secondary text-[10px] leading-snug">Crafted with precision & heritage.</p>
           </div>
-          <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-background/50">
-            <Heart className="w-8 h-8 text-accent mb-4" />
-            <h3 className="font-serif text-xl mb-2">Sustainable Natural Clay</h3>
-            <p className="text-secondary text-sm">Sourced ethically from the earth.</p>
+          <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-background/50">
+            <Heart className="w-6 h-6 text-accent mb-3" />
+            <h3 className="font-serif text-[14px] leading-tight mb-2">Sustainable Clay</h3>
+            <p className="text-secondary text-[10px] leading-snug">Sourced ethically from the earth.</p>
+          </div>
+          <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-background/50">
+            <Truck className="w-6 h-6 text-accent mb-3" />
+            <h3 className="font-serif text-[14px] leading-tight mb-2">Secure Shipping</h3>
+            <p className="text-secondary text-[10px] leading-snug">Safely delivered to your door.</p>
           </div>
         </div>
       </section>
