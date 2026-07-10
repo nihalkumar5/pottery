@@ -1289,7 +1289,7 @@ export default function MobileApp() {
 
                 {/* Scrolling Images */}
                 <div 
-                  className="flex w-full h-full overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+                  className="flex w-full h-full overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide"
                   onScroll={(e) => {
                     const scrollPosition = e.target.scrollLeft;
                     const containerWidth = e.target.clientWidth;
@@ -1298,8 +1298,8 @@ export default function MobileApp() {
                   }}
                 >
                   {(selectedProduct.images || [selectedProduct.image]).map((img, i) => (
-                    <div key={i} className="min-w-full h-full flex-shrink-0 snap-center flex items-center justify-center relative">
-                       <img src={img} alt={selectedProduct.name} className="w-full h-full object-cover mix-blend-multiply" />
+                    <div key={i} className="min-w-full h-full flex-shrink-0 snap-center flex items-center justify-center relative overflow-hidden">
+                       <img src={img} alt={selectedProduct.name} className="w-full h-full object-cover mix-blend-multiply pointer-events-none select-none" draggable={false} />
                     </div>
                   ))}
                 </div>
