@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, Check, PackageSearch, ArrowLeft, Snowflake, Droplets, Leaf, ShieldCheck, Lock, Truck, RotateCcw, Smartphone, Banknote, Grid } from 'lucide-react';
+import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, Check, PackageSearch, ArrowLeft, Snowflake, Droplets, Leaf, ShieldCheck, Lock, Truck, RotateCcw, Smartphone, Banknote, Grid, HandHeart, Flower2 } from 'lucide-react';
 import { useShop } from './ShopContext';
 
 // Categories are now dynamically derived from products
@@ -43,7 +43,20 @@ export default function MobileApp() {
   // Compute categories dynamically based on fetched products
   const CATEGORIES = React.useMemo(() => {
     const uniqueCats = [...new Set(products.map(p => p.category).filter(Boolean))];
-    return uniqueCats.map(name => ({ name, img: '/assets/vase.png' }));
+    
+    const customImages = {
+      'Home Decor': '/assets/beanbag.png',
+      'Water Bottles': '/assets/thermo.png',
+      'Water Storage': '/assets/thermo.png'
+    };
+
+    return uniqueCats.map(name => {
+      const firstProduct = products.find(p => p.category === name);
+      return { 
+        name, 
+        img: customImages[name] || (firstProduct ? firstProduct.image : '/assets/vase.png') 
+      };
+    });
   }, [products]);
 
   const handleAddToCartAnim = (product) => {
@@ -343,6 +356,28 @@ export default function MobileApp() {
               </div>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* Brand Values Banner */}
+      <section className="py-8 bg-[#E6DEC4]">
+        <div className="flex items-start justify-center divide-x divide-[#A6977F]">
+          
+          <div className="flex-1 flex flex-col items-center justify-start text-center px-2">
+            <HandHeart className="w-8 h-8 mb-3 text-[#4A3B32]" strokeWidth={1.5} />
+            <span className="font-sans text-[13px] text-[#4A3B32]">Handcrafted</span>
+          </div>
+
+          <div className="flex-1 flex flex-col items-center justify-start text-center px-2">
+            <Leaf className="w-8 h-8 mb-3 text-[#4A3B32]" strokeWidth={1.5} />
+            <span className="font-sans text-[13px] text-[#4A3B32]">Eco-Friendly</span>
+          </div>
+
+          <div className="flex-1 flex flex-col items-center justify-start text-center px-2">
+            <Flower2 className="w-8 h-8 mb-3 text-[#4A3B32]" strokeWidth={1.5} />
+            <span className="font-sans text-[13px] text-[#4A3B32] leading-tight">Timeless<br/>Tradition</span>
+          </div>
+
         </div>
       </section>
 
