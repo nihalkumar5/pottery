@@ -355,7 +355,7 @@ export default function MobileApp() {
 
       {/* Trust Section */}
       <section className="py-12 px-4 bg-white">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 gap-3">
           <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-background/50">
             <User className="w-6 h-6 text-accent mb-3" />
             <h3 className="font-serif text-[14px] leading-tight mb-2">Handmade by Artisans</h3>
@@ -370,6 +370,11 @@ export default function MobileApp() {
             <Truck className="w-6 h-6 text-accent mb-3" />
             <h3 className="font-serif text-[14px] leading-tight mb-2">Secure Shipping</h3>
             <p className="text-secondary text-[10px] leading-snug">Safely delivered to your door.</p>
+          </div>
+          <div className="flex flex-col items-center text-center p-4 rounded-2xl bg-background/50">
+            <ShieldCheck className="w-6 h-6 text-accent mb-3" />
+            <h3 className="font-serif text-[14px] leading-tight mb-2">Secure Payments</h3>
+            <p className="text-secondary text-[10px] leading-snug">100% safe & trusted.</p>
           </div>
         </div>
       </section>
