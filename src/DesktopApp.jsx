@@ -395,23 +395,30 @@ function DesktopApp() {
           {products.map(product => (
             <div 
               key={product.id} 
-              className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+              className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow pb-5"
             >
               <div className="w-full aspect-[4/5] relative">
                 <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                <button 
-                  onClick={(e) => { e.stopPropagation(); addToCart(product); }}
-                  className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm border border-gray-200/50 text-gray-500 hover:text-black transition-colors p-2 rounded-md shadow-sm"
-                >
-                  <Plus className="w-5 h-5" strokeWidth={1.5} />
-                </button>
               </div>
-              <div className="p-5 flex items-center justify-between gap-4">
-                <h4 className="font-sans text-[11px] uppercase tracking-wider text-gray-400 font-semibold truncate">{product.name}</h4>
-                <div className="flex items-center gap-4">
-                  <span className="font-sans text-[15px] tracking-wide text-gray-700 font-bold whitespace-nowrap">
-                    $ {product.price}
-                  </span>
+              <div className="px-5 pt-4 flex flex-col gap-1.5">
+                <h4 className="font-serif text-[18px] font-bold text-[#1A2E25] leading-snug truncate">{product.name}</h4>
+                <p className="font-sans text-[13px] text-gray-500">Handcrafted ceramic piece</p>
+                
+                <div className="flex items-center justify-between mt-3">
+                  <div className="flex items-center gap-2">
+                    <span className="font-sans text-[17px] font-bold text-[#1A2E25]">
+                      ₹{product.price}
+                    </span>
+                    <span className="font-sans text-[13px] text-gray-400 line-through">
+                      ₹{Math.round(product.price * 1.2)}
+                    </span>
+                  </div>
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); addToCart(product); }}
+                    className="bg-[#0A4736] text-white p-2.5 rounded-full hover:bg-[#073326] transition-colors"
+                  >
+                    <ShoppingBag className="w-5 h-5" strokeWidth={1.5} />
+                  </button>
                 </div>
               </div>
             </div>

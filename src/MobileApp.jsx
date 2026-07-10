@@ -242,23 +242,30 @@ export default function MobileApp() {
             <div 
               key={item.id} 
               onClick={() => setSelectedProduct(item)}
-              className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm"
+              className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm pb-4"
             >
               <div className="w-full aspect-[4/5] relative">
                 <img src={item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                <button 
-                  onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
-                  className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm border border-gray-200/50 text-gray-500 hover:text-black transition-colors p-1.5 rounded-md shadow-sm"
-                >
-                  <Plus className="w-4 h-4" strokeWidth={1.5} />
-                </button>
               </div>
-              <div className="p-3 flex items-center justify-between gap-2">
-                <h4 className="font-sans text-[9px] uppercase tracking-wider text-gray-400 font-semibold truncate">{item.name}</h4>
-                <div className="flex items-center gap-3">
-                  <span className="font-sans text-[13px] tracking-wide text-gray-700 font-bold whitespace-nowrap">
-                    $ {item.price}
-                  </span>
+              <div className="px-4 pt-3 flex flex-col gap-1">
+                <h4 className="font-serif text-[16px] font-bold text-[#1A2E25] leading-snug truncate">{item.name}</h4>
+                <p className="font-sans text-[11px] text-gray-500">Handcrafted ceramic piece</p>
+                
+                <div className="flex items-center justify-between mt-2">
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-sans text-[15px] font-bold text-[#1A2E25]">
+                      ₹{item.price}
+                    </span>
+                    <span className="font-sans text-[11px] text-gray-400 line-through">
+                      ₹{Math.round(item.price * 1.2)}
+                    </span>
+                  </div>
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
+                    className="bg-[#0A4736] text-white p-2 rounded-full hover:bg-[#073326] transition-colors"
+                  >
+                    <ShoppingBag className="w-4 h-4" strokeWidth={1.5} />
+                  </button>
                 </div>
               </div>
             </div>
