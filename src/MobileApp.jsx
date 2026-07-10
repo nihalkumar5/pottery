@@ -680,39 +680,7 @@ export default function MobileApp() {
                         <div className="text-center pt-2">
                           <h2 className="font-serif text-[28px] text-[#263228] mb-2 leading-tight">Complete your order</h2>
                           <p className="text-[#7A746D] text-[16px]">Your handcrafted pottery is almost home.</p>
-                        </div>
-
-                        {/* Order Summary */}
-                        <div className="bg-[#FFFFFF] p-6 rounded-2xl shadow-sm border border-[#E8E2D8] my-8">
-                          <h3 className="font-serif text-[18px] text-[#263228] mb-4">Order Summary</h3>
-                          
-                          <div className="space-y-3 mb-4 pb-4 border-b border-[#E8E2D8]/50">
-                            {cart.map((item, idx) => (
-                              <div key={idx} className="flex justify-between items-center text-[15px] text-[#263228]">
-                                <span>{item.name} ×{item.quantity}</span>
-                                <span>₹{(item.price * item.quantity).toFixed(2)}</span>
-                              </div>
-                            ))}
-                          </div>
-
-                          <div className="space-y-2 mb-4 text-[14px] text-[#7A746D]">
-                            <div className="flex justify-between">
-                              <span>Subtotal</span>
-                              <span>₹{cartTotal.toFixed(2)}</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span>Shipping</span>
-                              <span>Free</span>
-                            </div>
-                          </div>
-                          
-                          <div className="flex justify-between items-center pt-4 border-t border-[#E8E2D8]">
-                            <span className="font-medium text-[#263228] text-[16px]">Total</span>
-                            <span className="font-medium text-[16px] text-[#263228]">₹{cartTotal.toFixed(2)}</span>
-                          </div>
-                        </div>
-
-                        <section>
+                        </div>                        <section>
                           <h3 className="font-serif text-[22px] text-[#263228] mb-8 border-b border-[#E8E2D8] pb-3">Contact Information</h3>
                           <div className="flex flex-col gap-10">
                             <div className="relative group">
