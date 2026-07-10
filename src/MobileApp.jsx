@@ -79,7 +79,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
       'Water Bottles': '/assets/waterbottle.png',
       'Spiritual Collection': '/assets/sc2.png',
       'Serveware': '/assets/serb.png',
-      'Mugs': '/assets/p1-brick-mug.png',
+      'Mugs': '/assets/mugs.png',
       'Tea Sets': '/assets/drink.png',
       'Glasses & Tumblers': '/assets/p4-clay-glass.png'
     };
