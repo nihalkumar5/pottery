@@ -384,7 +384,15 @@ export default function MobileApp() {
         <h2 className="font-serif text-3xl mb-8 pr-6">Shop by Category</h2>
         <div className="flex gap-4 overflow-x-auto pb-8 pr-6 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {CATEGORIES.map((cat, i) => (
-            <motion.div whileHover={{ y: -5 }} key={i} className="min-w-[200px] flex-shrink-0 cursor-pointer group">
+            <motion.div 
+              whileHover={{ y: -5 }} 
+              key={i} 
+              className="min-w-[200px] flex-shrink-0 cursor-pointer group"
+              onClick={() => {
+                setSelectedCategory(cat.name);
+                setIsShopOpen(true);
+              }}
+            >
               <div className="w-full h-[250px] rounded-3xl overflow-hidden mb-4 relative">
                 <img src={cat.img} alt={cat.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
