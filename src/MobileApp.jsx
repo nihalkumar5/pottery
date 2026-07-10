@@ -789,22 +789,30 @@ export default function MobileApp() {
                         </div>
 
                         {/* Trust Signals */}
-                        <div className="mt-6 pt-6 border-t border-[#D8D4CC]/50 grid grid-cols-2 gap-y-4 gap-x-2">
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <Lock className="w-4 h-4 text-[#415a46]" />
-                            <span className="text-[12px] font-medium leading-tight">256-bit Secure Payment</span>
+                        <div className="mt-6 pt-6 border-t border-[#D8D4CC]/50 grid grid-cols-2 gap-3">
+                          <div className="flex flex-col gap-2 bg-white p-3.5 rounded-2xl border border-[#E5E0D8] shadow-sm items-start">
+                            <Lock className="w-5 h-5 text-[#415a46]" />
+                            <div className="text-[12px] font-bold leading-tight text-gray-800">
+                              256-bit<br/>Secure Payment
+                            </div>
                           </div>
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <Truck className="w-4 h-4 text-[#415a46]" />
-                            <span className="text-[12px] font-medium leading-tight">Free Shipping</span>
+                          <div className="flex flex-col gap-2 bg-white p-3.5 rounded-2xl border border-[#E5E0D8] shadow-sm items-start">
+                            <Truck className="w-5 h-5 text-[#415a46]" />
+                            <div className="text-[12px] font-bold leading-tight text-gray-800">
+                              Free<br/>Shipping
+                            </div>
                           </div>
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <RotateCcw className="w-4 h-4 text-[#415a46]" />
-                            <span className="text-[12px] font-medium leading-tight">Easy Returns</span>
+                          <div className="flex flex-col gap-2 bg-white p-3.5 rounded-2xl border border-[#E5E0D8] shadow-sm items-start">
+                            <RotateCcw className="w-5 h-5 text-[#415a46]" />
+                            <div className="text-[12px] font-bold leading-tight text-gray-800">
+                              Easy<br/>Returns
+                            </div>
                           </div>
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <Star className="w-4 h-4 text-[#415a46] fill-[#415a46]" />
-                            <span className="text-[12px] font-medium leading-tight">Handmade with Care</span>
+                          <div className="flex flex-col gap-2 bg-white p-3.5 rounded-2xl border border-[#E5E0D8] shadow-sm items-start">
+                            <Star className="w-5 h-5 text-[#415a46] fill-[#415a46]" />
+                            <div className="text-[12px] font-bold leading-tight text-gray-800">
+                              Handmade<br/>with Care
+                            </div>
                           </div>
                         </div>
                       </div>
