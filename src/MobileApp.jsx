@@ -350,81 +350,40 @@ export default function MobileApp() {
       <section id="shop" className="py-16 px-6 bg-background">
         <h2 className="font-serif text-3xl mb-8">Our Collection</h2>
         
-        {/* Staggered Masonry Layout */}
-        <div className="flex gap-4 items-start">
-          {/* Left Column */}
-          <div className="flex flex-col gap-6 w-1/2">
-            {products.filter((_, i) => i % 2 === 0).map((item, index) => (
-              <div 
-                key={item.id} 
-                onClick={() => { setSelectedProduct(item); setActiveImageIndex(0); }}
-                className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm pb-4"
-              >
-                {/* Varied aspect ratio for non-uniform sizes */}
-                <div className={`w-full relative ${index % 2 === 0 ? 'aspect-[4/5]' : 'aspect-square'}`}>
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                </div>
-                <div className="px-4 pt-3 flex flex-col gap-1">
-                  <h4 className="font-serif text-[16px] font-bold text-[#1A2E25] leading-snug truncate">{item.name}</h4>
-                  <p className="font-sans text-[11px] text-gray-500">Handcrafted ceramic piece</p>
-                  
-                  <div className="flex items-center justify-between mt-2">
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-sans text-[15px] font-bold text-[#1A2E25]">
-                        ₹{item.price}
-                      </span>
-                      <span className="font-sans text-[11px] text-gray-400 line-through">
-                        ₹{Math.round(item.price * 1.2)}
-                      </span>
-                    </div>
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
-                      className="bg-[#0A4736] text-white p-2 rounded-full hover:bg-[#073326] transition-colors"
-                    >
-                      <ShoppingBag className="w-4 h-4" strokeWidth={1.5} />
-                    </button>
+        {/* Uniform Grid Layout */}
+        <div className="grid grid-cols-2 gap-x-4 gap-y-8">
+          {products.map((item) => (
+            <div 
+              key={item.id} 
+              onClick={() => { setSelectedProduct(item); setActiveImageIndex(0); }}
+              className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm pb-4 h-full"
+            >
+              <div className="w-full aspect-[4/5] relative bg-[#F5F5F5] overflow-hidden">
+                <img src={item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              </div>
+              <div className="px-4 pt-3 flex flex-col flex-1">
+                <h4 className="font-serif text-[16px] font-bold text-[#1A2E25] leading-snug truncate">{item.name}</h4>
+                <p className="font-sans text-[11px] text-gray-500 mb-1">Handcrafted ceramic piece</p>
+                
+                <div className="flex items-center justify-between mt-auto pt-2">
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-sans text-[15px] font-bold text-[#1A2E25]">
+                      ₹{item.price}
+                    </span>
+                    <span className="font-sans text-[11px] text-gray-400 line-through">
+                      ₹{Math.round(item.price * 1.2)}
+                    </span>
                   </div>
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); handleAddToCartAnim(item); }}
+                    className="bg-[#0A4736] text-white p-2 rounded-full hover:bg-[#073326] transition-colors"
+                  >
+                    <ShoppingBag className="w-4 h-4" strokeWidth={1.5} />
+                  </button>
                 </div>
               </div>
-            ))}
-          </div>
-
-          {/* Right Column (Staggered with aspect ratio, not margin) */}
-          <div className="flex flex-col gap-6 w-1/2">
-            {products.filter((_, i) => i % 2 !== 0).map((item, index) => (
-              <div 
-                key={item.id} 
-                onClick={() => { setSelectedProduct(item); setActiveImageIndex(0); }}
-                className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm pb-4"
-              >
-                {/* Varied aspect ratio for non-uniform sizes */}
-                <div className={`w-full relative ${index % 2 === 0 ? 'aspect-[3/4]' : 'aspect-[4/5]'}`}>
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                </div>
-                <div className="px-4 pt-3 flex flex-col gap-1">
-                  <h4 className="font-serif text-[16px] font-bold text-[#1A2E25] leading-snug truncate">{item.name}</h4>
-                  <p className="font-sans text-[11px] text-gray-500">Handcrafted ceramic piece</p>
-                  
-                  <div className="flex items-center justify-between mt-2">
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-sans text-[15px] font-bold text-[#1A2E25]">
-                        ₹{item.price}
-                      </span>
-                      <span className="font-sans text-[11px] text-gray-400 line-through">
-                        ₹{Math.round(item.price * 1.2)}
-                      </span>
-                    </div>
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
-                      className="bg-[#0A4736] text-white p-2 rounded-full hover:bg-[#073326] transition-colors"
-                    >
-                      <ShoppingBag className="w-4 h-4" strokeWidth={1.5} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
 
