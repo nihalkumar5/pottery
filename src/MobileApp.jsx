@@ -746,10 +746,13 @@ export default function MobileApp() {
                         <div className="border-b border-[#D8D4CC] pb-6">
                           <h3 className="font-serif text-[18px] text-gray-800 mb-4">Order Summary</h3>
                           
-                          <div className="space-y-3 mb-4">
+                          <div className="space-y-4 mb-5">
                             {cart.map((item, idx) => (
                               <div key={idx} className="flex justify-between items-center text-[15px] text-gray-900">
-                                <span>{item.name} ×{item.quantity}</span>
+                                <div className="flex items-center gap-3">
+                                  <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded-md bg-[#E8E2D8]/30" />
+                                  <span className="font-medium">{item.name} <span className="text-gray-400 font-normal text-[13px] ml-1">×{item.quantity}</span></span>
+                                </div>
                                 <span>₹{(item.price * item.quantity).toFixed(2)}</span>
                               </div>
                             ))}
@@ -760,8 +763,8 @@ export default function MobileApp() {
                               <span>Subtotal</span>
                               <span>₹{cartTotal.toFixed(2)}</span>
                             </div>
-                            <div className="flex justify-between">
-                              <span>Shipping</span>
+                            <div className="flex justify-between items-center">
+                              <span className="flex items-center gap-2">Shipping <span className="text-[9px] uppercase tracking-wider bg-[#E8E2D8]/50 text-[#263228] px-1.5 py-0.5 rounded-sm">Free over ₹999</span></span>
                               <span>{cartTotal >= 999 ? 'Free' : '₹99.00'}</span>
                             </div>
                           </div>
@@ -810,11 +813,21 @@ export default function MobileApp() {
                           </div>
                         </div>
 
-                        {/* Minimalist Trust */}
-                        <div className="flex items-center justify-center pt-2">
-                          <p className="text-[13px] text-gray-500 font-medium flex items-center gap-1.5">
-                            <Lock className="w-3.5 h-3.5" /> Secure payment • Free shipping • Easy returns
-                          </p>
+                        {/* Branding & Trust */}
+                        <div className="flex flex-col items-center justify-center pt-6 pb-20 gap-5 border-t border-[#E8E2D8] mt-2">
+                          <div className="text-center bg-[#263228] px-5 py-2.5 rounded-xl shadow-inner">
+                            <h2 className="font-serif text-[20px] text-[#F8F6F2] tracking-wide">Clay & Craft</h2>
+                          </div>
+                          
+                          <div className="flex flex-col items-center gap-1.5 text-gray-500">
+                            <p className="text-[12px] font-medium flex items-center gap-1.5">
+                              <Lock className="w-3 h-3" /> 100% Secure Payment
+                            </p>
+                            <div className="flex items-center gap-1.5 opacity-90 mt-1">
+                              <span className="text-[10px] tracking-wide uppercase">Secured by</span>
+                              <span className="text-[13px] font-sans font-extrabold tracking-tight text-[#0D2366]">Razorpay</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     )}
