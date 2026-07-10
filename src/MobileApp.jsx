@@ -432,7 +432,6 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
             <p className="text-secondary text-[10px] leading-snug">100% safe & trusted.</p>
           </div>
         </div>
-        </div>
       </section>
 
       {/* Offer Section */}
