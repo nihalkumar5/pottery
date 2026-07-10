@@ -1453,6 +1453,16 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                 </button>
               </div>
 
+              {/* Shop Modal Hero Banner */}
+              <div className="relative w-full h-[140px] rounded-2xl overflow-hidden mb-6 flex flex-col items-center justify-center shadow-sm">
+                <img src="/assets/hero-mobile.png" className="absolute inset-0 w-full h-full object-cover" alt="Shop Hero" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20"></div>
+                <div className="relative z-10 text-center px-4">
+                  <h2 className="font-serif text-2xl text-[#F8F6F2] mb-1 leading-tight">Handcrafted with Love</h2>
+                  <p className="text-[#E6DEC8] text-[10px] uppercase tracking-[0.2em] font-medium">Explore the collection</p>
+                </div>
+              </div>
+
               {/* Category Filter Pills */}
               <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
                 <button 
