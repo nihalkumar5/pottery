@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, Check, PackageSearch, ArrowLeft, Snowflake, Droplets, Leaf, ShieldCheck } from 'lucide-react';
+import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, Check, PackageSearch, ArrowLeft, Snowflake, Droplets, Leaf, ShieldCheck, Lock, Truck, RotateCcw, Smartphone, Banknote } from 'lucide-react';
 import { useShop } from './ShopContext';
 
 const CATEGORIES = [
@@ -673,10 +673,27 @@ export default function MobileApp() {
                 </div>
               ) : (
                 <form onSubmit={handleNextStep} className="flex flex-col">
-                  {/* Order Summary Strip */}
-                  <div className="bg-[#EAE6DF] px-6 py-4 mb-3 flex justify-between items-center border-b border-[#D8D4CC]">
-                    <span className="font-sans text-gray-600 text-[14px] uppercase tracking-wider font-bold">Total to Pay</span>
-                    <span className="font-sans font-bold text-[22px] text-[#415a46]">₹{cartTotal.toFixed(2)}</span>
+                  {/* Premium Order Summary Card */}
+                  <div className="mx-5 mt-4 mb-2 bg-white rounded-3xl p-5 shadow-sm border border-[#E5E0D8]">
+                    <h3 className="font-serif text-[18px] text-gray-800 mb-3 border-b border-gray-100 pb-3">Order Summary</h3>
+                    <div className="space-y-2 mb-3">
+                      <div className="flex justify-between text-[14px] text-gray-600">
+                        <span>Subtotal</span>
+                        <span>₹{cartTotal.toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between text-[14px] text-gray-600">
+                        <span>Shipping</span>
+                        <span className="text-[#415a46] font-medium">Free</span>
+                      </div>
+                      <div className="flex justify-between text-[14px] text-gray-600">
+                        <span>Taxes</span>
+                        <span>Included</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center pt-3 border-t border-gray-100">
+                      <span className="font-bold text-gray-900 text-[16px]">Total</span>
+                      <span className="font-bold text-[20px] text-[#415a46]">₹{cartTotal.toFixed(2)}</span>
+                    </div>
                   </div>
                   
                   <div className="px-5 py-4 space-y-8">
@@ -730,66 +747,82 @@ export default function MobileApp() {
 
                     {/* Step 2: Payment */}
                     {checkoutStep === 2 && (
-                      <div className="space-y-6 animate-fade-in">
-                        <h3 className="font-serif text-[22px] text-gray-800 mb-2">Select Payment Method</h3>
+                      <div className="space-y-5 animate-fade-in">
+                        <div className="mb-4">
+                          <h3 className="font-serif text-[22px] text-gray-800 mb-1">Select Payment Method</h3>
+                          <p className="text-gray-500 text-[13px] italic flex items-start gap-1.5 leading-relaxed">
+                            <Heart className="w-3.5 h-3.5 fill-[#8C7A6B] text-[#8C7A6B] shrink-0 mt-1" />
+                            Every order is carefully packed by our artisans to ensure it reaches you safely.
+                          </p>
+                        </div>
                         
                         <div 
                           onClick={() => setPaymentMethod('upi')}
-                          className={`p-6 rounded-3xl border-2 transition-all cursor-pointer flex items-center gap-4 ${paymentMethod === 'upi' ? 'border-[#415a46] bg-white shadow-md' : 'border-transparent bg-[#F5F3ED]'}`}
+                          className={`p-5 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex items-center gap-4 hover:shadow-md ${paymentMethod === 'upi' ? 'border-[#415a46] bg-white shadow-md' : 'border-transparent bg-[#F5F3ED] hover:bg-white'}`}
                         >
-                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${paymentMethod === 'upi' ? 'border-[#415a46]' : 'border-gray-400'}`}>
+                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${paymentMethod === 'upi' ? 'border-[#415a46]' : 'border-gray-400'}`}>
                             {paymentMethod === 'upi' && <div className="w-3 h-3 bg-[#415a46] rounded-full"></div>}
                           </div>
-                          <div>
-                            <p className="font-bold text-[16px] text-gray-900">UPI (GPay, PhonePe, Paytm)</p>
-                            <p className="text-gray-500 text-sm mt-1">Pay instantly via your UPI app</p>
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between">
+                              <p className="font-bold text-[16px] text-gray-900">UPI / Online Payment</p>
+                              <Smartphone className={`w-5 h-5 ${paymentMethod === 'upi' ? 'text-[#415a46]' : 'text-gray-400'}`} />
+                            </div>
+                            <p className="text-gray-500 text-[13px] mt-0.5">GPay, PhonePe, Paytm, Cards</p>
                           </div>
                         </div>
 
                         <div 
                           onClick={() => setPaymentMethod('cod')}
-                          className={`p-6 rounded-3xl border-2 transition-all cursor-pointer flex items-center gap-4 ${paymentMethod === 'cod' ? 'border-[#415a46] bg-white shadow-md' : 'border-transparent bg-[#F5F3ED]'}`}
+                          className={`p-5 rounded-3xl border-2 transition-all duration-300 cursor-pointer flex items-center gap-4 hover:shadow-md ${paymentMethod === 'cod' ? 'border-[#415a46] bg-white shadow-md' : 'border-transparent bg-[#F5F3ED] hover:bg-white'}`}
                         >
-                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${paymentMethod === 'cod' ? 'border-[#415a46]' : 'border-gray-400'}`}>
+                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${paymentMethod === 'cod' ? 'border-[#415a46]' : 'border-gray-400'}`}>
                             {paymentMethod === 'cod' && <div className="w-3 h-3 bg-[#415a46] rounded-full"></div>}
                           </div>
-                          <div>
-                            <p className="font-bold text-[16px] text-gray-900">Cash on Delivery (COD)</p>
-                            <p className="text-gray-500 text-sm mt-1">Pay when your order arrives</p>
+                          <div className="flex-1">
+                            <div className="flex items-center justify-between">
+                              <p className="font-bold text-[16px] text-gray-900">Cash on Delivery</p>
+                              <Banknote className={`w-5 h-5 ${paymentMethod === 'cod' ? 'text-[#415a46]' : 'text-gray-400'}`} />
+                            </div>
+                            <p className="text-gray-500 text-[13px] mt-0.5">Pay when your order arrives</p>
                           </div>
                         </div>
-                        <div className="mt-8 flex flex-col items-center justify-center space-y-3">
-                          <div className="flex items-center gap-2 text-[#415a46] font-bold text-[13px] bg-green-50/80 px-4 py-2 rounded-full border border-green-100">
-                            <ShieldCheck className="w-4 h-4" />
-                            100% Secure Payments
+
+                        {/* Trust Signals */}
+                        <div className="mt-6 pt-6 border-t border-[#D8D4CC]/50 grid grid-cols-2 gap-y-4 gap-x-2">
+                          <div className="flex items-center gap-2 text-gray-600">
+                            <Lock className="w-4 h-4 text-[#415a46]" />
+                            <span className="text-[12px] font-medium leading-tight">256-bit Secure Payment</span>
                           </div>
-                          <div className="flex items-center justify-center gap-2 mt-2">
-                            {/* Payment Provider Badges */}
-                            <div className="flex items-center gap-2 grayscale opacity-50">
-                              <span className="font-bold text-[10px] italic tracking-wider border border-gray-300 px-2 py-1 rounded">VISA</span>
-                              <span className="font-bold text-[10px] tracking-wider border border-gray-300 px-2 py-1 rounded">MASTER</span>
-                              <span className="font-bold text-[10px] tracking-wider border border-gray-300 px-2 py-1 rounded">RUPAY</span>
-                              <span className="font-bold text-[10px] tracking-wider border border-gray-300 px-2 py-1 rounded">UPI</span>
-                            </div>
+                          <div className="flex items-center gap-2 text-gray-600">
+                            <Truck className="w-4 h-4 text-[#415a46]" />
+                            <span className="text-[12px] font-medium leading-tight">Free Shipping</span>
                           </div>
-                          <p className="text-[11px] text-gray-400 mt-2 text-center max-w-[250px] leading-relaxed">
-                            Your payment information is encrypted and securely processed by Razorpay.
-                          </p>
+                          <div className="flex items-center gap-2 text-gray-600">
+                            <RotateCcw className="w-4 h-4 text-[#415a46]" />
+                            <span className="text-[12px] font-medium leading-tight">Easy Returns</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-gray-600">
+                            <Star className="w-4 h-4 text-[#415a46] fill-[#415a46]" />
+                            <span className="text-[12px] font-medium leading-tight">Handmade with Care</span>
+                          </div>
                         </div>
                       </div>
                     )}
                   </div>
 
                   {/* Sticky Checkout Button */}
-                  <div className="fixed bottom-0 left-0 w-full bg-[#EAE6DF]/90 backdrop-blur-md p-6 border-t border-[#D8D4CC] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] z-20 flex gap-4">
-                    {checkoutStep > 1 && (
-                      <button type="button" onClick={() => setCheckoutStep(prev => prev - 1)} className="px-6 bg-white border border-[#D8D4CC] text-gray-800 py-4 rounded-2xl font-sans font-bold tracking-wide shadow-sm hover:bg-gray-50 transition-colors">
-                        BACK
+                  <div className="fixed bottom-0 left-0 w-full bg-[#EAE6DF]/90 backdrop-blur-md p-5 border-t border-[#D8D4CC] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] z-20">
+                    <div className="flex gap-4">
+                      {checkoutStep > 1 && (
+                        <button type="button" onClick={() => setCheckoutStep(prev => prev - 1)} className="px-6 bg-white border border-[#D8D4CC] text-gray-800 py-4 rounded-2xl font-sans font-bold tracking-wide shadow-sm hover:bg-gray-50 transition-colors">
+                          BACK
+                        </button>
+                      )}
+                      <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#415a46] text-white py-4 rounded-2xl font-sans font-bold tracking-wide shadow-lg hover:bg-[#2f4233] transition-colors flex justify-center items-center gap-2">
+                        {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? `Secure Checkout • ₹${cartTotal.toFixed(2)}` : 'CONTINUE'}
                       </button>
-                    )}
-                    <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#415a46] text-white py-4 rounded-2xl font-sans font-bold tracking-wide shadow-lg hover:bg-[#2f4233] transition-colors flex justify-center items-center gap-2">
-                      {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? (paymentMethod === 'upi' ? `PAY WITH RAZORPAY • ₹${cartTotal.toFixed(2)}` : `PLACE ORDER • ₹${cartTotal.toFixed(2)}`) : 'CONTINUE'}
-                    </button>
+                    </div>
                   </div>
                 </form>
               )}
