@@ -28,7 +28,7 @@ const REVIEWS = [
   { id: 3, name: 'Elena R.', text: 'Perfectly balanced plates that make every dinner feel special.', rating: 5 },
 ];
 
-export default function MobileApp({ setCurrentPage }) {
+export default function MobileApp({ setCurrentPage, currentPage }) {
   const { products, cart, addToCart, removeFromCart, decreaseQuantity, cartTotal, cartItemCount, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register, toggleWishlist, isInWishlist, wishlist } = useShop();
   
   const [isScrolled, setIsScrolled] = useState(false);
@@ -47,6 +47,16 @@ export default function MobileApp({ setCurrentPage }) {
     <React.Fragment key="2">Natural<br />Decor</React.Fragment>,
     <React.Fragment key="3">Handcrafted<br />Pottery</React.Fragment>
   ];
+
+  useEffect(() => {
+    if (currentPage === 'About Us' || currentPage === 'about' || currentPage === 'Contact Us') {
+      setIsShopOpen(false);
+      setIsProfileOpen(false);
+      setIsWishlistOpen(false);
+      setSelectedProduct(null);
+    }
+  }, [currentPage]);
+  
   const [heroTextIndex, setHeroTextIndex] = useState(0);
 
   useEffect(() => {
@@ -315,11 +325,11 @@ export default function MobileApp({ setCurrentPage }) {
       )}
 
       {currentPage === 'About Us' || currentPage === 'about' ? (
-        <div className="pb-32 pt-20">
+        <div className="pb-32">
           <DesktopAbout onShopClick={() => { setIsShopOpen(true); setCurrentPage('home'); window.scrollTo(0,0); }} />
         </div>
       ) : currentPage === 'Contact Us' ? (
-        <div className="pb-32 pt-20">
+        <div className="pb-32">
           <DesktopContact />
         </div>
       ) : (
