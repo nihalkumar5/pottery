@@ -32,6 +32,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
   const { products, cart, addToCart, removeFromCart, decreaseQuantity, cartTotal, cartItemCount, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register, toggleWishlist, isInWishlist, wishlist } = useShop();
   
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isModalScrolled, setIsModalScrolled] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -1444,20 +1445,14 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
             className="fixed inset-0 bg-[#F8F6F2] z-30 flex flex-col font-sans pt-24"
           >
             <div className="p-6 pb-4 flex flex-col bg-[#F8F6F2]/90 backdrop-blur sticky top-0 z-10">
-              <div className="flex justify-between items-center mb-6">
-                <h1 className="font-serif text-3xl text-[#1A2E25]">
-                  Shop Collection
-                </h1>
-                <button onClick={() => setIsShopOpen(false)} className="p-2 bg-white rounded-full shadow-sm">
-                  <X className="w-5 h-5 text-[#1A2E25]" />
-                </button>
-              </div>
-
               {/* Shop Modal Hero Banner */}
-              <div className="relative w-[calc(100%+3rem)] -mx-6 -mt-2 h-[180px] overflow-hidden mb-6 flex flex-col items-center justify-center">
+              <div className="relative w-[calc(100%+3rem)] -mx-6 -mt-6 h-[180px] overflow-hidden mb-6 flex flex-col items-center justify-center">
                 <img src="/assets/homedecor.png" className="absolute inset-0 w-full h-full object-cover" alt="Shop Hero" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20"></div>
-                <div className="relative z-10 text-center px-4">
+                <button onClick={() => setIsShopOpen(false)} className="absolute top-4 right-4 p-2 bg-black/20 backdrop-blur rounded-full shadow-sm z-20 hover:bg-black/40 transition-colors">
+                  <X className="w-5 h-5 text-white" />
+                </button>
+                <div className="relative z-10 text-center px-4 mt-4">
                   <h2 className="font-serif text-[26px] text-[#F8F6F2] mb-1 leading-tight">Handcrafted with Love</h2>
                   <p className="text-[#E6DEC8] text-[10px] uppercase tracking-[0.2em] font-medium">Explore the collection</p>
                 </div>
@@ -1485,7 +1480,10 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
               </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-6 pb-40">
+            <div 
+              className="flex-1 overflow-y-auto px-6 pb-40"
+              onScroll={(e) => setIsModalScrolled(e.target.scrollTop > 50)}
+            >
               <div className="grid grid-cols-2 gap-4">
                 {products
                   .filter(product => selectedCategory === 'All' || product.category === selectedCategory)
@@ -1755,8 +1753,8 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
       {!selectedProduct && (
         <motion.div 
           initial={{ y: 100 }}
-          animate={{ y: 0 }}
-          transition={{ delay: 0.5, type: "spring", stiffness: 260, damping: 20 }}
+          animate={{ y: (isScrolled || isModalScrolled) ? 150 : 0 }}
+          transition={{ delay: 0.1, type: "spring", stiffness: 260, damping: 20 }}
           className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-[400px] bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-full py-4 px-8 z-40 flex justify-between items-center"
         >
           <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={returnToHome}>
