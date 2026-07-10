@@ -592,27 +592,27 @@ export default function MobileApp() {
           <motion.div 
             initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-gradient-to-b from-[#F7F4EF] to-[#F3EEE7] z-50 flex flex-col"
+            className="fixed inset-0 bg-[#F8F6F2] z-50 flex flex-col font-sans"
           >
-            <div className="p-6 pb-4 flex flex-col bg-[#F7F4EF]/90 backdrop-blur sticky top-0 z-10 border-b border-[#D8D4CC]">
-              <div className="flex justify-between items-center mb-6">
-                <h1 className="font-serif text-[32px] font-bold tracking-wide text-gray-900">Checkout</h1>
-                <button onClick={() => { setIsCheckoutOpen(false); setCheckoutStep(1); }} className="p-2 bg-white/50 rounded-full hover:bg-white border border-[#D8D4CC]/50 transition-colors">
-                  <X className="w-5 h-5 text-gray-800" />
+            <div className="p-6 pb-2 flex flex-col bg-[#F8F6F2]/90 backdrop-blur sticky top-0 z-10">
+              <div className="flex justify-between items-center mb-4">
+                <h1 className="font-serif text-[38px] font-semibold tracking-tight text-[#263228]">Checkout</h1>
+                <button onClick={() => { setIsCheckoutOpen(false); setCheckoutStep(1); }} className="p-2 bg-transparent rounded-full hover:bg-black/5 transition-colors">
+                  <X className="w-5 h-5 text-[#263228]" />
                 </button>
               </div>
               
-              {/* Stepper */}
+              {/* Minimalist Stepper */}
               {!orderSuccess && (
-                <div className="flex justify-between items-center px-8 mt-2 mb-2">
+                <div className="flex items-center justify-center px-4 mt-2 gap-3 mb-2">
                   <div className="flex items-center gap-2">
-                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[13px] font-bold ${checkoutStep >= 1 ? 'bg-[#415a46] text-white' : 'border-2 border-gray-300 text-gray-400 bg-white'}`}>1</div>
-                    <span className={`text-[14px] ${checkoutStep >= 1 ? 'text-[#415a46] font-semibold' : 'text-gray-400 font-medium'}`}>Shipping</span>
+                    <div className={`w-1.5 h-1.5 rounded-full ${checkoutStep >= 1 ? 'bg-[#263228]' : 'bg-[#E8E2D8]'}`}></div>
+                    <span className={`text-[12px] font-medium tracking-wide uppercase ${checkoutStep >= 1 ? 'text-[#263228]' : 'text-[#7A746D]'}`}>Shipping</span>
                   </div>
-                  <div className="flex-1 h-[2px] bg-gray-300 mx-4"></div>
+                  <div className={`w-8 h-[1px] ${checkoutStep >= 2 ? 'bg-[#263228]' : 'bg-[#E8E2D8]'}`}></div>
                   <div className="flex items-center gap-2">
-                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[13px] font-bold ${checkoutStep >= 2 ? 'bg-[#415a46] text-white' : 'border-2 border-gray-300 text-gray-400 bg-white'}`}>2</div>
-                    <span className={`text-[14px] ${checkoutStep >= 2 ? 'text-[#415a46] font-semibold' : 'text-gray-400 font-medium'}`}>Payment</span>
+                    <div className={`w-1.5 h-1.5 rounded-full ${checkoutStep >= 2 ? 'bg-[#263228]' : 'bg-[#E8E2D8]'}`}></div>
+                    <span className={`text-[12px] font-medium tracking-wide uppercase ${checkoutStep >= 2 ? 'text-[#263228]' : 'text-[#7A746D]'}`}>Payment</span>
                   </div>
                 </div>
               )}
@@ -676,45 +676,61 @@ export default function MobileApp() {
                   <div className="px-5 py-4 space-y-8">
                     {/* Step 1: Shipping Details */}
                     {checkoutStep === 1 && (
-                      <div className="space-y-8 animate-fade-in">
-                        <section>
-                          <h3 className="font-serif text-[22px] text-gray-800 mb-4 ml-1">Contact Information</h3>
-                          <div className="bg-[#F5F3ED] p-5 rounded-3xl shadow-sm border border-[#D8D4CC] flex flex-col gap-4">
-                            <div className="relative">
-                              <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Email Address</label>
-                              <input type="email" name="email" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-white/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.email} onChange={handleInputChange} />
+                      <div className="space-y-10 animate-fade-in pb-4 px-2">
+                        <div className="text-center pt-2">
+                          <h2 className="font-serif text-[28px] text-[#263228] mb-2 leading-tight">Complete your order</h2>
+                          <p className="text-[#7A746D] text-[16px]">Your handcrafted pottery is almost home.</p>
+                        </div>
+
+                        {/* Product Reminder */}
+                        <div className="border-y border-[#E8E2D8] py-5 my-8">
+                          {cart.map((item, idx) => (
+                            <div key={idx} className="flex justify-between items-center text-[16px] text-[#263228]">
+                              <span>{item.name} ×{item.quantity}</span>
+                              <span className="font-medium">₹{(item.price * item.quantity).toFixed(2)}</span>
                             </div>
-                            <div className="relative">
-                              <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Phone Number</label>
-                              <input type="tel" name="phone" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-white/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.phone} onChange={handleInputChange} />
+                          ))}
+                        </div>
+
+                        <section>
+                          <h3 className="font-serif text-[22px] text-[#263228] mb-8 border-b border-[#E8E2D8] pb-3">Contact Information</h3>
+                          <div className="flex flex-col gap-10">
+                            <div className="relative group">
+                              <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">Email</label>
+                              <input type="email" name="email" required className="w-full bg-transparent border-b border-[#E8E2D8] pb-2 focus:border-[#263228] focus:outline-none transition-all text-[16px] text-[#263228]" value={formData.email} onChange={handleInputChange} />
+                            </div>
+                            <div className="relative group">
+                              <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">Phone Number</label>
+                              <input type="tel" name="phone" required className="w-full bg-transparent border-b border-[#E8E2D8] pb-2 focus:border-[#263228] focus:outline-none transition-all text-[16px] text-[#263228]" value={formData.phone} onChange={handleInputChange} />
                             </div>
                           </div>
                         </section>
-                        <section>
-                          <h3 className="font-serif text-[22px] text-gray-800 mb-4 ml-1">Shipping Details</h3>
-                          <div className="bg-[#F5F3ED] p-5 rounded-3xl shadow-sm border border-[#D8D4CC] flex flex-col gap-4">
-                            <div className="flex gap-4">
-                              <div className="relative w-1/2">
-                                <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">First Name</label>
-                                <input type="text" name="firstName" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.firstName} onChange={handleInputChange} />
+                        
+                        <section className="pt-4">
+                          <h3 className="font-serif text-[22px] text-[#263228] mb-8 border-b border-[#E8E2D8] pb-3">Shipping Address</h3>
+                          <div className="flex flex-col gap-10">
+                            <div className="flex gap-6">
+                              <div className="relative group w-1/2">
+                                <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">First Name</label>
+                                <input type="text" name="firstName" required className="w-full bg-transparent border-b border-[#E8E2D8] pb-2 focus:border-[#263228] focus:outline-none transition-all text-[16px] text-[#263228]" value={formData.firstName} onChange={handleInputChange} />
                               </div>
-                              <div className="relative w-1/2">
-                                <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Last Name</label>
-                                <input type="text" name="lastName" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.lastName} onChange={handleInputChange} />
+                              <div className="relative group w-1/2">
+                                <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">Last Name</label>
+                                <input type="text" name="lastName" required className="w-full bg-transparent border-b border-[#E8E2D8] pb-2 focus:border-[#263228] focus:outline-none transition-all text-[16px] text-[#263228]" value={formData.lastName} onChange={handleInputChange} />
                               </div>
                             </div>
-                            <div className="relative">
-                              <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Full Address</label>
-                              <input type="text" name="address" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.address} onChange={handleInputChange} />
+                            <div className="relative group">
+                              <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">Address</label>
+                              <input type="text" name="address" required className="w-full bg-transparent border-b border-[#E8E2D8] pb-2 focus:border-[#263228] focus:outline-none transition-all text-[16px] text-[#263228]" value={formData.address} onChange={handleInputChange} />
                             </div>
-                            <div className="flex gap-4">
-                              <div className="relative w-2/3">
-                                <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">City</label>
-                                <input type="text" name="city" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.city} onChange={handleInputChange} />
+                            <div className="flex gap-6">
+                              <div className="relative group w-2/3">
+                                <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">City</label>
+                                <input type="text" name="city" required className="w-full bg-transparent border-b border-[#E8E2D8] pb-2 focus:border-[#263228] focus:outline-none transition-all text-[16px] text-[#263228]" value={formData.city} onChange={handleInputChange} />
                               </div>
-                              <div className="relative w-1/3">
-                                <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">PIN</label>
-                                <input type="text" name="postcode" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.postcode} onChange={handleInputChange} />
+                              <div className="relative group w-1/3">
+                                <label className="text-[13px] font-medium text-[#7A746D] block mb-2 transition-colors group-focus-within:text-[#263228] uppercase tracking-wider">PIN</label>
+                                <input type="text" name="postcode" required className="w-full bg-transparent border-b border-[#E8E2D8] pb-2 focus:border-[#263228] focus:outline-none transition-all text-[16px] text-[#263228]" value={formData.postcode} onChange={handleInputChange} />
                               </div>
                             </div>
                           </div>
@@ -804,17 +820,19 @@ export default function MobileApp() {
                   </div>
 
                   {/* Sticky Checkout Button */}
-                  <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-[#F3EEE7] via-[#F3EEE7]/95 to-transparent pt-12 pb-6 px-5 z-20">
+                  <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-[#F8F6F2] via-[#F8F6F2]/95 to-transparent pt-12 pb-6 px-5 z-20">
                     <div className="flex gap-3">
                       {checkoutStep > 1 && (
-                        <button type="button" onClick={() => setCheckoutStep(prev => prev - 1)} className="px-6 bg-white border border-[#D8D4CC] text-gray-800 h-[64px] rounded-2xl font-sans font-bold tracking-wide shadow-sm hover:bg-gray-50 transition-colors">
+                        <button type="button" onClick={() => setCheckoutStep(prev => prev - 1)} className="px-6 bg-transparent border border-[#E8E2D8] text-[#263228] h-[60px] rounded-full font-sans font-medium tracking-wide hover:bg-black/5 transition-colors">
                           BACK
                         </button>
                       )}
-                      <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#415a46] text-white h-[64px] rounded-2xl font-sans font-medium tracking-wide shadow-lg shadow-[#415a46]/20 hover:bg-[#2f4233] transition-colors flex justify-center items-center gap-2">
+                      <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#263228] text-white h-[60px] rounded-full font-sans font-medium tracking-wide shadow-xl shadow-[#263228]/20 hover:bg-[#1a231c] transition-all flex justify-center items-center gap-2 group hover:-translate-y-0.5">
                         {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? (
                           `Complete Order ₹${cartTotal.toFixed(2)}`
-                        ) : 'CONTINUE'}
+                        ) : (
+                          <>Continue to Payment <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></>
+                        )}
                       </button>
                     </div>
                   </div>
