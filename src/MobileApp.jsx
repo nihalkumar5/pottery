@@ -406,23 +406,60 @@ export default function MobileApp() {
         </div>
       </section>
 
-      {/* Reviews */}
-      <section className="py-16 bg-background pl-6">
-        <h2 className="font-serif text-3xl mb-8 pr-6">Loved by Customers</h2>
-        <div className="flex gap-6 overflow-x-auto pb-8 pr-6 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-          {REVIEWS.map((review) => (
-            <div key={review.id} className="min-w-[280px] bg-white p-6 rounded-3xl shadow-sm">
-              <div className="flex gap-1 mb-4">
-                {[...Array(review.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-accent text-accent" />
-                ))}
+      {/* Testimonials */}
+      <section className="py-14 bg-[#F9F6F2] overflow-hidden">
+        {/* Heading */}
+        <div className="px-6 mb-8">
+          <div className="inline-block bg-[#F4EBE1] text-[#9C4B35] text-[10px] uppercase tracking-[0.2em] font-bold px-3 py-1.5 rounded-full mb-3">
+            Customer Reviews
+          </div>
+          <h2 className="text-[26px] font-extrabold text-[#1A1A1A] leading-tight">What They Say?</h2>
+        </div>
+
+        {/* Horizontal Scroll Cards */}
+        <div className="flex gap-4 overflow-x-auto scrollbar-hide pl-6 pr-6 pb-4" style={{ scrollSnapType: 'x mandatory' }}>
+          {[
+            { name: 'Priya Sharma', location: 'Mumbai', text: 'The terracotta mugs are stunning! My morning chai tastes better in them. Craftsmanship is top notch.', stars: 5, initials: 'PS', gradient: 'linear-gradient(135deg, #9C4B35 0%, #C26B51 100%)' },
+            { name: 'Rahul Mehta', location: 'Delhi', text: 'The water dispenser keeps water naturally cool. Delivery was fast and quality exceeded expectations!', stars: 5, initials: 'RM', gradient: 'linear-gradient(135deg, #4A5D44 0%, #6A8263 100%)' },
+            { name: 'Anjali Verma', location: 'Bangalore', text: 'The hand-painted vase is a masterpiece. You can tell a real artisan made this with love and care.', stars: 5, initials: 'AV', gradient: 'linear-gradient(135deg, #7A5B44 0%, #9F7E64 100%)' },
+            { name: 'Karan Patel', location: 'Ahmedabad', text: 'Gift wrapped beautifully, my mother loved the serving set! Earthy tones go perfectly with our décor.', stars: 5, initials: 'KP', gradient: 'linear-gradient(135deg, #B58542 0%, #D8A55B 100%)' },
+          ].map((review, idx) => (
+            <div
+              key={idx}
+              className="flex-shrink-0 w-[260px] rounded-3xl p-5 flex flex-col justify-between"
+              style={{ background: review.gradient, scrollSnapAlign: 'start', minHeight: '210px' }}
+            >
+              {/* Quote mark */}
+              <div>
+                <span className="text-white/30 text-[48px] font-serif leading-none block -mb-2">"</span>
+                <p className="text-white/90 text-[13px] leading-relaxed font-light">
+                  {review.text}
+                </p>
               </div>
-              <p className="text-primary text-sm italic mb-6">"{review.text}"</p>
-              <h4 className="font-serif text-lg">{review.name}</h4>
+
+              {/* Bottom: Stars + Avatar + Name */}
+              <div className="mt-5">
+                {/* Stars */}
+                <div className="flex gap-0.5 mb-3">
+                  {[...Array(review.stars)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-[#F4C430] text-[#F4C430]" />
+                  ))}
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white font-bold text-[12px] flex-shrink-0">
+                    {review.initials}
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold text-[13px] leading-none mb-0.5">{review.name}</p>
+                    <p className="text-white/60 text-[11px]">{review.location}</p>
+                  </div>
+                </div>
+              </div>
             </div>
           ))}
         </div>
       </section>
+
 
       {/* Premium Footer */}
       <footer className="bg-[#82634F] text-white pt-16 pb-32 px-8 rounded-t-3xl mt-4">
