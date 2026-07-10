@@ -57,6 +57,8 @@ export default function MobileApp() {
 
   // Mobile Checkout States
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [checkoutStep, setCheckoutStep] = useState(1);
+  const [paymentMethod, setPaymentMethod] = useState('cod');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [formData, setFormData] = useState({
@@ -86,6 +88,15 @@ export default function MobileApp() {
   };
 
   const handleInputChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleNextStep = (e) => {
+    e.preventDefault();
+    if (checkoutStep < 3) {
+      setCheckoutStep(prev => prev + 1);
+    } else {
+      handleCheckoutSubmit(e);
+    }
+  };
 
   const handleCheckoutSubmit = async (e) => {
     e.preventDefault();
@@ -520,11 +531,33 @@ export default function MobileApp() {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed inset-0 bg-[#EAE6DF] z-50 flex flex-col"
           >
-            <div className="p-6 flex justify-between items-center bg-[#EAE6DF] sticky top-0 z-10 border-b border-[#D8D4CC]">
-              <h1 className="font-serif text-[1.4rem] font-light tracking-wide text-gray-900">Clay & Craft <span className="text-[12px] font-sans font-medium text-gray-500 ml-2 uppercase tracking-widest hidden sm:inline">Checkout</span></h1>
-              <button onClick={() => setIsCheckoutOpen(false)} className="p-2 bg-[#D8D4CC]/50 rounded-full hover:bg-[#D8D4CC] transition-colors">
-                <X className="w-5 h-5 text-gray-800" />
-              </button>
+            <div className="p-6 pb-4 flex flex-col bg-[#EAE6DF] sticky top-0 z-10 border-b border-[#D8D4CC]">
+              <div className="flex justify-between items-center mb-6">
+                <h1 className="font-serif text-[1.6rem] font-bold tracking-wide text-gray-900">Checkout</h1>
+                <button onClick={() => { setIsCheckoutOpen(false); setCheckoutStep(1); }} className="p-2 bg-[#D8D4CC]/50 rounded-full hover:bg-[#D8D4CC] transition-colors">
+                  <X className="w-5 h-5 text-gray-800" />
+                </button>
+              </div>
+              
+              {/* Stepper */}
+              {!orderSuccess && (
+                <div className="flex justify-between items-center px-2">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${checkoutStep >= 1 ? 'bg-[#F25C05] text-white' : 'border border-gray-300 text-gray-400 bg-white'}`}>1</div>
+                    <span className={`text-[13px] ${checkoutStep >= 1 ? 'text-[#F25C05] font-semibold' : 'text-gray-400 font-medium'}`}>Shipping</span>
+                  </div>
+                  <div className="flex-1 h-px bg-gray-300 mx-3"></div>
+                  <div className="flex items-center gap-2">
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${checkoutStep >= 2 ? 'bg-[#F25C05] text-white' : 'border border-gray-300 text-gray-400 bg-white'}`}>2</div>
+                    <span className={`text-[13px] ${checkoutStep >= 2 ? 'text-[#F25C05] font-semibold' : 'text-gray-400 font-medium'}`}>Payment</span>
+                  </div>
+                  <div className="flex-1 h-px bg-gray-300 mx-3"></div>
+                  <div className="flex items-center gap-2">
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${checkoutStep >= 3 ? 'bg-[#F25C05] text-white' : 'border border-gray-300 text-gray-400 bg-white'}`}>3</div>
+                    <span className={`text-[13px] ${checkoutStep >= 3 ? 'text-[#F25C05] font-semibold' : 'text-gray-400 font-medium'}`}>Review</span>
+                  </div>
+                </div>
+              )}
             </div>
             
             <div className="flex-1 overflow-y-auto pb-32">
@@ -543,65 +576,127 @@ export default function MobileApp() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleCheckoutSubmit} className="flex flex-col">
+                <form onSubmit={handleNextStep} className="flex flex-col">
                   {/* Order Summary Strip */}
-                  <div className="bg-[#EAE6DF] px-6 py-5 mb-3 flex justify-between items-center border-b border-[#D8D4CC]">
+                  <div className="bg-[#EAE6DF] px-6 py-4 mb-3 flex justify-between items-center border-b border-[#D8D4CC]">
                     <span className="font-sans text-gray-600 text-[14px] uppercase tracking-wider font-bold">Total to Pay</span>
                     <span className="font-sans font-bold text-[22px] text-[#415a46]">₹{cartTotal.toFixed(2)}</span>
                   </div>
                   
                   <div className="px-5 py-4 space-y-8">
-                    {/* Contact Info */}
-                    <section>
-                      <h3 className="font-serif text-[18px] text-gray-800 mb-4 ml-1">Contact Information</h3>
-                      <div className="bg-[#F5F3ED] p-5 rounded-3xl shadow-sm border border-[#D8D4CC] flex flex-col gap-4">
-                        <div className="relative">
-                          <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Email Address</label>
-                          <input type="email" name="email" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.email} onChange={handleInputChange} />
-                        </div>
-                        <div className="relative">
-                          <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Phone Number</label>
-                          <input type="tel" name="phone" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.phone} onChange={handleInputChange} />
-                        </div>
+                    {/* Step 1: Shipping Details */}
+                    {checkoutStep === 1 && (
+                      <div className="space-y-8 animate-fade-in">
+                        <section>
+                          <h3 className="font-serif text-[18px] text-gray-800 mb-4 ml-1">Contact Information</h3>
+                          <div className="bg-[#F5F3ED] p-5 rounded-3xl shadow-sm border border-[#D8D4CC] flex flex-col gap-4">
+                            <div className="relative">
+                              <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Email Address</label>
+                              <input type="email" name="email" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.email} onChange={handleInputChange} />
+                            </div>
+                            <div className="relative">
+                              <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Phone Number</label>
+                              <input type="tel" name="phone" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.phone} onChange={handleInputChange} />
+                            </div>
+                          </div>
+                        </section>
+                        <section>
+                          <h3 className="font-serif text-[18px] text-gray-800 mb-4 ml-1">Shipping Details</h3>
+                          <div className="bg-[#F5F3ED] p-5 rounded-3xl shadow-sm border border-[#D8D4CC] flex flex-col gap-4">
+                            <div className="flex gap-4">
+                              <div className="relative w-1/2">
+                                <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">First Name</label>
+                                <input type="text" name="firstName" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.firstName} onChange={handleInputChange} />
+                              </div>
+                              <div className="relative w-1/2">
+                                <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Last Name</label>
+                                <input type="text" name="lastName" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.lastName} onChange={handleInputChange} />
+                              </div>
+                            </div>
+                            <div className="relative">
+                              <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Full Address</label>
+                              <input type="text" name="address" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.address} onChange={handleInputChange} />
+                            </div>
+                            <div className="flex gap-4">
+                              <div className="relative w-2/3">
+                                <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">City</label>
+                                <input type="text" name="city" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.city} onChange={handleInputChange} />
+                              </div>
+                              <div className="relative w-1/3">
+                                <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">PIN</label>
+                                <input type="text" name="postcode" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.postcode} onChange={handleInputChange} />
+                              </div>
+                            </div>
+                          </div>
+                        </section>
                       </div>
-                    </section>
+                    )}
 
-                    {/* Shipping Address */}
-                    <section>
-                      <h3 className="font-serif text-[18px] text-gray-800 mb-4 ml-1">Shipping Details</h3>
-                      <div className="bg-[#F5F3ED] p-5 rounded-3xl shadow-sm border border-[#D8D4CC] flex flex-col gap-4">
-                        <div className="flex gap-4">
-                          <div className="relative w-1/2">
-                            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">First Name</label>
-                            <input type="text" name="firstName" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.firstName} onChange={handleInputChange} />
+                    {/* Step 2: Payment */}
+                    {checkoutStep === 2 && (
+                      <div className="space-y-6 animate-fade-in">
+                        <h3 className="font-serif text-[22px] text-gray-800 mb-2">Select Payment Method</h3>
+                        
+                        <div 
+                          onClick={() => setPaymentMethod('upi')}
+                          className={`p-6 rounded-3xl border-2 transition-all cursor-pointer flex items-center gap-4 ${paymentMethod === 'upi' ? 'border-[#F25C05] bg-white shadow-md' : 'border-transparent bg-[#F5F3ED]'}`}
+                        >
+                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${paymentMethod === 'upi' ? 'border-[#F25C05]' : 'border-gray-400'}`}>
+                            {paymentMethod === 'upi' && <div className="w-3 h-3 bg-[#F25C05] rounded-full"></div>}
                           </div>
-                          <div className="relative w-1/2">
-                            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Last Name</label>
-                            <input type="text" name="lastName" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.lastName} onChange={handleInputChange} />
+                          <div>
+                            <p className="font-bold text-[16px] text-gray-900">UPI (GPay, PhonePe, Paytm)</p>
+                            <p className="text-gray-500 text-sm mt-1">Pay instantly via your UPI app</p>
                           </div>
                         </div>
-                        <div className="relative">
-                          <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Full Address</label>
-                          <input type="text" name="address" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.address} onChange={handleInputChange} />
-                        </div>
-                        <div className="flex gap-4">
-                          <div className="relative w-2/3">
-                            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">City</label>
-                            <input type="text" name="city" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.city} onChange={handleInputChange} />
+
+                        <div 
+                          onClick={() => setPaymentMethod('cod')}
+                          className={`p-6 rounded-3xl border-2 transition-all cursor-pointer flex items-center gap-4 ${paymentMethod === 'cod' ? 'border-[#F25C05] bg-white shadow-md' : 'border-transparent bg-[#F5F3ED]'}`}
+                        >
+                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${paymentMethod === 'cod' ? 'border-[#F25C05]' : 'border-gray-400'}`}>
+                            {paymentMethod === 'cod' && <div className="w-3 h-3 bg-[#F25C05] rounded-full"></div>}
                           </div>
-                          <div className="relative w-1/3">
-                            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">PIN</label>
-                            <input type="text" name="postcode" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-[#EAE6DF]/60 border border-transparent focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.postcode} onChange={handleInputChange} />
+                          <div>
+                            <p className="font-bold text-[16px] text-gray-900">Cash on Delivery (COD)</p>
+                            <p className="text-gray-500 text-sm mt-1">Pay when your order arrives</p>
                           </div>
                         </div>
                       </div>
-                    </section>
+                    )}
+
+                    {/* Step 3: Review */}
+                    {checkoutStep === 3 && (
+                      <div className="space-y-6 animate-fade-in">
+                        <h3 className="font-serif text-[22px] text-gray-800 mb-2">Review Your Order</h3>
+                        
+                        <div className="bg-[#F5F3ED] p-6 rounded-3xl shadow-sm border border-[#D8D4CC]">
+                          <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-3">Shipping To</h4>
+                          <p className="font-medium text-gray-800 text-[15px]">{formData.firstName} {formData.lastName}</p>
+                          <p className="text-gray-600 text-[14px] mt-1">{formData.address}</p>
+                          <p className="text-gray-600 text-[14px]">{formData.city}, {formData.postcode}</p>
+                          <p className="text-gray-600 text-[14px] mt-2">{formData.phone}</p>
+                          <button type="button" onClick={() => setCheckoutStep(1)} className="text-[#F25C05] text-sm font-bold mt-4">EDIT DETAILS</button>
+                        </div>
+
+                        <div className="bg-[#F5F3ED] p-6 rounded-3xl shadow-sm border border-[#D8D4CC]">
+                          <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-3">Payment Method</h4>
+                          <p className="font-medium text-gray-800 text-[15px] uppercase">{paymentMethod === 'upi' ? 'UPI / Online Payment' : 'Cash on Delivery'}</p>
+                          <button type="button" onClick={() => setCheckoutStep(2)} className="text-[#F25C05] text-sm font-bold mt-4">CHANGE METHOD</button>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* Sticky Checkout Button */}
-                  <div className="fixed bottom-0 left-0 w-full bg-[#EAE6DF]/90 backdrop-blur-md p-6 border-t border-[#D8D4CC] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] z-20">
-                    <button type="submit" disabled={isSubmitting} className="w-full bg-[#415a46] text-white py-4 rounded-2xl font-sans font-bold tracking-wide shadow-lg hover:bg-[#2f4233] transition-colors flex justify-center items-center gap-2">
-                      {isSubmitting ? 'PROCESSING...' : `PLACE COD ORDER • ₹${cartTotal.toFixed(2)}`}
+                  <div className="fixed bottom-0 left-0 w-full bg-[#EAE6DF]/90 backdrop-blur-md p-6 border-t border-[#D8D4CC] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] z-20 flex gap-4">
+                    {checkoutStep > 1 && (
+                      <button type="button" onClick={() => setCheckoutStep(prev => prev - 1)} className="px-6 bg-white border border-[#D8D4CC] text-gray-800 py-4 rounded-2xl font-sans font-bold tracking-wide shadow-sm hover:bg-gray-50 transition-colors">
+                        BACK
+                      </button>
+                    )}
+                    <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#415a46] text-white py-4 rounded-2xl font-sans font-bold tracking-wide shadow-lg hover:bg-[#2f4233] transition-colors flex justify-center items-center gap-2">
+                      {isSubmitting ? 'PROCESSING...' : checkoutStep === 3 ? `PLACE ORDER • ₹${cartTotal.toFixed(2)}` : 'CONTINUE'}
                     </button>
                   </div>
                 </form>
@@ -866,7 +961,7 @@ export default function MobileApp() {
               )}
               <div className="flex items-center justify-center gap-2 text-gray-600 text-[12px] font-medium">
                 <ShieldCheck className="w-4 h-4 text-[#415a46]" />
-                Free Shipping on Orders Over ₹3000
+                Free Shipping on Orders Above ₹999
               </div>
             </div>
           </motion.div>
