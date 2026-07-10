@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useShop } from './ShopContext';
-import { ArrowRight, Heart, Plus, ShoppingBag } from 'lucide-react';
+import { ArrowRight, Heart, Plus, Minus, ShoppingBag } from 'lucide-react';
 
 function DesktopApp() {
-  const { products, cart, addToCart, removeFromCart, cartTotal, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
+  const { products, cart, addToCart, removeFromCart, decreaseQuantity, cartItemCount, cartTotal, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -149,7 +149,7 @@ function DesktopApp() {
           <li><a href="#" onClick={(e) => { e.preventDefault(); setIsAuthOpen(true); }}>{user ? 'My Account' : 'Sign In'}</a></li>
         </ul>
         <div className="cart-icon" onClick={toggleCart}>
-          Cart ({cart.length})
+          Cart ({cartItemCount})
         </div>
       </nav>
 
@@ -169,7 +169,18 @@ function DesktopApp() {
                 <div className="cart-item-details">
                   <h4>{item.name}</h4>
                   <p className="product-price">₹{item.price.toFixed(2)}</p>
-                  <button className="remove-item" onClick={() => removeFromCart(idx)}>Remove</button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '8px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid #eee', padding: '4px 12px', borderRadius: '4px' }}>
+                      <button onClick={() => decreaseQuantity(item.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex' }}>
+                        <Minus size={14} />
+                      </button>
+                      <span style={{ fontSize: '14px', fontWeight: '500', minWidth: '16px', textAlign: 'center' }}>{item.quantity}</span>
+                      <button onClick={() => addToCart(item)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex' }}>
+                        <Plus size={14} />
+                      </button>
+                    </div>
+                    <button className="remove-item" onClick={() => removeFromCart(item.id)} style={{ marginTop: 0 }}>Remove</button>
+                  </div>
                 </div>
               </div>
             ))

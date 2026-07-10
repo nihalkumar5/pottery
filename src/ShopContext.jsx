@@ -22,6 +22,29 @@ export const ShopProvider = ({ children }) => {
   const [products, setProducts] = useState(MOCK_PRODUCTS);
   const [cart, setCart] = useState([]);
   
+  const [wishlist, setWishlist] = useState(() => {
+    const saved = localStorage.getItem('tierra_wishlist');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('tierra_wishlist', JSON.stringify(wishlist));
+  }, [wishlist]);
+
+  const toggleWishlist = (product) => {
+    setWishlist(prev => {
+      const exists = prev.find(item => item.id === product.id);
+      if (exists) {
+        return prev.filter(item => item.id !== product.id);
+      }
+      return [...prev, product];
+    });
+  };
+
+  const isInWishlist = (productId) => {
+    return wishlist.some(item => item.id === productId);
+  };
+
   // Auth State
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem('tierra_user');
@@ -59,16 +82,31 @@ export const ShopProvider = ({ children }) => {
   }, []);
 
   const addToCart = (product) => {
-    setCart([...cart, product]);
+    setCart(prev => {
+      const existing = prev.find(item => item.id === product.id);
+      if (existing) {
+        return prev.map(item => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item);
+      }
+      return [...prev, { ...product, quantity: 1 }];
+    });
   };
 
-  const removeFromCart = (index) => {
-    const newCart = [...cart];
-    newCart.splice(index, 1);
-    setCart(newCart);
+  const removeFromCart = (productId) => {
+    setCart(prev => prev.filter(item => item.id !== productId));
   };
 
-  const cartTotal = cart.reduce((total, item) => total + item.price, 0);
+  const decreaseQuantity = (productId) => {
+    setCart(prev => {
+      const existing = prev.find(item => item.id === productId);
+      if (existing.quantity === 1) {
+        return prev.filter(item => item.id !== productId);
+      }
+      return prev.map(item => item.id === productId ? { ...item, quantity: item.quantity - 1 } : item);
+    });
+  };
+
+  const cartTotal = cart.reduce((total, item) => total + (item.price * (item.quantity || 1)), 0);
+  const cartItemCount = cart.reduce((count, item) => count + (item.quantity || 1), 0);
 
   // Checkout API Call
   const submitOrder = async (formData) => {
@@ -88,7 +126,7 @@ export const ShopProvider = ({ children }) => {
       },
       line_items: cart.map(item => ({
         product_id: item.id,
-        quantity: 1
+        quantity: item.quantity || 1
       }))
     };
 
@@ -214,7 +252,9 @@ export const ShopProvider = ({ children }) => {
       setCart,
       addToCart,
       removeFromCart,
+      decreaseQuantity,
       cartTotal,
+      cartItemCount,
       submitOrder,
       trackOrder,
       fetchUserOrders,
@@ -222,7 +262,10 @@ export const ShopProvider = ({ children }) => {
       token,
       login,
       logout,
-      register
+      register,
+      wishlist,
+      toggleWishlist,
+      isInWishlist
     }}>
       {children}
     </ShopContext.Provider>

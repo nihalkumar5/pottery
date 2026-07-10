@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, Search, Heart, ShoppingBag, Plus, User, ArrowRight, Star, X, CheckCircle, PackageSearch } from 'lucide-react';
+import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, PackageSearch } from 'lucide-react';
 import { useShop } from './ShopContext';
 
 const CATEGORIES = [
@@ -18,7 +18,7 @@ const REVIEWS = [
 ];
 
 export default function MobileApp() {
-  const { products, cart, addToCart, cartTotal, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
+  const { products, cart, addToCart, removeFromCart, decreaseQuantity, cartTotal, cartItemCount, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
   
   const [isScrolled, setIsScrolled] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -448,8 +448,17 @@ export default function MobileApp() {
                       <div key={idx} className="flex gap-4 items-center">
                         <img src={item.image} alt={item.name} className="w-20 h-20 rounded-xl object-cover bg-background" />
                         <div className="flex-1">
-                          <h4 className="font-serif text-lg">{item.name}</h4>
-                          <p className="text-secondary font-medium">₹{item.price.toFixed(2)}</p>
+                          <h4 className="font-serif text-[17px] leading-tight text-[#1A2E25] font-bold mb-1">{item.name}</h4>
+                          <p className="text-secondary font-medium mb-3">₹{item.price.toFixed(2)}</p>
+                          <div className="flex items-center gap-3 bg-gray-50 w-max px-3 py-1.5 rounded-full border border-gray-200">
+                            <button onClick={() => decreaseQuantity(item.id)} className="text-gray-500 hover:text-black">
+                              <Minus className="w-3.5 h-3.5" />
+                            </button>
+                            <span className="font-sans text-sm font-semibold w-4 text-center">{item.quantity}</span>
+                            <button onClick={() => addToCart(item)} className="text-gray-500 hover:text-black">
+                              <Plus className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -711,6 +720,11 @@ export default function MobileApp() {
           <span className="text-[10px] font-medium tracking-wide">Explore</span>
         </div>
         
+        <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors">
+          <Heart className="w-5 h-5" />
+          <span className="text-[10px] font-medium tracking-wide">Saved</span>
+        </div>
+        
         <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => user ? setIsProfileOpen(true) : setIsTrackOrderOpen(true)}>
           <PackageSearch className="w-5 h-5" />
           <span className="text-[10px] font-medium tracking-wide">Track</span>
@@ -719,9 +733,9 @@ export default function MobileApp() {
         <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors relative" onClick={() => setIsCartOpen(true)}>
           <ShoppingBag className="w-5 h-5" />
           <span className="text-[10px] font-medium tracking-wide">Bag</span>
-          {cart.length > 0 && (
+          {cartItemCount > 0 && (
             <span className="absolute -top-2 -right-2 bg-accent text-white text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full shadow-sm">
-              {cart.length}
+              {cartItemCount}
             </span>
           )}
         </div>
