@@ -20,9 +20,9 @@ export default function DesktopAbout({ onShopClick }) {
             <img src="/assets/about_story.png" alt="Raw terracotta waiting for the kiln" className="w-full h-[400px] md:h-[600px] object-cover rounded-2xl shadow-md" />
           </div>
           <div className="flex-1 md:pr-12 mt-8 md:mt-0">
-            <h2 className="font-serif text-3xl md:text-4xl text-[#263228] mb-6">Our Journey</h2>
-            <p className="font-sans text-[16px] text-gray-600 mb-6 leading-relaxed">It started with a simple wheel and a love for the tactile nature of clay. We wanted to bring the organic, grounding feeling of earth back into the modern home. What began in a small backyard studio has blossomed into a collective of passionate artisans.</p>
-            <p className="font-sans text-[16px] text-gray-600 leading-relaxed">We honor traditional techniques while embracing contemporary aesthetics. We don't believe in mass production. Instead, we pour our heart into small batches, ensuring every single mug, bowl, and vase carries a distinct fingerprint of its maker.</p>
+            <h2 className="font-serif text-3xl md:text-4xl text-[#263228] mb-6">Our Journey in Giridih</h2>
+            <p className="font-sans text-[16px] text-gray-600 mb-6 leading-relaxed">Located in the heart of Giridih, Jharkhand, Clay & Craft started with a simple vision: to bring the grounding feeling of traditional Indian craftsmanship into modern homes. What began as a humble passion has blossomed into a dedicated craft store that celebrates our local heritage.</p>
+            <p className="font-sans text-[16px] text-gray-600 leading-relaxed">We honor traditional pottery techniques while embracing contemporary aesthetics. We believe in the beauty of handmade creations. Each terracotta mug, bowl, and vase we curate is a testament to the timeless artistry that defines our vibrant community.</p>
           </div>
         </div>
       </section>
@@ -34,9 +34,9 @@ export default function DesktopAbout({ onShopClick }) {
             <img src="/assets/about_studio.png" alt="Our sunlit pottery studio" className="w-full h-[400px] md:h-[500px] object-cover rounded-2xl shadow-md" />
           </div>
           <div className="flex-1 md:pl-12 mt-8 md:mt-0">
-            <h2 className="font-serif text-4xl text-[#5C4D3C] mb-6">Inside the Studio</h2>
-            <p className="font-sans text-[16px] text-[#5C4D3C] mb-6 leading-relaxed">Our studio is a place of quiet focus and joyful creation. Filled with natural light and the scent of damp earth, it's where raw materials transform into functional art.</p>
-            <p className="font-sans text-[16px] text-[#5C4D3C] leading-relaxed">We source our clay locally and mix our glazes by hand. The slow pace of the wheel and the heat of the kiln dictate our schedule. It's a messy, beautiful process that we wouldn't trade for anything.</p>
+            <h2 className="font-serif text-4xl text-[#5C4D3C] mb-6">Our Craft Store</h2>
+            <p className="font-sans text-[16px] text-[#5C4D3C] mb-6 leading-relaxed">Our store in Jai Prakash Nagar is a place of quiet focus and joyful inspiration. Filled with the earthy scent of terracotta, it's where visitors can truly appreciate the texture and warmth of our handcrafted pieces.</p>
+            <p className="font-sans text-[16px] text-[#5C4D3C] leading-relaxed">We are deeply rooted in the cultural landscape of Jharkhand. We celebrate the raw, natural essence of local materials, bringing a piece of authentic craftsmanship directly to your living space.</p>
           </div>
         </div>
       </section>

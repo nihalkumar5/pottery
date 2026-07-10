@@ -38,12 +38,11 @@ export default function DesktopContact() {
       {/* Main Content */}
       <section className="max-w-[1200px] mx-auto px-8 py-24 flex flex-col md:flex-row gap-16">
         
-        {/* Left Column - Contact Info */}
         <div className="flex-1 space-y-12 pr-8">
           <div>
             <h2 className="font-serif text-3xl text-[#263228] mb-6">Our Studio</h2>
             <p className="font-sans text-[16px] text-gray-600 leading-relaxed">
-              Our studio is open by appointment only. If you're interested in visiting, please reach out to schedule a time. We'd love to show you our process in person.
+              We are a dedicated craft store located in the heart of Giridih, Jharkhand. We welcome visitors to explore our timeless terracotta collections.
             </p>
           </div>
 
@@ -52,7 +51,7 @@ export default function DesktopContact() {
               <MapPin className="w-6 h-6 text-[#5C4D3C] mt-1 flex-shrink-0" strokeWidth={1.5} />
               <div>
                 <h4 className="font-serif text-[18px] text-[#263228] mb-1">Address</h4>
-                <p className="font-sans text-[15px] text-gray-600">123 Artisan Lane<br/>Creative District, CA 90210</p>
+                <p className="font-sans text-[15px] text-gray-600">BBC Rd, Jai Prakash Nagar<br/>Giridih, Jharkhand 815301</p>
               </div>
             </div>
 
@@ -68,7 +67,7 @@ export default function DesktopContact() {
               <Phone className="w-6 h-6 text-[#5C4D3C] mt-1 flex-shrink-0" strokeWidth={1.5} />
               <div>
                 <h4 className="font-serif text-[18px] text-[#263228] mb-1">Phone</h4>
-                <p className="font-sans text-[15px] text-gray-600">+1 (555) 123-4567</p>
+                <p className="font-sans text-[15px] text-gray-600">084094 04599</p>
               </div>
             </div>
 
@@ -76,7 +75,7 @@ export default function DesktopContact() {
               <Clock className="w-6 h-6 text-[#5C4D3C] mt-1 flex-shrink-0" strokeWidth={1.5} />
               <div>
                 <h4 className="font-serif text-[18px] text-[#263228] mb-1">Business Hours</h4>
-                <p className="font-sans text-[15px] text-gray-600">Mon-Fri: 9am - 5pm<br/>Sat-Sun: Closed</p>
+                <p className="font-sans text-[15px] text-gray-600">Mon-Sun: 9:00 am onwards</p>
               </div>
             </div>
           </div>
