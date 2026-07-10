@@ -1438,7 +1438,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
               <div className="relative w-[calc(100%+3rem)] -mx-6 -mt-6 h-[240px] overflow-hidden mb-6 flex flex-col items-center justify-center">
                 <img src="/assets/homedecor.png" className="absolute inset-0 w-full h-full object-cover" alt="Shop Hero" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20"></div>
-                <button onClick={() => setIsShopOpen(false)} className="absolute top-4 right-4 p-2 bg-black/20 backdrop-blur rounded-full shadow-sm z-20 hover:bg-black/40 transition-colors">
+                <button onClick={() => setIsShopOpen(false)} className="absolute top-10 right-6 p-2 bg-black/20 backdrop-blur rounded-full shadow-sm z-20 hover:bg-black/40 transition-colors">
                   <X className="w-5 h-5 text-white" />
                 </button>
                 <div className="relative z-10 text-center px-4 mt-4">
