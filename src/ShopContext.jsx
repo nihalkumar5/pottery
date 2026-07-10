@@ -29,7 +29,14 @@ const MOCK_PRODUCTS = [
 
 export const ShopProvider = ({ children }) => {
   const [products, setProducts] = useState(MOCK_PRODUCTS);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    const saved = localStorage.getItem('tierra_cart');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('tierra_cart', JSON.stringify(cart));
+  }, [cart]);
   
   const [wishlist, setWishlist] = useState(() => {
     const saved = localStorage.getItem('tierra_wishlist');

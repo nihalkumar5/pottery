@@ -76,10 +76,23 @@ export default function MobileApp() {
     });
   }, [products]);
 
-  const handleAddToCartAnim = (product) => {
+  const [flyingItem, setFlyingItem] = useState(null);
+
+  const handleAddToCartAnim = (product, e) => {
     if (navigator.vibrate) navigator.vibrate(50); // Premium haptic feedback
     setIsAdding(true);
     addToCart(product);
+    
+    if (e && e.clientX && e.clientY) {
+      setFlyingItem({
+        id: product.id,
+        image: product.image,
+        startX: e.clientX,
+        startY: e.clientY
+      });
+      setTimeout(() => setFlyingItem(null), 600); // Wait for animation
+    }
+    
     setTimeout(() => setIsAdding(false), 500);
   };
 
@@ -465,7 +478,7 @@ export default function MobileApp() {
                         onClick={(e) => {
                           if (qty === 0) {
                             e.stopPropagation();
-                            handleAddToCartAnim(item);
+                            handleAddToCartAnim(item, e);
                           }
                         }}
                       >
@@ -488,7 +501,7 @@ export default function MobileApp() {
                               <span className="font-medium text-xs w-4 text-center">{qty}</span>
                               <button 
                                 className="w-6 h-6 flex items-center justify-center hover:bg-black/10 rounded-full transition-colors"
-                                onClick={(e) => { e.stopPropagation(); handleAddToCartAnim(item); }}
+                                onClick={(e) => { e.stopPropagation(); handleAddToCartAnim(item, e); }}
                               >
                                 <Plus className="w-3 h-3" strokeWidth={2} />
                               </button>
@@ -826,8 +839,8 @@ export default function MobileApp() {
                             <span className="text-[12px] font-bold uppercase tracking-wide">Remove</span>
                           </button>
                           <button 
-                            onClick={() => {
-                              handleAddToCartAnim(item);
+                            onClick={(e) => {
+                              handleAddToCartAnim(item, e);
                             }}
                             className="text-[12px] font-bold text-white uppercase tracking-wide px-4 py-2 rounded-full bg-[#0A4736] hover:bg-[#073326] shadow-sm flex items-center gap-1.5 transition-colors"
                           >
@@ -1358,7 +1371,7 @@ export default function MobileApp() {
                               onClick={(e) => {
                                 if (qty === 0) {
                                   e.stopPropagation();
-                                  handleAddToCartAnim(product);
+                                  handleAddToCartAnim(product, e);
                                 }
                               }}
                             >
@@ -1574,13 +1587,13 @@ export default function MobileApp() {
                   <span className="font-serif font-light text-[20px] text-[#1A2E25] w-12 text-center">
                     {cart.find(item => item.id === selectedProduct.id).quantity}
                   </span>
-                  <button onClick={() => handleAddToCartAnim(selectedProduct)} className="p-3 text-[#1A2E25] hover:text-black hover:bg-[#E8E0D5] rounded-full transition-colors">
+                  <button onClick={(e) => handleAddToCartAnim(selectedProduct, e)} className="p-3 text-[#1A2E25] hover:text-black hover:bg-[#E8E0D5] rounded-full transition-colors">
                     <Plus className="w-5 h-5" />
                   </button>
                 </div>
               ) : (
                 <button 
-                  onClick={() => handleAddToCartAnim(selectedProduct)}
+                  onClick={(e) => handleAddToCartAnim(selectedProduct, e)}
                   className="w-full bg-[#0A4736] text-white py-4 rounded-full font-sans font-medium text-[15px] tracking-[0.08em] mb-3 hover:bg-[#0d5c46] active:scale-[0.98] transition-all duration-200"
                 >
                   Add to Bag · ₹{selectedProduct.price}
@@ -1634,6 +1647,31 @@ export default function MobileApp() {
           </div>
         </motion.div>
       )}
+
+      {/* Flying Cart Item Animation */}
+      <AnimatePresence>
+        {flyingItem && (
+          <motion.img
+            src={flyingItem.image}
+            initial={{ 
+              x: flyingItem.startX - 20, 
+              y: flyingItem.startY - 20, 
+              scale: 1, 
+              opacity: 1 
+            }}
+            animate={{ 
+              x: window.innerWidth * 0.7 - 20, // 70% width for bag icon
+              y: window.innerHeight - 60, // Bottom nav bag icon approx
+              scale: 0.1, 
+              opacity: 0 
+            }}
+            exit={{ opacity: 0 }}
+            transition={{ type: "tween", duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+            className="fixed z-[100] w-10 h-10 rounded-full object-cover shadow-2xl pointer-events-none"
+            style={{ originX: 0.5, originY: 0.5 }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
