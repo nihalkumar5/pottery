@@ -262,6 +262,101 @@
   margin: 0;
 }
 
+.desktop-categories {
+  padding: 6rem 8% 2rem;
+  background-color: var(--color-bg);
+}
+
+.desktop-categories h2 {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-bottom: 3rem;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+}
+
+.category-card {
+  cursor: pointer;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--color-white);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.category-card:hover, .category-card.active {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.category-card.active {
+  outline: 2px solid var(--color-accent);
+}
+
+.category-image {
+  aspect-ratio: 4/5;
+  position: relative;
+  overflow: hidden;
+}
+
+.category-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+
+.category-card:hover .category-image img {
+  transform: scale(1.05);
+}
+
+.category-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0,0,0,0.05);
+  transition: background-color 0.3s ease;
+}
+
+.category-card:hover .category-overlay {
+  background-color: rgba(0,0,0,0.15);
+}
+
+.category-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem;
+  background-color: var(--color-white);
+}
+
+.category-info h3 {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.category-info svg {
+  color: var(--color-accent);
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.category-card:hover .category-info svg,
+.category-card.active .category-info svg {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 /* Products Section */
 .products-section {
   padding: 8rem 4rem;

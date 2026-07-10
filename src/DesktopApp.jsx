@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useShop } from './ShopContext';
 import { ArrowRight, Heart, Plus, Minus, ShoppingBag, User, Truck, ShieldCheck } from 'lucide-react';
 
@@ -6,6 +6,34 @@ function DesktopApp() {
   const { products, cart, addToCart, removeFromCart, decreaseQuantity, cartItemCount, cartTotal, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  // Compute categories dynamically based on fetched products
+  const CATEGORIES = useMemo(() => {
+    const uniqueCats = [...new Set(products.map(p => p.category).filter(Boolean))];
+    const spiritualIndex = uniqueCats.indexOf('Spiritual Collection');
+    if (spiritualIndex > -1) {
+      uniqueCats.splice(spiritualIndex, 1);
+      uniqueCats.push('Spiritual Collection');
+    }
+    
+    const customImages = {
+      'Home Decor': '/assets/home.png',
+      'Water Bottles': '/assets/botle.png',
+      'Water Storage': '/assets/water.png',
+      'Spiritual Collection': '/assets/sc2.png',
+      'Serveware': '/assets/serb.png',
+      'Drinkware': '/assets/d2.png'
+    };
+
+    return uniqueCats.map(name => {
+      const firstProduct = products.find(p => p.category === name);
+      return { 
+        name, 
+        img: customImages[name] || (firstProduct ? firstProduct.image : '/assets/vase.png') 
+      };
+    });
+  }, [products]);
 
   // Auth States
   const [isAuthOpen, setIsAuthOpen] = useState(false);
@@ -418,6 +446,30 @@ function DesktopApp() {
           <h3>Secure Payments</h3>
           <p>100% safe & trusted.</p>
         </div>
+        </div>
+      </section>
+
+      {/* Categories Section */}
+      <section className="desktop-categories">
+        <h2>Shop by Category</h2>
+        <div className="category-grid">
+          {CATEGORIES.map((cat, i) => (
+            <div 
+              key={i} 
+              className={`category-card ${selectedCategory === cat.name ? 'active' : ''}`}
+              onClick={() => setSelectedCategory(selectedCategory === cat.name ? null : cat.name)}
+            >
+              <div className="category-image">
+                <img src={cat.img} alt={cat.name} />
+                <div className="category-overlay"></div>
+              </div>
+              <div className="category-info">
+                <h3>{cat.name}</h3>
+                <ArrowRight size={20} strokeWidth={1.5} />
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Products Section */}
@@ -427,7 +479,7 @@ function DesktopApp() {
           <a href="#shop" style={{color: 'var(--color-accent)', textDecoration: 'none'}}>View All</a>
         </div>
         <div className="product-grid">
-          {products.map(product => (
+          {products.filter(p => !selectedCategory || p.category === selectedCategory).map(product => (
             <div 
               key={product.id} 
               className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow pb-5"
