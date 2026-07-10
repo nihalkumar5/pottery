@@ -20,7 +20,7 @@ function App() {
 
   return (
     <ShopProvider>
-      {currentPage !== 'home' && currentPage !== 'shop' ? (
+      {currentPage !== 'home' && currentPage !== 'shop' && currentPage !== 'about' && currentPage !== 'About Us' ? (
         <PolicyPage page={currentPage} onBack={() => setCurrentPage('home')} isMobile={isMobile} />
       ) : isMobile ? (
         <MobileApp setCurrentPage={setCurrentPage} />
