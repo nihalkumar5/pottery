@@ -64,7 +64,7 @@ export default function MobileApp() {
       'Water Storage': '/assets/water.png',
       'Spiritual Collection': '/assets/sc2.png',
       'Serveware': '/assets/serb.png',
-      'Drinkware': '/assets/drink.png'
+      'Drinkware': '/assets/d2.png'
     };
 
     return uniqueCats.map(name => {
@@ -136,6 +136,19 @@ export default function MobileApp() {
   const [trackResult, setTrackResult] = useState(null);
   const [isTrackLoading, setIsTrackLoading] = useState(false);
   const [trackError, setTrackError] = useState('');
+
+  // Auto-scroll selected category pill into view
+  useEffect(() => {
+    if (isShopOpen) {
+      setTimeout(() => {
+        document.getElementById('selected-category-pill')?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'center'
+        });
+      }, 100);
+    }
+  }, [isShopOpen, selectedCategory]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -1325,6 +1338,7 @@ export default function MobileApp() {
               {/* Category Filter Pills */}
               <div className="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
                 <button 
+                  id={selectedCategory === 'All' ? 'selected-category-pill' : undefined}
                   onClick={() => setSelectedCategory('All')}
                   className={`px-5 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-colors border ${selectedCategory === 'All' ? 'bg-[#0A4736] text-white border-[#0A4736]' : 'bg-white text-[#1A2E25] border-[#E5E0D8]'}`}
                 >
@@ -1333,6 +1347,7 @@ export default function MobileApp() {
                 {CATEGORIES.map((cat, i) => (
                   <button 
                     key={i}
+                    id={selectedCategory === cat.name ? 'selected-category-pill' : undefined}
                     onClick={() => setSelectedCategory(cat.name)}
                     className={`px-5 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-colors border ${selectedCategory === cat.name ? 'bg-[#0A4736] text-white border-[#0A4736]' : 'bg-white text-[#1A2E25] border-[#E5E0D8]'}`}
                   >
