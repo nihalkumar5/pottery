@@ -1081,27 +1081,37 @@ export default function MobileApp() {
                           <div className="space-y-4">
                             <div 
                               onClick={() => setPaymentMethod('razorpay')}
-                              className={`cursor-pointer p-4 rounded-xl border flex flex-col gap-1.5 transition-all ${paymentMethod === 'razorpay' ? 'border-[#263228] bg-[#263228]/5 shadow-sm' : 'border-[#E8E2D8] bg-transparent hover:border-[#D8D4CC]'}`}
+                              className={`cursor-pointer p-4 rounded-xl border-2 flex flex-col gap-1.5 transition-all ${paymentMethod === 'razorpay' ? 'border-[#82634F] bg-[#82634F]/5 shadow-md' : 'border-[#E8E2D8] bg-transparent hover:border-[#D8D4CC]'}`}
                             >
                               <div className="flex justify-between items-center">
-                                <span className="text-[15px] text-gray-900 font-medium tracking-wide flex items-center gap-2">
-                                  Pay via Razorpay 
-                                  <span className="text-[9px] font-extrabold bg-[#415a46]/10 text-[#415a46] px-1.5 py-0.5 rounded-sm tracking-wider">5% OFF</span>
+                                <span className="text-[15px] text-gray-900 font-medium tracking-wide flex items-center gap-3">
+                                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${paymentMethod === 'razorpay' ? 'border-[#82634F] bg-[#82634F]' : 'border-gray-300'}`}>
+                                    {paymentMethod === 'razorpay' && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                  </div>
+                                  <span className="flex items-center gap-2">
+                                    Pay via Razorpay 
+                                    <span className="text-[9px] font-extrabold bg-[#82634F]/10 text-[#82634F] px-1.5 py-0.5 rounded-sm tracking-wider">5% OFF</span>
+                                  </span>
                                 </span>
-                                <Smartphone className={`w-5 h-5 ${paymentMethod === 'razorpay' ? 'text-[#263228]' : 'text-gray-400'}`} strokeWidth={1.5} />
+                                <Smartphone className={`w-5 h-5 ${paymentMethod === 'razorpay' ? 'text-[#82634F]' : 'text-gray-400'}`} strokeWidth={1.5} />
                               </div>
-                              <span className="text-[11px] font-bold text-gray-500 tracking-wider opacity-80">CARDS • UPI • NETBANKING</span>
+                              <span className="text-[11px] font-bold text-gray-500 tracking-wider opacity-80 pl-7">CARDS • UPI • NETBANKING</span>
                             </div>
 
                             <div 
                               onClick={() => setPaymentMethod('cod')}
-                              className={`cursor-pointer p-4 rounded-xl border flex flex-col gap-1.5 transition-all ${paymentMethod === 'cod' ? 'border-[#263228] bg-[#263228]/5 shadow-sm' : 'border-[#E8E2D8] bg-transparent hover:border-[#D8D4CC]'}`}
+                              className={`cursor-pointer p-4 rounded-xl border-2 flex flex-col gap-1.5 transition-all ${paymentMethod === 'cod' ? 'border-[#82634F] bg-[#82634F]/5 shadow-md' : 'border-[#E8E2D8] bg-transparent hover:border-[#D8D4CC]'}`}
                             >
                               <div className="flex justify-between items-center">
-                                <span className="text-[15px] text-gray-900 font-medium tracking-wide">Cash on Delivery</span>
-                                <Banknote className={`w-5 h-5 ${paymentMethod === 'cod' ? 'text-[#263228]' : 'text-gray-400'}`} strokeWidth={1.5} />
+                                <span className="text-[15px] text-gray-900 font-medium tracking-wide flex items-center gap-3">
+                                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${paymentMethod === 'cod' ? 'border-[#82634F] bg-[#82634F]' : 'border-gray-300'}`}>
+                                    {paymentMethod === 'cod' && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                  </div>
+                                  Cash on Delivery
+                                </span>
+                                <Banknote className={`w-5 h-5 ${paymentMethod === 'cod' ? 'text-[#82634F]' : 'text-gray-400'}`} strokeWidth={1.5} />
                               </div>
-                              <span className="text-[11px] font-bold text-gray-500 tracking-wider opacity-80">PAY AT YOUR DOORSTEP</span>
+                              <span className="text-[11px] font-bold text-gray-500 tracking-wider opacity-80 pl-7">PAY AT YOUR DOORSTEP</span>
                             </div>
                           </div>
                         </div>
