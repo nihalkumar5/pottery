@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useShop } from './ShopContext';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Heart, Plus, ShoppingBag } from 'lucide-react';
 
 function DesktopApp() {
   const { products, cart, addToCart, removeFromCart, cartTotal, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
@@ -400,7 +400,7 @@ function DesktopApp() {
               <div className="w-full aspect-[4/5] relative">
                 <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 <button 
-                  onClick={(e) => { e.stopPropagation(); addToCart(product); }}
+                  onClick={(e) => { e.stopPropagation(); /* toggle wishlist */ }}
                   className="absolute top-4 right-4 text-gray-500/70 hover:text-red-400 transition-colors p-2"
                 >
                   <Heart className="w-5 h-5" strokeWidth={1.25} />
@@ -408,9 +408,17 @@ function DesktopApp() {
               </div>
               <div className="p-5 flex items-center justify-between gap-4">
                 <h4 className="font-sans text-[11px] uppercase tracking-wider text-gray-400 font-semibold truncate">{product.name}</h4>
-                <span className="font-sans text-[15px] tracking-wide text-gray-700 font-bold whitespace-nowrap">
-                  $ {product.price}
-                </span>
+                <div className="flex items-center gap-4">
+                  <span className="font-sans text-[15px] tracking-wide text-gray-700 font-bold whitespace-nowrap">
+                    $ {product.price}
+                  </span>
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); addToCart(product); }}
+                    className="text-gray-400 hover:text-[#D06C47] transition-colors"
+                  >
+                    <Plus className="w-5 h-5" strokeWidth={1.5} />
+                  </button>
+                </div>
               </div>
             </div>
           ))}
