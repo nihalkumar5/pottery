@@ -197,7 +197,7 @@ export default function MobileApp() {
       const finalTotal = cartTotal + shippingCost;
 
       const options = {
-        key: 'rzp_test_YOUR_TEST_KEY', // Dummy key for UI test mode
+        key: import.meta.env.VITE_RAZORPAY_KEY || 'rzp_test_YOUR_TEST_KEY', // Use env variable or dummy key
         amount: Math.round(finalTotal * 100), // Amount in paise
         currency: 'INR',
         name: 'Clay & Craft',
