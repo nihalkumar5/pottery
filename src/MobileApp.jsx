@@ -389,8 +389,8 @@ export default function MobileApp() {
             ))}
           </div>
 
-          {/* Right Column (Staggered with margin-top) */}
-          <div className="flex flex-col gap-6 w-1/2 mt-12">
+          {/* Right Column (Staggered with aspect ratio, not margin) */}
+          <div className="flex flex-col gap-6 w-1/2">
             {products.filter((_, i) => i % 2 !== 0).map((item, index) => (
               <div 
                 key={item.id} 
