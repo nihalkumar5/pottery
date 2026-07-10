@@ -129,7 +129,7 @@ export default function MobileApp() {
   const handleAuthChange = (e) => setAuthForm({ ...authForm, [e.target.name]: e.target.value });
 
   return (
-    <div className="mobile-root font-sans bg-background text-primary min-h-screen relative overflow-hidden">
+    <div className="mobile-root font-sans bg-background text-primary min-h-screen relative overflow-x-hidden">
       {/* Sticky Top Navigation */}
       <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${isScrolled ? 'bg-background/90 backdrop-blur-md shadow-sm py-4 text-primary' : 'bg-transparent py-6 text-white'}`}>
         <div className="flex items-center justify-between px-6">
