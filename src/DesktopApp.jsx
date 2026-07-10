@@ -185,7 +185,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
           Clay & Craft
         </div>
         <ul className="nav-links">
-          <li><a href="#" onClick={(e) => { e.preventDefault(); setSelectedCategory(null); setCurrentPage('shop'); window.scrollTo(0, 0); }}>Shop</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('home'); window.scrollTo(0, 0); }}>Home</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('shop'); window.scrollTo(0, 0); }}>Collections</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('about'); window.scrollTo(0, 0); }}>About</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); user ? setIsAuthOpen(true) : openTrackOrder(); }}>Track Order</a></li>
