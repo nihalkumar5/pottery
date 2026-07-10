@@ -520,7 +520,32 @@ function DesktopApp({ setCurrentPage, currentPage }) {
         </div>
       </section>
 
-
+      {/* Categories Section */}
+      <section className="desktop-categories">
+        <h2>Shop by Category</h2>
+        <div className="category-grid">
+          {CATEGORIES.map((cat, i) => (
+            <div 
+              key={i} 
+              className="category-card"
+              onClick={() => {
+                setSelectedCategory(cat.name);
+                setCurrentPage('shop');
+                window.scrollTo(0, 0);
+              }}
+            >
+              <div className="category-image">
+                <img src={cat.img} alt={cat.name} />
+                <div className="category-overlay"></div>
+              </div>
+              <div className="category-info">
+                <h3>{cat.name}</h3>
+                <ArrowRight size={20} strokeWidth={1.5} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* Products Section */}
       <section className="products-section" id="shop">
