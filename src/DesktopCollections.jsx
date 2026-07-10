@@ -64,7 +64,7 @@ export default function DesktopCollections({ onBack }) {
 
       {/* Product Grid */}
       <main className="px-12 pb-24">
-        <div className="collections-grid">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12">
           {filteredProducts.map(product => (
             <div key={product.id} className="collection-product-card group cursor-pointer">
               <div className="product-image-wrapper relative aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-white/50">
