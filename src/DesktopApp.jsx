@@ -573,12 +573,66 @@ function DesktopApp({ setCurrentPage, currentPage }) {
                       ₹{Math.round(product.price * 1.2)}
                     </span>
                   </div>
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); addToCart(product); }}
-                    className="bg-[#0A4736] text-white p-2.5 rounded-full hover:bg-[#073326] transition-colors"
-                  >
-                    <ShoppingBag className="w-5 h-5" strokeWidth={1.5} />
-                  </button>
+                  {(() => {
+                    const cartItem = cart.find(item => item.id === product.id);
+                    const qty = cartItem ? cartItem.quantity : 0;
+                    
+                    const animateToCart = (e) => {
+                      const button = e.currentTarget;
+                      const cartIcon = document.querySelector('.cart-icon');
+                      if (!cartIcon || !button) return;
+
+                      const btnRect = button.getBoundingClientRect();
+                      const cartRect = cartIcon.getBoundingClientRect();
+
+                      const flyImg = document.createElement('img');
+                      flyImg.src = product.image;
+                      flyImg.style.position = 'fixed';
+                      flyImg.style.width = '40px';
+                      flyImg.style.height = '40px';
+                      flyImg.style.borderRadius = '50%';
+                      flyImg.style.objectFit = 'cover';
+                      flyImg.style.zIndex = '9999';
+                      flyImg.style.top = `${btnRect.top}px`;
+                      flyImg.style.left = `${btnRect.left}px`;
+                      flyImg.style.transition = 'all 0.6s cubic-bezier(0.2, 1, 0.3, 1)';
+                      flyImg.style.pointerEvents = 'none';
+
+                      document.body.appendChild(flyImg);
+
+                      requestAnimationFrame(() => {
+                        flyImg.style.top = `${cartRect.top + cartRect.height / 2 - 20}px`;
+                        flyImg.style.left = `${cartRect.left + cartRect.width / 2 - 20}px`;
+                        flyImg.style.transform = 'scale(0.3)';
+                        flyImg.style.opacity = '0';
+                      });
+
+                      setTimeout(() => {
+                        if (document.body.contains(flyImg)) {
+                          document.body.removeChild(flyImg);
+                        }
+                      }, 600);
+                    };
+                    
+                    return qty === 0 ? (
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); animateToCart(e); addToCart(product); }}
+                        className="bg-[#0A4736] text-white p-2.5 rounded-full hover:bg-[#073326] transition-colors"
+                      >
+                        <ShoppingBag className="w-5 h-5" strokeWidth={1.5} />
+                      </button>
+                    ) : (
+                      <div className="flex items-center bg-[#F0EBE1] rounded-full p-1" onClick={(e) => e.stopPropagation()}>
+                        <button onClick={() => decreaseQuantity(product.id)} className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-white text-[#1A2E25] transition-colors">
+                          <Minus size={14} />
+                        </button>
+                        <span className="w-6 text-center font-bold text-sm text-[#1A2E25]">{qty}</span>
+                        <button onClick={(e) => { animateToCart(e); addToCart(product); }} className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-white text-[#1A2E25] transition-colors">
+                          <Plus size={14} />
+                        </button>
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
             </div>
