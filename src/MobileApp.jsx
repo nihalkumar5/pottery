@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, PackageSearch, ArrowLeft } from 'lucide-react';
+import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, PackageSearch, ArrowLeft, Snowflake, Droplets, Leaf, ShieldCheck } from 'lucide-react';
 import { useShop } from './ShopContext';
 
 const CATEGORIES = [
@@ -677,45 +677,97 @@ export default function MobileApp() {
         {selectedProduct && (
           <motion.div 
             initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 50 }}
-            className="fixed inset-0 bg-[#F4F4F4] z-50 flex flex-col"
+            className="fixed inset-0 bg-white z-50 overflow-y-auto pb-40"
           >
-            <div className="relative h-[55vh] w-full flex-shrink-0 bg-white rounded-b-[40px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
-              <img src={selectedProduct.image} alt={selectedProduct.name} className="w-full h-full object-cover" />
-              
-              <button 
-                onClick={() => setSelectedProduct(null)}
-                className="absolute top-8 left-6 p-2 text-gray-600 hover:text-black transition-colors"
-              >
-                <ArrowLeft className="w-6 h-6" />
+            {/* Top Navigation */}
+            <div className="sticky top-0 w-full bg-white/90 backdrop-blur-md z-10 px-6 py-4 flex justify-between items-center">
+              <button onClick={() => setSelectedProduct(null)} className="p-2 -ml-2 text-gray-800 border-none outline-none bg-transparent">
+                <Menu className="w-6 h-6" />
               </button>
-
-              <button 
-                className="absolute top-8 right-6 bg-white p-2.5 rounded-xl shadow-sm text-gray-400 hover:text-red-500 transition-colors"
-                onClick={() => toggleWishlist(selectedProduct)}
-              >
-                <Heart className={`w-5 h-5 ${isInWishlist(selectedProduct.id) ? 'fill-red-500 text-red-500' : ''}`} />
+              <h1 className="font-sans font-bold tracking-widest text-[12px] uppercase text-gray-900 leading-tight text-center">
+                Everyday<br/>Essentials
+              </h1>
+              <button className="p-2 -mr-2 text-gray-800 relative border-none outline-none bg-transparent" onClick={() => { setSelectedProduct(null); setIsCartOpen(true); }}>
+                <ShoppingBag className="w-6 h-6" />
+                {cartItemCount > 0 && (
+                  <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-black rounded-full"></span>
+                )}
               </button>
             </div>
-            
-            <div className="flex-1 px-8 pt-8 pb-6 flex flex-col">
-              <h2 className="font-sans text-[22px] font-medium text-gray-800 mb-1.5">{selectedProduct.name}</h2>
-              <p className="text-gray-400 text-sm mb-6">Handcrafted ceramic piece</p>
-              
-              <p className="text-gray-500 text-[14px] leading-relaxed mb-auto max-w-[95%]">
-                {selectedProduct.desc}
-              </p>
 
-              <div className="flex justify-between items-center mt-6">
-                <span className="font-sans text-[34px] font-medium text-gray-700 flex items-center gap-1.5">
-                  <span className="text-2xl text-gray-600">₹</span>{selectedProduct.price}
-                </span>
-                
-                <button 
-                  onClick={() => { handleAddToCart(selectedProduct); setSelectedProduct(null); }}
-                  className="bg-white text-gray-600 border border-gray-100 px-8 py-3.5 rounded-2xl font-sans font-bold text-sm tracking-wide shadow-sm hover:bg-gray-50 hover:text-black transition-all"
-                >
-                  ADD TO CART
-                </button>
+            {/* Image Slider */}
+            <div className="px-4 pt-2">
+              <div className="bg-[#F5F5F5] rounded-3xl w-full aspect-[4/5] relative overflow-hidden flex flex-col items-center justify-center snap-x snap-mandatory overflow-x-auto scrollbar-hide">
+                {/* Simulated multiple images to allow scrolling */}
+                <div className="flex w-full h-full">
+                  {[selectedProduct.image, selectedProduct.image, selectedProduct.image].map((img, i) => (
+                    <div key={i} className="min-w-full h-full flex-shrink-0 snap-center flex items-center justify-center relative">
+                       <img src={img} alt={selectedProduct.name} className="w-full h-full object-cover mix-blend-multiply" />
+                    </div>
+                  ))}
+                </div>
+                {/* Pagination Dots */}
+                <div className="absolute bottom-4 flex gap-2 w-full justify-center">
+                  <div className="w-2 h-2 rounded-full bg-[#3F5B46]"></div>
+                  <div className="w-2 h-2 rounded-full bg-gray-300"></div>
+                  <div className="w-2 h-2 rounded-full bg-gray-300"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="px-6 pt-8">
+              <h2 className="font-sans text-[26px] leading-tight font-semibold text-gray-900 mb-2">{selectedProduct.name}</h2>
+              <p className="text-gray-600 text-[15px] mb-4">Insulated. Leakproof. Built for everyday.</p>
+              
+              <div className="flex items-center gap-1.5 mb-6">
+                <div className="flex text-[#3F5B46]">
+                  {[1, 2, 3, 4, 5].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 fill-current" />
+                  ))}
+                </div>
+                <span className="text-gray-500 text-sm ml-1">4.8 (1,247 reviews)</span>
+              </div>
+
+              <div className="flex items-center gap-3 mb-10">
+                <span className="font-sans text-[24px] font-semibold text-[#3F5B46]">₹{selectedProduct.price}</span>
+                <span className="font-sans text-[16px] text-gray-400 line-through">₹{(selectedProduct.price * 1.5).toFixed(2)}</span>
+                <span className="bg-[#E7F0E9] text-[#3F5B46] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Save 33%</span>
+              </div>
+
+              {/* Horizontal Scrollable Features */}
+              <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 -mx-6 px-6">
+                <div className="flex flex-col items-center text-center min-w-[90px]">
+                  <div className="w-14 h-14 rounded-full bg-[#F5F5F5] flex items-center justify-center mb-3 text-[#3F5B46]">
+                    <Snowflake className="w-6 h-6" />
+                  </div>
+                  <span className="text-[12px] font-medium text-gray-700 leading-tight">Keeps Drinks<br/>Cold 24 Hrs</span>
+                </div>
+                <div className="flex flex-col items-center text-center min-w-[90px]">
+                  <div className="w-14 h-14 rounded-full bg-[#F5F5F5] flex items-center justify-center mb-3 text-gray-700">
+                    <Droplets className="w-6 h-6" />
+                  </div>
+                  <span className="text-[12px] font-medium text-gray-700 leading-tight">Leakproof<br/>Design</span>
+                </div>
+                <div className="flex flex-col items-center text-center min-w-[90px]">
+                  <div className="w-14 h-14 rounded-full bg-[#F5F5F5] flex items-center justify-center mb-3 text-[#3F5B46]">
+                    <Leaf className="w-6 h-6" />
+                  </div>
+                  <span className="text-[12px] font-medium text-gray-700 leading-tight">BPA-Free<br/>Materials</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Sticky Bottom Bar */}
+            <div className="fixed bottom-0 left-0 w-full bg-white pb-6 pt-4 px-6 border-t border-gray-100 z-20">
+              <button 
+                onClick={() => { handleAddToCart(selectedProduct); setSelectedProduct(null); }}
+                className="w-full bg-[#415a46] text-white py-4 rounded-full font-sans font-bold text-[15px] tracking-wide mb-3 hover:bg-[#2f4233] transition-colors"
+              >
+                ADD TO CART • ₹{selectedProduct.price}
+              </button>
+              <div className="flex items-center justify-center gap-2 text-gray-600 text-[12px] font-medium">
+                <ShieldCheck className="w-4 h-4 text-[#415a46]" />
+                Free Shipping on Orders Over ₹3000
               </div>
             </div>
           </motion.div>
