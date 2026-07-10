@@ -1455,7 +1455,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
 
               {/* Shop Modal Hero Banner */}
               <div className="relative w-[calc(100%+3rem)] -mx-6 -mt-2 h-[180px] overflow-hidden mb-6 flex flex-col items-center justify-center">
-                <img src="/assets/sc1.png" className="absolute inset-0 w-full h-full object-cover" alt="Shop Hero" />
+                <img src="/assets/homedecor.png" className="absolute inset-0 w-full h-full object-cover" alt="Shop Hero" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20"></div>
                 <div className="relative z-10 text-center px-4">
                   <h2 className="font-serif text-[26px] text-[#F8F6F2] mb-1 leading-tight">Handcrafted with Love</h2>
