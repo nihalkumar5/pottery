@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useShop } from './ShopContext';
-import { ArrowRight, Heart, Plus, Minus, ShoppingBag, User, Truck, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Heart, Plus, Minus, ShoppingBag, User, Truck, ShieldCheck, HandHeart, Leaf, Flower2, Star } from 'lucide-react';
 import DesktopCollections from './DesktopCollections';
 
 function DesktopApp({ setCurrentPage, currentPage }) {
@@ -54,7 +54,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
   }, []);
 
   const featuredProducts = useMemo(() => {
-    return [...products].sort(() => 0.5 - Math.random()).slice(0, 4);
+    return products.slice(0, 4);
   }, [products]);
 
   // Checkout States
@@ -494,27 +494,41 @@ function DesktopApp({ setCurrentPage, currentPage }) {
         </div>
       </header>
 
-      {/* Features Section */}
-      <section className="desktop-features">
-        <div className="feature-card">
-          <User className="feature-icon" />
-          <h3>Handmade by Artisans</h3>
-          <p>Crafted with precision & heritage.</p>
+      {/* Features Banner */}
+      <section className="w-full bg-[#E6DEC8] py-14 my-16">
+        <div className="max-w-[1000px] mx-auto px-8 flex justify-center items-center divide-x divide-[#C5BBA4]">
+          <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-4">
+            <HandHeart className="w-10 h-10 text-[#5C4D3C]" strokeWidth={1.5} />
+            <span className="font-serif text-[18px] text-[#5C4D3C] font-medium tracking-wide">Handcrafted</span>
+          </div>
+          <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-4">
+            <Leaf className="w-10 h-10 text-[#5C4D3C]" strokeWidth={1.5} />
+            <span className="font-serif text-[18px] text-[#5C4D3C] font-medium tracking-wide">Eco-Friendly</span>
+          </div>
+          <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-4">
+            <Flower2 className="w-10 h-10 text-[#5C4D3C]" strokeWidth={1.5} />
+            <span className="font-serif text-[18px] text-[#5C4D3C] font-medium tracking-wide">Timeless<br/>Tradition</span>
+          </div>
         </div>
-        <div className="feature-card">
-          <Heart className="feature-icon" />
-          <h3>Sustainable Clay</h3>
-          <p>Sourced ethically from the earth.</p>
-        </div>
-        <div className="feature-card">
-          <Truck className="feature-icon" />
-          <h3>Secure Shipping</h3>
-          <p>Safely delivered to your door.</p>
-        </div>
-        <div className="feature-card">
-          <ShieldCheck className="feature-icon" />
-          <h3>Secure Payments</h3>
-          <p>100% safe & trusted.</p>
+      </section>
+
+      {/* Testimonial Section */}
+      <section className="max-w-[1200px] mx-auto px-8 mb-20 text-center">
+        <h2 className="font-serif text-3xl text-[#263228] mb-12">Loved by Art Enthusiasts</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            { name: "Priya S.", review: "The craftsmanship is simply unmatched. My terracotta vase adds such a warm, earthy feel to my living room. Best quality pottery I've ever bought." },
+            { name: "Rahul M.", review: "I am amazed by the attention to detail. The drinking cups are perfectly weighted and the texture feels so authentic. Highly recommended!" },
+            { name: "Anjali K.", review: "Beautiful, sustainable, and timeless. It's rare to find such dedication to traditional pottery techniques. The packaging was also completely eco-friendly." }
+          ].map((testimonial, i) => (
+            <div key={i} className="bg-white p-8 rounded-2xl shadow-sm border border-[#EAE6DF] flex flex-col items-center text-center">
+              <div className="flex gap-1 mb-4">
+                {[1,2,3,4,5].map(star => <Star key={star} className="w-4 h-4 fill-[#C5BBA4] text-[#C5BBA4]" />)}
+              </div>
+              <p className="font-sans text-[14px] text-gray-600 mb-6 italic">"{testimonial.review}"</p>
+              <h4 className="font-serif text-[16px] font-bold text-[#1A2E25] mt-auto">{testimonial.name}</h4>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -561,7 +575,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
                 // for now just add to cart or keep as is
               }}
             >
-              <div className="w-full aspect-[4/5] relative shrink-0">
+              <div className="w-full h-[320px] relative shrink-0">
                 <img src={product.image} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
               </div>
               <div className="px-5 pt-4 flex flex-col flex-grow gap-1.5 justify-between">
