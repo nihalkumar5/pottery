@@ -163,7 +163,7 @@ export default function MobileApp() {
               times: [0, 0.15, 0.9, 1],
               ease: "easeInOut"
             }}
-            className="font-hero font-light text-[2.75rem] leading-[1.05] tracking-tight mb-5 mt-4"
+            className="font-serif font-light text-[2.75rem] leading-[1.05] tracking-tight mb-5 mt-4"
             style={{ fontWeight: 300 }}
           >
             Timeless<br />Tradition
