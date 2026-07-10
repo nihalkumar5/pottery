@@ -24,7 +24,16 @@ const MOCK_PRODUCTS = [
   { id: 10, name: 'Artisan Serving Set', category: 'Serveware', price: 1499.00, description: 'Complete handcrafted serving set including tray, bowls, and serving accessories for snacks and festive gatherings.', features: ['Handmade', 'Food Safe', 'Natural Clay', 'Eco-Friendly', 'Reusable'], image: '/assets/p10-serving-set.png' },
   { id: 11, name: 'Hand-Painted Decorative Vase', category: 'Home Decor', price: 1299.00, description: 'Elegant hand-painted terracotta vase crafted to complement modern and traditional interiors.', features: ['Handmade', 'Food Safe', 'Natural Clay', 'Eco-Friendly', 'Reusable'], image: '/assets/p11-painted-vase.png' },
   { id: 12, name: 'Decorative Terracotta Vase', category: 'Home Decor', price: 999.00, description: 'Minimal artisan vase with timeless earthy aesthetics for fresh flowers or dried arrangements.', features: ['Handmade', 'Food Safe', 'Natural Clay', 'Eco-Friendly', 'Reusable'], image: '/assets/p12-decorative-vase.png' },
-  { id: 13, name: 'Temple Bell', category: 'Spiritual Collection', price: 499.00, description: 'Handmade terracotta temple bell crafted for home temples and spiritual décor with a traditional finish.', features: ['Handmade', 'Food Safe', 'Natural Clay', 'Eco-Friendly', 'Reusable'], image: '/assets/p13-temple-bell.png' }
+  { id: 13, name: 'Temple Bell', category: 'Spiritual Collection', price: 499.00, description: 'Handmade terracotta temple bell crafted for home temples and spiritual décor with a traditional finish.', features: ['Handmade', 'Food Safe', 'Natural Clay', 'Eco-Friendly', 'Reusable'], image: '/assets/p13-temple-bell.png' },
+  { id: 14, name: 'Heritage Terracotta Drinkware (325g)', category: 'Drinkware', price: 249.00, description: 'Experience the essence of tradition with this heavyweight artisan drinkware. Perfectly crafted for a premium earthy feel.', features: ['Handmade', 'Food Safe', 'Natural Clay', 'Eco-Friendly'], image: '/assets/p4-clay-glass.png' },
+  { id: 15, name: 'Artisan Brick Pattern Mug', category: 'Drinkware', price: 199.00, description: 'A beautifully textured brick pattern mug. Lightweight at 225g and perfect for your daily coffee or tea ritual.', features: ['Handmade', 'Food Safe', 'Natural Clay', 'Eco-Friendly'], image: '/assets/p1-brick-mug.png' },
+  { id: 16, name: 'Rustic Tombol Coffee Mug', category: 'Drinkware', price: 229.00, description: 'Start your morning right with this earthy Tombol textured coffee mug. Elegantly crafted for comfort and style.', features: ['Handmade', 'Food Safe', 'Natural Clay', 'Eco-Friendly'], image: '/assets/p2-tall-coffee-mug.png' },
+  { id: 17, name: 'Classic Earthen Tea Cup Set (6 pcs)', category: 'Drinkware', price: 249.00, description: 'A complete set of 6 traditional terracotta tea cups. Perfect for hosting and serving authentic chai.', features: ['Handmade', 'Set of 6', 'Natural Clay', 'Eco-Friendly'], image: '/assets/p3-goblet-cup.png' },
+  { id: 18, name: 'Premium Terracotta Chai Set (6 pcs)', category: 'Drinkware', price: 249.00, description: 'Elevate your tea time with this premium set of 6 handcrafted cups. Smooth finish with a timeless appeal.', features: ['Handmade', 'Set of 6', 'Natural Clay', 'Eco-Friendly'], image: '/assets/p3-goblet-cup.png' },
+  { id: 19, name: 'Textured Brick Tea Cup Set (6 pcs)', category: 'Drinkware', price: 249.00, description: 'A stunning set of 6 tea cups featuring our signature brick texture for an enhanced grip and rustic charm.', features: ['Handmade', 'Set of 6', 'Natural Clay', 'Eco-Friendly'], image: '/assets/p1-brick-mug.png' },
+  { id: 20, name: 'Minimalist Terracotta Tea Set (6 pcs)', category: 'Drinkware', price: 249.00, description: 'Clean lines and a minimalist profile define this 6-piece tea cup set. Modern design meets ancient craft.', features: ['Handmade', 'Set of 6', 'Natural Clay', 'Eco-Friendly'], image: '/assets/p3-goblet-cup.png' },
+  { id: 21, name: 'Modern Earthen Tea Cups (6 pcs)', category: 'Drinkware', price: 249.00, description: 'A beautifully balanced 6-piece tea cup set designed for everyday elegance and a natural sip.', features: ['Handmade', 'Set of 6', 'Natural Clay', 'Eco-Friendly'], image: '/assets/p3-goblet-cup.png' },
+  { id: 22, name: 'Natural Cooling Terracotta Bottle', category: 'Water Bottles', price: 179.00, description: 'Stay hydrated naturally. This earthen bottle naturally cools your water while infusing it with earth\'s minerals.', features: ['Handmade', 'Food Safe', 'Natural Clay', 'Eco-Friendly'], image: '/assets/p7-classic-bottle.png' }
 ];
 
 export const ShopProvider = ({ children }) => {
@@ -96,7 +105,8 @@ export const ShopProvider = ({ children }) => {
         }));
         
         if (fetchedProducts.length > 0) {
-          setProducts(fetchedProducts);
+          const newProducts = MOCK_PRODUCTS.filter(p => p.id > 13);
+          setProducts([...fetchedProducts, ...newProducts]);
         }
       } catch (error) {
         console.log("WooCommerce API fetch failed, using mock data.");
