@@ -57,6 +57,11 @@ export default function MobileApp() {
   // Compute categories dynamically based on fetched products
   const CATEGORIES = React.useMemo(() => {
     const uniqueCats = [...new Set(products.map(p => p.category).filter(Boolean))];
+    const spiritualIndex = uniqueCats.indexOf('Spiritual Collection');
+    if (spiritualIndex > -1) {
+      uniqueCats.splice(spiritualIndex, 1);
+      uniqueCats.push('Spiritual Collection');
+    }
     
     const customImages = {
       'Home Decor': '/assets/home.png',
