@@ -60,7 +60,7 @@ export default function MobileApp() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: '', lastName: '', email: '', address: '', city: '', postcode: ''
+    firstName: '', lastName: '', email: '', phone: '', address: '', city: '', postcode: ''
   });
 
   // Mobile Track Order States
@@ -518,45 +518,92 @@ export default function MobileApp() {
           <motion.div 
             initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 bg-white z-50 flex flex-col"
+            className="fixed inset-0 bg-[#FDFBF7] z-50 flex flex-col"
           >
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-background">
-              <h2 className="font-serif text-2xl">Checkout</h2>
-              <X className="w-6 h-6 cursor-pointer text-gray-500" onClick={() => setIsCheckoutOpen(false)} />
+            <div className="p-6 flex justify-between items-center bg-white sticky top-0 z-10 border-b border-gray-100">
+              <h2 className="font-serif text-[1.4rem] font-medium text-gray-900 tracking-wide">Secure Checkout</h2>
+              <button onClick={() => setIsCheckoutOpen(false)} className="p-2 bg-gray-50 rounded-full hover:bg-gray-100 transition-colors">
+                <X className="w-5 h-5 text-gray-600" />
+              </button>
             </div>
-            <div className="flex-1 overflow-y-auto p-6 bg-white">
+            
+            <div className="flex-1 overflow-y-auto pb-32">
               {orderSuccess ? (
-                <div className="h-full flex flex-col items-center justify-center text-center">
-                  <CheckCircle className="w-16 h-16 text-accent mb-6" />
-                  <h3 className="font-serif text-3xl mb-4">Order Placed!</h3>
-                  <p className="text-secondary mb-8">Thank you for shopping with Clay & Craft. We will prepare your handcrafted ceramics shortly.</p>
+                <div className="h-full flex flex-col items-center justify-center text-center p-8">
+                  <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6">
+                    <CheckCircle className="w-10 h-10 text-green-600" />
+                  </div>
+                  <h3 className="font-serif text-[32px] text-gray-900 mb-4">Order Confirmed!</h3>
+                  <p className="text-gray-500 text-[15px] leading-relaxed mb-10 px-4">Thank you for shopping with Clay & Craft. Your handcrafted ceramics will be prepared shortly.</p>
                   <button 
-                    className="w-full bg-primary text-white py-4 rounded-xl font-medium tracking-wide"
+                    className="w-full bg-[#1A2E25] text-white py-4 rounded-2xl font-sans font-bold tracking-wide shadow-lg hover:bg-[#111e18] transition-colors"
                     onClick={() => { setIsCheckoutOpen(false); setOrderSuccess(false); }}
                   >
-                    Continue Shopping
+                    CONTINUE SHOPPING
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleCheckoutSubmit} className="flex flex-col gap-4">
-                  <div className="flex justify-between font-serif text-xl mb-6 pb-6 border-b border-gray-100">
-                    <span>Total Amount:</span>
-                    <span>₹{cartTotal.toFixed(2)}</span>
+                <form onSubmit={handleCheckoutSubmit} className="flex flex-col">
+                  {/* Order Summary Strip */}
+                  <div className="bg-white px-6 py-5 mb-3 flex justify-between items-center shadow-sm">
+                    <span className="font-sans text-gray-500 text-[14px] uppercase tracking-wider font-semibold">Total to Pay</span>
+                    <span className="font-sans font-bold text-[22px] text-[#1A2E25]">₹{cartTotal.toFixed(2)}</span>
                   </div>
                   
-                  <div className="flex gap-4">
-                    <input type="text" name="firstName" placeholder="First Name" required className="w-1/2 p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={formData.firstName} onChange={handleInputChange} />
-                    <input type="text" name="lastName" placeholder="Last Name" required className="w-1/2 p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={formData.lastName} onChange={handleInputChange} />
+                  <div className="px-5 py-4 space-y-8">
+                    {/* Contact Info */}
+                    <section>
+                      <h3 className="font-serif text-[18px] text-gray-800 mb-4 ml-1">Contact Information</h3>
+                      <div className="bg-white p-5 rounded-3xl shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-gray-100 flex flex-col gap-4">
+                        <div className="relative">
+                          <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Email Address</label>
+                          <input type="email" name="email" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-gray-50/50 border border-gray-200 focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.email} onChange={handleInputChange} />
+                        </div>
+                        <div className="relative">
+                          <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Phone Number</label>
+                          <input type="tel" name="phone" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-gray-50/50 border border-gray-200 focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.phone} onChange={handleInputChange} />
+                        </div>
+                      </div>
+                    </section>
+
+                    {/* Shipping Address */}
+                    <section>
+                      <h3 className="font-serif text-[18px] text-gray-800 mb-4 ml-1">Shipping Details</h3>
+                      <div className="bg-white p-5 rounded-3xl shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-gray-100 flex flex-col gap-4">
+                        <div className="flex gap-4">
+                          <div className="relative w-1/2">
+                            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">First Name</label>
+                            <input type="text" name="firstName" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-gray-50/50 border border-gray-200 focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.firstName} onChange={handleInputChange} />
+                          </div>
+                          <div className="relative w-1/2">
+                            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Last Name</label>
+                            <input type="text" name="lastName" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-gray-50/50 border border-gray-200 focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.lastName} onChange={handleInputChange} />
+                          </div>
+                        </div>
+                        <div className="relative">
+                          <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">Full Address</label>
+                          <input type="text" name="address" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-gray-50/50 border border-gray-200 focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.address} onChange={handleInputChange} />
+                        </div>
+                        <div className="flex gap-4">
+                          <div className="relative w-2/3">
+                            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">City</label>
+                            <input type="text" name="city" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-gray-50/50 border border-gray-200 focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.city} onChange={handleInputChange} />
+                          </div>
+                          <div className="relative w-1/3">
+                            <label className="text-[11px] font-bold uppercase tracking-wider text-gray-400 absolute top-3 left-4">PIN</label>
+                            <input type="text" name="postcode" required className="w-full pt-8 pb-3 px-4 rounded-2xl bg-gray-50/50 border border-gray-200 focus:outline-none focus:border-[#415a46] focus:bg-white transition-all text-[15px] text-gray-800 font-medium" value={formData.postcode} onChange={handleInputChange} />
+                          </div>
+                        </div>
+                      </div>
+                    </section>
                   </div>
-                  <input type="email" name="email" placeholder="Email Address" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={formData.email} onChange={handleInputChange} />
-                  <input type="text" name="address" placeholder="Shipping Address" required className="w-full p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={formData.address} onChange={handleInputChange} />
-                  <div className="flex gap-4">
-                    <input type="text" name="city" placeholder="City" required className="w-2/3 p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={formData.city} onChange={handleInputChange} />
-                    <input type="text" name="postcode" placeholder="PIN" required className="w-1/3 p-4 rounded-xl border border-gray-200 bg-gray-50 focus:outline-none focus:border-accent" value={formData.postcode} onChange={handleInputChange} />
+
+                  {/* Sticky Checkout Button */}
+                  <div className="fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-md p-6 border-t border-gray-100 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+                    <button type="submit" disabled={isSubmitting} className="w-full bg-[#1A2E25] text-white py-4 rounded-2xl font-sans font-bold tracking-wide shadow-lg hover:bg-[#111e18] transition-colors flex justify-center items-center gap-2">
+                      {isSubmitting ? 'PROCESSING...' : `PLACE COD ORDER • ₹${cartTotal.toFixed(2)}`}
+                    </button>
                   </div>
-                  <button type="submit" disabled={isSubmitting} className="w-full bg-primary text-white py-4 rounded-xl font-medium tracking-wide mt-4 flex justify-center">
-                    {isSubmitting ? 'Processing...' : 'Place Order (Cash on Delivery)'}
-                  </button>
                 </form>
               )}
             </div>
