@@ -1285,7 +1285,6 @@ export default function MobileApp() {
             <div className="px-4 pt-2">
               <div className="bg-[#F5F5F5] rounded-3xl w-full aspect-square relative overflow-hidden group">
 
-                
                 {/* Scrolling Images */}
                 <div 
                   className="flex w-full h-full overflow-x-auto snap-x snap-mandatory scrollbar-hide"
@@ -1296,21 +1295,23 @@ export default function MobileApp() {
                     setActiveImageIndex(newIndex);
                   }}
                 >
-                  {[selectedProduct.image, selectedProduct.image, selectedProduct.image].map((img, i) => (
+                  {(selectedProduct.images || [selectedProduct.image]).map((img, i) => (
                     <div key={i} className="min-w-full h-full flex-shrink-0 snap-center flex items-center justify-center relative">
                        <img src={img} alt={selectedProduct.name} className="w-full h-full object-cover mix-blend-multiply" />
                     </div>
                   ))}
                 </div>
                 {/* Pagination Dots */}
-                <div className="absolute bottom-4 flex gap-2 w-full justify-center pointer-events-none">
-                  {[0, 1, 2].map((i) => (
-                    <div 
-                      key={i} 
-                      className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${activeImageIndex === i ? 'bg-[#3F5B46]' : 'bg-gray-400/50'}`}
-                    ></div>
-                  ))}
-                </div>
+                {(selectedProduct.images && selectedProduct.images.length > 1) && (
+                  <div className="absolute bottom-4 flex gap-2 w-full justify-center pointer-events-none">
+                    {selectedProduct.images.map((_, i) => (
+                      <div 
+                        key={i} 
+                        className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${activeImageIndex === i ? 'bg-[#3F5B46]' : 'bg-gray-400/50'}`}
+                      ></div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
             
