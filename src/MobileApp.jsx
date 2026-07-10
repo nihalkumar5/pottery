@@ -409,11 +409,11 @@ export default function MobileApp() {
       {/* Testimonials */}
       <section className="py-14 bg-[#F9F6F2] overflow-hidden">
         {/* Heading */}
-        <div className="px-6 mb-8">
-          <div className="inline-block bg-[#F4EBE1] text-[#9C4B35] text-[10px] uppercase tracking-[0.2em] font-bold px-3 py-1.5 rounded-full mb-3">
+        <div className="px-6 mb-8 text-center">
+          <div className="inline-block bg-[#F4EBE1] text-[#9C4B35] text-[10px] uppercase tracking-[0.2em] font-bold px-3 py-1.5 rounded-full mb-4">
             Customer Reviews
           </div>
-          <h2 className="text-[26px] font-extrabold text-[#1A1A1A] leading-tight">What They Say?</h2>
+          <h2 className="font-serif text-3xl text-[#1A1A1A] leading-tight">What They Say?</h2>
         </div>
 
         {/* Horizontal Scroll Cards */}
