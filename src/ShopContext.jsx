@@ -69,7 +69,12 @@ export const ShopProvider = ({ children }) => {
           params: {
             consumer_key: import.meta.env.VITE_WC_CONSUMER_KEY,
             consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET,
-            per_page: 100
+            per_page: 100,
+            _ts: Date.now()   // cache-buster: forces fresh data every load
+          },
+          headers: {
+            'Cache-Control': 'no-cache, no-store',
+            'Pragma': 'no-cache'
           }
         });
         const fetchedProducts = response.data.map(wpProduct => ({
