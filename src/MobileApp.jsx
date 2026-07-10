@@ -301,6 +301,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
     setIsTrackOrderOpen(false);
     setIsProfileOpen(false);
     setIsShopOpen(false);
+    setCurrentPage('home');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
