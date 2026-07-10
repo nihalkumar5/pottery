@@ -101,8 +101,7 @@ export const ShopProvider = ({ children }) => {
         }));
         
         if (fetchedProducts.length > 0) {
-          const newProducts = MOCK_PRODUCTS.filter(p => p.id > 13);
-          setProducts([...fetchedProducts, ...newProducts]);
+          setProducts(fetchedProducts);
         }
       } catch (error) {
         console.log("WooCommerce API fetch failed, using mock data.");
