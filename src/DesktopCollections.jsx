@@ -23,7 +23,7 @@ export default function DesktopCollections({ onBack }) {
     : products.filter(p => p.category === selectedCategory);
 
   return (
-    <div className="desktop-collections-page bg-[#F8F6F2] py-8">
+    <div className="desktop-collections-page bg-[#F8F6F2] pt-32 pb-8">
       {/* Category Navigation */}
       <div className="category-nav-wrapper px-12 pb-8">
         <div className="flex flex-wrap gap-4 items-center justify-center">
