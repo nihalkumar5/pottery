@@ -61,7 +61,7 @@ export default function MobileApp() {
     const customImages = {
       'Home Decor': '/assets/home.png',
       'Water Bottles': '/assets/waterbottle.png',
-      'Water Storage': '/assets/waterstorage.png',
+      'Water Storage': '/assets/water.png',
       'Spiritual Collection': '/assets/sc1.png',
       'Serveware': '/assets/serb.png'
     };
