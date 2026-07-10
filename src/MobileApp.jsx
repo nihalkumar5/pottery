@@ -91,7 +91,7 @@ export default function MobileApp() {
 
   const handleNextStep = (e) => {
     e.preventDefault();
-    if (checkoutStep < 3) {
+    if (checkoutStep < 2) {
       setCheckoutStep(prev => prev + 1);
     } else {
       handleCheckoutSubmit(e);
@@ -541,20 +541,15 @@ export default function MobileApp() {
               
               {/* Stepper */}
               {!orderSuccess && (
-                <div className="flex justify-between items-center px-2">
+                <div className="flex justify-between items-center px-8 mt-2 mb-2">
                   <div className="flex items-center gap-2">
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${checkoutStep >= 1 ? 'bg-[#F25C05] text-white' : 'border border-gray-300 text-gray-400 bg-white'}`}>1</div>
-                    <span className={`text-[13px] ${checkoutStep >= 1 ? 'text-[#F25C05] font-semibold' : 'text-gray-400 font-medium'}`}>Shipping</span>
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[13px] font-bold ${checkoutStep >= 1 ? 'bg-[#415a46] text-white' : 'border-2 border-gray-300 text-gray-400 bg-white'}`}>1</div>
+                    <span className={`text-[14px] ${checkoutStep >= 1 ? 'text-[#415a46] font-semibold' : 'text-gray-400 font-medium'}`}>Shipping</span>
                   </div>
-                  <div className="flex-1 h-px bg-gray-300 mx-3"></div>
+                  <div className="flex-1 h-[2px] bg-gray-300 mx-4"></div>
                   <div className="flex items-center gap-2">
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${checkoutStep >= 2 ? 'bg-[#F25C05] text-white' : 'border border-gray-300 text-gray-400 bg-white'}`}>2</div>
-                    <span className={`text-[13px] ${checkoutStep >= 2 ? 'text-[#F25C05] font-semibold' : 'text-gray-400 font-medium'}`}>Payment</span>
-                  </div>
-                  <div className="flex-1 h-px bg-gray-300 mx-3"></div>
-                  <div className="flex items-center gap-2">
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${checkoutStep >= 3 ? 'bg-[#F25C05] text-white' : 'border border-gray-300 text-gray-400 bg-white'}`}>3</div>
-                    <span className={`text-[13px] ${checkoutStep >= 3 ? 'text-[#F25C05] font-semibold' : 'text-gray-400 font-medium'}`}>Review</span>
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[13px] font-bold ${checkoutStep >= 2 ? 'bg-[#415a46] text-white' : 'border-2 border-gray-300 text-gray-400 bg-white'}`}>2</div>
+                    <span className={`text-[14px] ${checkoutStep >= 2 ? 'text-[#415a46] font-semibold' : 'text-gray-400 font-medium'}`}>Payment</span>
                   </div>
                 </div>
               )}
@@ -639,10 +634,10 @@ export default function MobileApp() {
                         
                         <div 
                           onClick={() => setPaymentMethod('upi')}
-                          className={`p-6 rounded-3xl border-2 transition-all cursor-pointer flex items-center gap-4 ${paymentMethod === 'upi' ? 'border-[#F25C05] bg-white shadow-md' : 'border-transparent bg-[#F5F3ED]'}`}
+                          className={`p-6 rounded-3xl border-2 transition-all cursor-pointer flex items-center gap-4 ${paymentMethod === 'upi' ? 'border-[#415a46] bg-white shadow-md' : 'border-transparent bg-[#F5F3ED]'}`}
                         >
-                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${paymentMethod === 'upi' ? 'border-[#F25C05]' : 'border-gray-400'}`}>
-                            {paymentMethod === 'upi' && <div className="w-3 h-3 bg-[#F25C05] rounded-full"></div>}
+                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${paymentMethod === 'upi' ? 'border-[#415a46]' : 'border-gray-400'}`}>
+                            {paymentMethod === 'upi' && <div className="w-3 h-3 bg-[#415a46] rounded-full"></div>}
                           </div>
                           <div>
                             <p className="font-bold text-[16px] text-gray-900">UPI (GPay, PhonePe, Paytm)</p>
@@ -652,37 +647,15 @@ export default function MobileApp() {
 
                         <div 
                           onClick={() => setPaymentMethod('cod')}
-                          className={`p-6 rounded-3xl border-2 transition-all cursor-pointer flex items-center gap-4 ${paymentMethod === 'cod' ? 'border-[#F25C05] bg-white shadow-md' : 'border-transparent bg-[#F5F3ED]'}`}
+                          className={`p-6 rounded-3xl border-2 transition-all cursor-pointer flex items-center gap-4 ${paymentMethod === 'cod' ? 'border-[#415a46] bg-white shadow-md' : 'border-transparent bg-[#F5F3ED]'}`}
                         >
-                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${paymentMethod === 'cod' ? 'border-[#F25C05]' : 'border-gray-400'}`}>
-                            {paymentMethod === 'cod' && <div className="w-3 h-3 bg-[#F25C05] rounded-full"></div>}
+                          <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${paymentMethod === 'cod' ? 'border-[#415a46]' : 'border-gray-400'}`}>
+                            {paymentMethod === 'cod' && <div className="w-3 h-3 bg-[#415a46] rounded-full"></div>}
                           </div>
                           <div>
                             <p className="font-bold text-[16px] text-gray-900">Cash on Delivery (COD)</p>
                             <p className="text-gray-500 text-sm mt-1">Pay when your order arrives</p>
                           </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Step 3: Review */}
-                    {checkoutStep === 3 && (
-                      <div className="space-y-6 animate-fade-in">
-                        <h3 className="font-serif text-[22px] text-gray-800 mb-2">Review Your Order</h3>
-                        
-                        <div className="bg-[#F5F3ED] p-6 rounded-3xl shadow-sm border border-[#D8D4CC]">
-                          <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-3">Shipping To</h4>
-                          <p className="font-medium text-gray-800 text-[15px]">{formData.firstName} {formData.lastName}</p>
-                          <p className="text-gray-600 text-[14px] mt-1">{formData.address}</p>
-                          <p className="text-gray-600 text-[14px]">{formData.city}, {formData.postcode}</p>
-                          <p className="text-gray-600 text-[14px] mt-2">{formData.phone}</p>
-                          <button type="button" onClick={() => setCheckoutStep(1)} className="text-[#F25C05] text-sm font-bold mt-4">EDIT DETAILS</button>
-                        </div>
-
-                        <div className="bg-[#F5F3ED] p-6 rounded-3xl shadow-sm border border-[#D8D4CC]">
-                          <h4 className="text-[11px] font-bold uppercase tracking-wider text-gray-400 mb-3">Payment Method</h4>
-                          <p className="font-medium text-gray-800 text-[15px] uppercase">{paymentMethod === 'upi' ? 'UPI / Online Payment' : 'Cash on Delivery'}</p>
-                          <button type="button" onClick={() => setCheckoutStep(2)} className="text-[#F25C05] text-sm font-bold mt-4">CHANGE METHOD</button>
                         </div>
                       </div>
                     )}
@@ -696,7 +669,7 @@ export default function MobileApp() {
                       </button>
                     )}
                     <button type="submit" disabled={isSubmitting} className="flex-1 bg-[#415a46] text-white py-4 rounded-2xl font-sans font-bold tracking-wide shadow-lg hover:bg-[#2f4233] transition-colors flex justify-center items-center gap-2">
-                      {isSubmitting ? 'PROCESSING...' : checkoutStep === 3 ? `PLACE ORDER • ₹${cartTotal.toFixed(2)}` : 'CONTINUE'}
+                      {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? `PLACE ORDER • ₹${cartTotal.toFixed(2)}` : 'CONTINUE'}
                     </button>
                   </div>
                 </form>
