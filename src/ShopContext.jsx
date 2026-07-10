@@ -93,6 +93,7 @@ export const ShopProvider = ({ children }) => {
           id: wpProduct.id,
           name: wpProduct.name,
           price: parseFloat(wpProduct.price || 0),
+          regular_price: parseFloat(wpProduct.regular_price) || parseFloat(wpProduct.price || 0),
           image: wpProduct.images.length > 0 ? wpProduct.images[0].src : '/assets/vase.png',
           images: wpProduct.images.length > 0 ? wpProduct.images.map(img => img.src) : ['/assets/vase.png'],
           description: wpProduct.short_description ? wpProduct.short_description.replace(/<[^>]*>?/gm, '') : (wpProduct.description ? wpProduct.description.replace(/<[^>]*>?/gm, '') : 'Handcrafted ceramic piece'),

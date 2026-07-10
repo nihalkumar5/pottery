@@ -578,7 +578,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
                       ₹{product.price}
                     </span>
                     <span className="font-sans text-[13px] text-gray-400 line-through">
-                      ₹{Math.round(product.price * 1.2)}
+                      ₹{product.regular_price}
                     </span>
                   </div>
                   {(() => {

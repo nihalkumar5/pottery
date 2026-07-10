@@ -10,15 +10,10 @@ const baseUrl = 'https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/
 const auth = Buffer.from(`${ck}:${cs}`).toString('base64');
 
 const productsToAdd = [
-  { name: 'Heritage Terracotta Drinkware (325g)', category: 'Drinkware', price: '249', description: 'Experience the essence of tradition with this heavyweight artisan drinkware. Perfectly crafted for a premium earthy feel.' },
-  { name: 'Artisan Brick Pattern Mug', category: 'Drinkware', price: '199', description: 'A beautifully textured brick pattern mug. Lightweight at 225g and perfect for your daily coffee or tea ritual.' },
-  { name: 'Rustic Tombol Coffee Mug', category: 'Drinkware', price: '229', description: 'Start your morning right with this earthy Tombol textured coffee mug. Elegantly crafted for comfort and style.' },
-  { name: 'Classic Earthen Tea Cup Set (6 pcs)', category: 'Drinkware', price: '249', description: 'A complete set of 6 traditional terracotta tea cups. Perfect for hosting and serving authentic chai.' },
-  { name: 'Premium Terracotta Chai Set (6 pcs)', category: 'Drinkware', price: '249', description: 'Elevate your tea time with this premium set of 6 handcrafted cups. Smooth finish with a timeless appeal.' },
-  { name: 'Textured Brick Tea Cup Set (6 pcs)', category: 'Drinkware', price: '249', description: 'A stunning set of 6 tea cups featuring our signature brick texture for an enhanced grip and rustic charm.' },
-  { name: 'Minimalist Terracotta Tea Set (6 pcs)', category: 'Drinkware', price: '249', description: 'Clean lines and a minimalist profile define this 6-piece tea cup set. Modern design meets ancient craft.' },
-  { name: 'Modern Earthen Tea Cups (6 pcs)', category: 'Drinkware', price: '249', description: 'A beautifully balanced 6-piece tea cup set designed for everyday elegance and a natural sip.' },
-  { name: 'Natural Cooling Terracotta Bottle', category: 'Water Bottles', price: '179', description: 'Stay hydrated naturally. This earthen bottle naturally cools your water while infusing it with earth\'s minerals.' }
+  { name: 'Heritage Terracotta Surahi', category: 'Drinkware', regular_price: '450', sale_price: '299', price: '299', description: 'Traditional handcrafted Surahi designed to keep your water naturally cool.' },
+  { name: 'Artisan Temple Bell', category: 'Drinkware', regular_price: '300', sale_price: '199', price: '199', description: 'A beautiful handcrafted bell, resonant and perfectly shaped by local artisans.' },
+  { name: 'Terracotta Jug (Small)', category: 'Drinkware', price: '149', description: 'A perfectly sized small jug for serving water or lassi.' },
+  { name: 'Terracotta Jug (Big)', category: 'Drinkware', price: '249', description: 'A large, elegant terracotta jug perfect for family meals and serving cold water.' }
 ];
 
 async function addProducts() {
@@ -48,9 +43,9 @@ async function addProducts() {
       await axios.post(`${baseUrl}/products`, {
         name: p.name,
         type: 'simple',
-        regular_price: p.price,
+        regular_price: p.regular_price || p.price,
+        sale_price: p.sale_price || '',
         description: p.description,
-        short_description: p.description,
         categories: [ { id: catObj.id } ],
         status: 'publish'
       }, {

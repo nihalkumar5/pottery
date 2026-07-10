@@ -507,7 +507,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                       ₹{item.price}
                     </span>
                     <span className="font-sans text-[11px] text-gray-400 line-through">
-                      ₹{Math.round(item.price * 1.2)}
+                      ₹{item.regular_price}
                     </span>
                   </div>
                   {(() => {
