@@ -79,6 +79,8 @@ export default function MobileApp() {
   const [formData, setFormData] = useState({
     firstName: '', lastName: '', email: '', phone: '', address: '', city: '', postcode: ''
   });
+  const [couponCode, setCouponCode] = useState('');
+  const [isCouponApplied, setIsCouponApplied] = useState(false);
 
   // Mobile Track Order States
   const [isTrackOrderOpen, setIsTrackOrderOpen] = useState(false);
@@ -761,11 +763,49 @@ export default function MobileApp() {
                             ))}
                           </div>
 
+                          {/* Coupon Code */}
+                          <div className="flex gap-2 mb-5">
+                            <input 
+                              type="text" 
+                              placeholder="Discount code" 
+                              className="flex-1 bg-transparent border border-[#D8D4CC] rounded-lg px-4 py-2.5 text-[14px] focus:outline-none focus:border-[#263228] uppercase transition-colors placeholder:normal-case placeholder:text-gray-400"
+                              value={couponCode}
+                              onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                              disabled={isCouponApplied}
+                            />
+                            <button 
+                              type="button"
+                              onClick={() => {
+                                if (isCouponApplied) {
+                                  setIsCouponApplied(false);
+                                  setCouponCode('');
+                                } else if (couponCode.length > 2) {
+                                  setIsCouponApplied(true);
+                                }
+                              }}
+                              className={`px-5 py-2.5 rounded-lg text-[13px] font-bold tracking-wide transition-all ${isCouponApplied ? 'bg-gray-100 border border-gray-300 text-gray-600' : 'bg-[#263228] text-white hover:bg-[#1a231c]'}`}
+                            >
+                              {isCouponApplied ? 'REMOVE' : 'APPLY'}
+                            </button>
+                          </div>
+
                           <div className="space-y-2 mb-4 text-[14px] text-gray-500">
                             <div className="flex justify-between">
                               <span>Subtotal</span>
                               <span>₹{cartTotal.toFixed(2)}</span>
                             </div>
+                            {paymentMethod === 'razorpay' && (
+                              <div className="flex justify-between text-[#415a46]">
+                                <span>Prepaid Discount (5%)</span>
+                                <span>-₹{(cartTotal * 0.05).toFixed(2)}</span>
+                              </div>
+                            )}
+                            {isCouponApplied && (
+                              <div className="flex justify-between text-[#415a46]">
+                                <span>Coupon Discount (10%)</span>
+                                <span>-₹{(cartTotal * 0.10).toFixed(2)}</span>
+                              </div>
+                            )}
                             <div className="flex justify-between items-center">
                               <span className="flex items-center gap-2">Shipping <span className="text-[9px] uppercase tracking-wider bg-[#E8E2D8]/50 text-[#263228] px-1.5 py-0.5 rounded-sm">Free over ₹999</span></span>
                               <span>{cartTotal >= 999 ? 'Free' : '₹99.00'}</span>
@@ -774,7 +814,7 @@ export default function MobileApp() {
                           
                           <div className="flex justify-between items-center pt-4">
                             <span className="font-medium text-gray-900 text-[16px]">Total</span>
-                            <span className="font-medium text-[16px] text-[#415a46]">₹{(cartTotal + (cartTotal >= 999 ? 0 : 99)).toFixed(2)}</span>
+                            <span className="font-medium text-[16px] text-[#415a46]">₹{(cartTotal + (cartTotal >= 999 ? 0 : 99) - (paymentMethod === 'razorpay' ? cartTotal * 0.05 : 0) - (isCouponApplied ? cartTotal * 0.1 : 0)).toFixed(2)}</span>
                           </div>
                         </div>
 
@@ -788,7 +828,10 @@ export default function MobileApp() {
                               className={`cursor-pointer p-4 rounded-xl border flex flex-col gap-1.5 transition-all ${paymentMethod === 'razorpay' ? 'border-[#263228] bg-[#263228]/5 shadow-sm' : 'border-[#E8E2D8] bg-transparent hover:border-[#D8D4CC]'}`}
                             >
                               <div className="flex justify-between items-center">
-                                <span className="text-[15px] text-gray-900 font-medium tracking-wide">Pay via Razorpay</span>
+                                <span className="text-[15px] text-gray-900 font-medium tracking-wide flex items-center gap-2">
+                                  Pay via Razorpay 
+                                  <span className="text-[9px] font-extrabold bg-[#415a46]/10 text-[#415a46] px-1.5 py-0.5 rounded-sm tracking-wider">5% OFF</span>
+                                </span>
                                 <Smartphone className={`w-5 h-5 ${paymentMethod === 'razorpay' ? 'text-[#263228]' : 'text-gray-400'}`} strokeWidth={1.5} />
                               </div>
                               <span className="text-[11px] font-bold text-gray-500 tracking-wider opacity-80">CARDS • UPI • NETBANKING</span>
@@ -828,7 +871,7 @@ export default function MobileApp() {
                     <button type="submit" disabled={isSubmitting} className="w-full bg-[#263228] text-white h-[64px] rounded-[18px] font-sans font-bold tracking-wide shadow-[0_8px_30px_rgb(38,50,40,0.25)] hover:bg-[#1a231c] transition-all flex justify-center items-center gap-3 group hover:-translate-y-1">
                       {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? (
                         <>
-                          <Lock className="w-4 h-4 text-white/80" /> Complete Order • ₹{(cartTotal + (cartTotal >= 999 ? 0 : 99)).toFixed(2)}
+                          <Lock className="w-4 h-4 text-white/80" /> Complete Order • ₹{(cartTotal + (cartTotal >= 999 ? 0 : 99) - (paymentMethod === 'razorpay' ? cartTotal * 0.05 : 0) - (isCouponApplied ? cartTotal * 0.1 : 0)).toFixed(2)}
                         </>
                       ) : (
                         <>Continue to Payment <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></>
