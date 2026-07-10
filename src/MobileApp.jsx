@@ -75,13 +75,13 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
       uniqueCats.push('Spiritual Collection');
     }
     
-    const customImages = {
-      'Home Decor': '/assets/home.png',
-      'Water Bottles': '/assets/botle.png',
-      'Water Storage': '/assets/water.png',
+    const categoryImages = {
+      'Water Bottles': '/assets/waterbottle.png',
       'Spiritual Collection': '/assets/sc2.png',
       'Serveware': '/assets/serb.png',
-      'Drinkware': '/assets/drink.png'
+      'Mugs': '/assets/p1-brick-mug.png',
+      'Tea Sets': '/assets/drink.png',
+      'Glasses & Tumblers': '/assets/p4-clay-glass.png'
     };
 
     return uniqueCats.map(name => {
