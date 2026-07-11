@@ -161,9 +161,22 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
   const [qrError, setQrError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: '', lastName: '', email: '', phone: '', address: '', city: '', postcode: ''
+  const [formData, setFormData] = useState(() => {
+    const saved = localStorage.getItem('tierra_checkout_form');
+    return saved ? JSON.parse(saved) : {
+      email: '',
+      phone: '',
+      firstName: '',
+      lastName: '',
+      address: '',
+      city: '',
+      postcode: ''
+    };
   });
+
+  useEffect(() => {
+    localStorage.setItem('tierra_checkout_form', JSON.stringify(formData));
+  }, [formData]);
   const [couponCode, setCouponCode] = useState('');
   const [isCouponApplied, setIsCouponApplied] = useState(false);
   const [showCouponInput, setShowCouponInput] = useState(false);

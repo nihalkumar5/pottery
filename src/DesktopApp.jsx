@@ -71,14 +71,22 @@ function DesktopApp({ setCurrentPage, currentPage }) {
   const [qrError, setQrError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    address: '',
-    city: '',
-    postcode: ''
+  const [formData, setFormData] = useState(() => {
+    const saved = localStorage.getItem('tierra_checkout_form');
+    return saved ? JSON.parse(saved) : {
+      email: '',
+      phone: '',
+      firstName: '',
+      lastName: '',
+      address: '',
+      city: '',
+      postcode: ''
+    };
   });
+
+  useEffect(() => {
+    localStorage.setItem('tierra_checkout_form', JSON.stringify(formData));
+  }, [formData]);
 
   // Track Order States
   const [isTrackOrderOpen, setIsTrackOrderOpen] = useState(() => sessionStorage.getItem('desktop_isTrackOrderOpen') === 'true');
