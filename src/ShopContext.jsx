@@ -178,6 +178,7 @@ export const ShopProvider = ({ children }) => {
         consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET
       }
     });
+    setCart([]);
     return response.data;
   };
 
