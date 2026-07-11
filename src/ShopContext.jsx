@@ -166,6 +166,14 @@ export const ShopProvider = ({ children }) => {
         email: formData.email,
         phone: formData.phone,
       },
+      shipping: {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        address_1: formData.address,
+        city: formData.city,
+        postcode: formData.postcode,
+        country: 'IN',
+      },
       line_items: cart.map(item => ({
         product_id: item.id,
         quantity: item.quantity || 1
