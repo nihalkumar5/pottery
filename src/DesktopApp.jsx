@@ -8,7 +8,7 @@ import DesktopContact from './DesktopContact';
 function DesktopApp({ setCurrentPage, currentPage }) {
   const { products, cart, addToCart, removeFromCart, decreaseQuantity, cartItemCount, cartTotal, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
 
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(() => sessionStorage.getItem('desktop_isCartOpen') === 'true');
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   // Compute categories dynamically based on fetched products
@@ -39,7 +39,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
   }, [products]);
 
   // Auth States
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(() => sessionStorage.getItem('desktop_isAuthOpen') === 'true');
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [authForm, setAuthForm] = useState({ username: '', email: '', password: '' });
   const [activeFaq, setActiveFaq] = useState(null);
@@ -63,7 +63,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
   }, [products]);
 
   // Checkout States
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(() => sessionStorage.getItem('desktop_isCheckoutOpen') === 'true');
   const [checkoutStep, setCheckoutStep] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState('online');
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
@@ -81,7 +81,12 @@ function DesktopApp({ setCurrentPage, currentPage }) {
   });
 
   // Track Order States
-  const [isTrackOrderOpen, setIsTrackOrderOpen] = useState(false);
+  const [isTrackOrderOpen, setIsTrackOrderOpen] = useState(() => sessionStorage.getItem('desktop_isTrackOrderOpen') === 'true');
+
+  useEffect(() => { sessionStorage.setItem('desktop_isCartOpen', isCartOpen); }, [isCartOpen]);
+  useEffect(() => { sessionStorage.setItem('desktop_isAuthOpen', isAuthOpen); }, [isAuthOpen]);
+  useEffect(() => { sessionStorage.setItem('desktop_isCheckoutOpen', isCheckoutOpen); }, [isCheckoutOpen]);
+  useEffect(() => { sessionStorage.setItem('desktop_isTrackOrderOpen', isTrackOrderOpen); }, [isTrackOrderOpen]);
   const [trackOrderId, setTrackOrderId] = useState('');
   const [trackOrderEmail, setTrackOrderEmail] = useState('');
   const [trackResult, setTrackResult] = useState(null);

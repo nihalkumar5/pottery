@@ -45,15 +45,21 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
     }
     lastModalScrollY.current = currentScrollTop;
   };
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(() => sessionStorage.getItem('isCartOpen') === 'true');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(() => sessionStorage.getItem('isProfileOpen') === 'true');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isAdding, setIsAdding] = useState(false);
-  const [isWishlistOpen, setIsWishlistOpen] = useState(false);
-  const [isShopOpen, setIsShopOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [isWishlistOpen, setIsWishlistOpen] = useState(() => sessionStorage.getItem('isWishlistOpen') === 'true');
+  const [isShopOpen, setIsShopOpen] = useState(() => sessionStorage.getItem('isShopOpen') === 'true');
+  const [selectedCategory, setSelectedCategory] = useState(() => sessionStorage.getItem('selectedCategory') || 'All');
+
+  useEffect(() => { sessionStorage.setItem('isCartOpen', isCartOpen); }, [isCartOpen]);
+  useEffect(() => { sessionStorage.setItem('isProfileOpen', isProfileOpen); }, [isProfileOpen]);
+  useEffect(() => { sessionStorage.setItem('isWishlistOpen', isWishlistOpen); }, [isWishlistOpen]);
+  useEffect(() => { sessionStorage.setItem('isShopOpen', isShopOpen); }, [isShopOpen]);
+  useEffect(() => { sessionStorage.setItem('selectedCategory', selectedCategory); }, [selectedCategory]);
 
   const heroTexts = [
     <React.Fragment key="1">Elevate Your<br />Daily Sips</React.Fragment>,
