@@ -1112,14 +1112,18 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                               <label className="text-[11px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">Address Line 2 <span className="text-[#A39D96] normal-case tracking-normal">(Optional)</span></label>
                               <input type="text" name="address2" className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.address2 || ''} onChange={handleInputChange} />
                             </div>
-                            <div className="flex gap-4">
-                              <div className="relative group w-2/3">
-                                <label className="text-[11px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">City</label>
-                                <input type="text" name="city" required placeholder="City" className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.city} onChange={handleInputChange} />
+                            <div className="relative group mb-4">
+                              <label className="text-[11px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">City</label>
+                              <input type="text" name="city" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.city} onChange={handleInputChange} />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className="relative group">
+                                <label className="text-[11px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">State</label>
+                                <input type="text" name="state" required placeholder="e.g. MH, UP" className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.state || ''} onChange={handleInputChange} />
                               </div>
-                              <div className="grid grid-cols-2 gap-4 mb-4">
-                                <input type="text" name="state" required placeholder="State (e.g. MH, UP, DL)" className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.state || ''} onChange={handleInputChange} />
-                                <input type="text" name="postcode" required placeholder="PIN Code" className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.postcode} onChange={handleInputChange} />
+                              <div className="relative group">
+                                <label className="text-[11px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">PIN Code</label>
+                                <input type="text" name="postcode" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.postcode} onChange={handleInputChange} />
                               </div>
                             </div>
                           </div>

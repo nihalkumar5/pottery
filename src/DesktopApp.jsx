@@ -252,7 +252,14 @@ function DesktopApp({ setCurrentPage, currentPage }) {
                 <img src={item.image} alt={item.name} className="cart-item-image" />
                 <div className="cart-item-details">
                   <h4>{item.name}</h4>
-                  <p className="product-price">₹{item.price.toFixed(2)}</p>
+                  <p className="product-price">
+                    ₹{item.price.toFixed(2)}
+                    {item.regular_price > item.price && (
+                      <span style={{ textDecoration: 'line-through', color: '#888', marginLeft: '6px', fontSize: '0.85em', fontWeight: 'normal' }}>
+                        ₹{item.regular_price.toFixed(2)}
+                      </span>
+                    )}
+                  </p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '8px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid #eee', padding: '4px 12px', borderRadius: '4px' }}>
                       <button onClick={() => decreaseQuantity(item.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex' }}>

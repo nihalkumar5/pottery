@@ -10,17 +10,10 @@ export default function DesktopCollections({ initialCategory = 'All' }) {
     setSelectedCategory(initialCategory);
   }, [initialCategory]);
 
-  const CATEGORIES = [
-    'All',
-    'Drinkware',
-    'Water Bottles',
-    'Water Storage',
-    'Serveware',
-    'Home Decor',
-    'Planters',
-    'Cookware',
-    'Dinnerware'
-  ];
+  const CATEGORIES = React.useMemo(() => {
+    const uniqueCats = [...new Set(products.map(p => p.category).filter(Boolean))].filter(c => c !== 'Glasses & Tumblers' && c !== 'Glasses &amp; Tumblers');
+    return ['All', ...uniqueCats];
+  }, [products]);
 
   const filteredProducts = selectedCategory === 'All' 
     ? products 
@@ -92,7 +85,14 @@ export default function DesktopCollections({ initialCategory = 'All' }) {
                   <div className="product-info flex flex-col gap-1">
                     <span className="text-xs uppercase tracking-widest text-[#82634F]/70">{product.category}</span>
                     <h3 className="font-serif text-xl text-[#263228] leading-tight">{product.name}</h3>
-                    <span className="font-medium text-[#82634F]">₹{product.price.toFixed(2)}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-[#82634F]">₹{product.price.toFixed(2)}</span>
+                      {product.regular_price > product.price && (
+                        <span className="text-[#A3968B] line-through text-[0.85em] font-normal">
+                          ₹{product.regular_price.toFixed(2)}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
