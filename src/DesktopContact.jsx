@@ -59,7 +59,7 @@ export default function DesktopContact() {
               <Mail className="w-6 h-6 text-[#5C4D3C] mt-1 flex-shrink-0" strokeWidth={1.5} />
               <div>
                 <h4 className="font-serif text-[18px] text-[#263228] mb-1">Email</h4>
-                <p className="font-sans text-[15px] text-gray-600">hello@clayandcraft.com</p>
+                <p className="font-sans text-[15px] text-gray-600">clay.craft170@gmail.com</p>
               </div>
             </div>
 
