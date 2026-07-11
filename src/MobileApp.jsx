@@ -149,7 +149,10 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
   // Mobile Checkout States
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState(1);
-  const [paymentMethod, setPaymentMethod] = useState('razorpay');
+  const [paymentMethod, setPaymentMethod] = useState('online');
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
+  const [utrNumber, setUtrNumber] = useState('');
+  const [qrError, setQrError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [formData, setFormData] = useState({
@@ -214,66 +217,44 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
 
   const handleCheckoutSubmit = async (e) => {
     e.preventDefault();
+
+    if (paymentMethod === 'online') {
+      setIsQrModalOpen(true);
+      return;
+    }
+
+    // Cash on Delivery Flow
     setIsSubmitting(true);
+    try {
+      await submitOrder(formData, 'cod');
+      setOrderSuccess(true);
+    } catch (error) {
+      const errMsg = error.response?.data?.message || error.message || 'Unknown error';
+      alert('Failed to place order: ' + errMsg);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
-    if (paymentMethod === 'razorpay') {
-      const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
-      
-      if (!res) {
-        alert('Payment gateway failed to load. Please check your connection.');
-        setIsSubmitting(false);
-        return;
-      }
-
-      const shippingCost = cartTotal >= 499 ? 0 : 99;
-      const finalTotal = cartTotal + shippingCost;
-
-      const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY || 'rzp_test_YOUR_TEST_KEY', // Use env variable or dummy key
-        amount: Math.round(finalTotal * 100), // Amount in paise
-        currency: 'INR',
-        name: 'Clay & Craft',
-        description: 'Premium Handcrafted Ceramics',
-        image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&q=80',
-        handler: async function (response) {
-          // Success callback
-          try {
-            await submitOrder(formData);
-            setOrderSuccess(true);
-          } catch (error) {
-            alert('Failed to save order details. Error: ' + error.message);
-          }
-        },
-        prefill: {
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-          contact: formData.phone,
-        },
-        theme: {
-          color: '#415a46',
-        },
-      };
-
-      const paymentObject = new window.Razorpay(options);
-      
-      // Handle when modal is closed without payment
-      paymentObject.on('payment.failed', function (response) {
-        alert('Payment failed or cancelled.');
-      });
-      
-      paymentObject.open();
-      setIsSubmitting(false); // Modal takes over
-    } else {
-      // Cash on Delivery Flow
-      try {
-        await submitOrder(formData);
-        setOrderSuccess(true);
-      } catch (error) {
-        const errMsg = error.response?.data?.message || error.message || 'Unknown error';
-        alert('Failed to place order: ' + errMsg);
-      } finally {
-        setIsSubmitting(false);
-      }
+  const handleQrSubmit = async (e) => {
+    e.preventDefault();
+    if (!utrNumber.trim()) {
+      setQrError('Please enter your Transaction ID / UTR number.');
+      return;
+    }
+    
+    setIsSubmitting(true);
+    setQrError('');
+    try {
+      await submitOrder(formData, 'online', { utr: utrNumber });
+      setOrderSuccess(true);
+      setIsQrModalOpen(false);
+      setUtrNumber('');
+    } catch (error) {
+      const errMsg = error.response?.data?.message || error.message || 'Unknown error';
+      setQrError('Failed to place order: ' + errMsg);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -1201,12 +1182,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                               <span>Subtotal</span>
                               <span>₹{cartTotal.toFixed(2)}</span>
                             </div>
-                            {paymentMethod === 'razorpay' && (
-                              <div className="flex justify-between text-[#415a46]">
-                                <span>Prepaid Discount (5%)</span>
-                                <span>-₹{(cartTotal * 0.05).toFixed(2)}</span>
-                              </div>
-                            )}
+                            {/* Removed prepaid discount display */}
                             {isCouponApplied && (
                               <div className="flex justify-between text-[#415a46]">
                                 <span>Coupon Discount ({couponCode === 'FIRST100' ? '₹100 Off' : '10%'})</span>
@@ -1220,8 +1196,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                           </div>
                           
                           <div className="flex justify-between items-center pt-6 mt-2">
-                            <span className="font-medium text-gray-900 text-[18px]">Total</span>
-                            <span className="font-bold text-[18px] text-[#263228]">₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (paymentMethod === 'razorpay' ? cartTotal * 0.05 : 0) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}</span>
+                            <span className="font-bold text-[18px] text-[#263228]">₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}</span>
                           </div>
                         </div>
 
@@ -1231,22 +1206,21 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                           
                           <div className="space-y-4">
                             <div 
-                              onClick={() => setPaymentMethod('razorpay')}
-                              className={`cursor-pointer p-4 rounded-xl border-2 flex flex-col gap-1.5 transition-all ${paymentMethod === 'razorpay' ? 'border-[#82634F] bg-[#82634F]/5 shadow-md' : 'border-[#E8E2D8] bg-transparent hover:border-[#D8D4CC]'}`}
+                              onClick={() => setPaymentMethod('online')}
+                              className={`cursor-pointer p-4 rounded-xl border-2 flex flex-col gap-1.5 transition-all ${paymentMethod === 'online' ? 'border-[#82634F] bg-[#82634F]/5 shadow-md' : 'border-[#E8E2D8] bg-transparent hover:border-[#D8D4CC]'}`}
                             >
                               <div className="flex justify-between items-center">
                                 <span className="text-[15px] text-gray-900 font-medium tracking-wide flex items-center gap-3">
-                                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${paymentMethod === 'razorpay' ? 'border-[#82634F] bg-[#82634F]' : 'border-gray-300'}`}>
-                                    {paymentMethod === 'razorpay' && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                  <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors ${paymentMethod === 'online' ? 'border-[#82634F] bg-[#82634F]' : 'border-gray-300'}`}>
+                                    {paymentMethod === 'online' && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
                                   </div>
                                   <span className="flex items-center gap-2">
-                                    Pay via Razorpay 
-                                    <span className="text-[9px] font-extrabold bg-[#82634F]/10 text-[#82634F] px-1.5 py-0.5 rounded-sm tracking-wider">5% OFF</span>
+                                    Online Payment
                                   </span>
                                 </span>
-                                <Smartphone className={`w-5 h-5 ${paymentMethod === 'razorpay' ? 'text-[#82634F]' : 'text-gray-400'}`} strokeWidth={1.5} />
+                                <Smartphone className={`w-5 h-5 ${paymentMethod === 'online' ? 'text-[#82634F]' : 'text-gray-400'}`} strokeWidth={1.5} />
                               </div>
-                              <span className="text-[11px] font-bold text-gray-500 tracking-wider opacity-80 pl-7">CARDS • UPI • NETBANKING</span>
+                              <span className="text-[11px] font-bold text-gray-500 tracking-wider opacity-80 pl-7">UPI • QR CODE • NETBANKING</span>
                             </div>
 
                             <div 
@@ -1275,7 +1249,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                             </p>
                             <div className="flex items-center gap-1.5 opacity-90 mt-1">
                               <span className="text-[10px] tracking-wide uppercase">Secured by</span>
-                              <span className="text-[13px] font-sans font-extrabold tracking-tight text-[#0D2366]">Razorpay</span>
+                              <span className="text-[13px] font-sans font-extrabold tracking-tight text-[#0D2366]">100% SECURE</span>
                             </div>
                           </div>
                         </div>
@@ -1288,7 +1262,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                     <button type="submit" disabled={isSubmitting} className="w-full bg-[#82634F] text-white h-[64px] rounded-[18px] font-sans font-bold tracking-wide shadow-[0_8px_30px_rgba(130,99,79,0.3)] hover:bg-[#6A4E3D] transition-all flex justify-center items-center gap-3 group hover:-translate-y-1">
                       {isSubmitting ? 'PROCESSING...' : checkoutStep === 2 ? (
                         <>
-                          <Lock className="w-4 h-4 text-white/80" /> Complete Order • ₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (paymentMethod === 'razorpay' ? cartTotal * 0.05 : 0) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}
+                          <Lock className="w-4 h-4 text-white/80" /> Complete Order • ₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}
                         </>
                       ) : (
                         <>Continue to Payment <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" /></>
@@ -1824,6 +1798,85 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
             className="fixed z-[9999] w-16 h-16 rounded-full object-cover shadow-2xl border-2 border-white pointer-events-none"
             style={{ originX: 0.5, originY: 0.5 }}
           />
+        )}
+      </AnimatePresence>
+
+      {/* QR Code Payment Modal */}
+      <AnimatePresence>
+        {isQrModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+          >
+            <motion.div
+              initial={{ scale: 0.95, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 20 }}
+              className="bg-white rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl relative"
+            >
+              <button 
+                onClick={() => setIsQrModalOpen(false)}
+                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-white/20 backdrop-blur text-white hover:bg-white/30 rounded-full z-10 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              
+              <div className="bg-[#82634F] text-white p-6 text-center pb-8">
+                <h3 className="font-serif text-[22px] font-bold mb-1">Online Payment</h3>
+                <p className="text-white/80 text-[14px]">Scan the QR code below to pay</p>
+                <div className="text-[32px] font-bold mt-4 tracking-tight">
+                  ₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}
+                </div>
+              </div>
+              
+              <form onSubmit={handleQrSubmit} className="p-6 pt-0 -mt-4 relative z-10">
+                <div className="bg-white p-4 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.06)] flex justify-center mb-6">
+                  {/* Placeholder QR Code image */}
+                  <img 
+                    src="/assets/qrcode.jpeg" 
+                    alt="Payment QR Code" 
+                    className="w-48 h-48 object-contain rounded-xl"
+                    onError={(e) => {
+                      e.target.onerror = null; 
+                      e.target.src = 'https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg'; // Fallback dummy QR
+                    }}
+                  />
+                </div>
+                
+                <div className="mb-6">
+                  <label className="block text-[13px] font-bold text-gray-700 uppercase tracking-wider mb-2">
+                    Transaction ID / UTR Number <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={utrNumber}
+                    onChange={(e) => {
+                      setUtrNumber(e.target.value);
+                      setQrError('');
+                    }}
+                    placeholder="Enter 12-digit UTR number"
+                    className="w-full px-4 py-3.5 bg-[#F8F6F2] border border-[#E8E0D5] rounded-xl text-[15px] focus:outline-none focus:border-[#82634F] focus:ring-1 focus:ring-[#82634F] transition-colors"
+                  />
+                  {qrError && (
+                    <p className="text-red-500 text-[12px] mt-1.5 flex items-center gap-1">
+                      <ShieldCheck className="w-3.5 h-3.5" /> {qrError}
+                    </p>
+                  )}
+                </div>
+                
+                <button
+                  type="submit"
+                  disabled={isSubmitting || !utrNumber.trim()}
+                  className="w-full bg-[#1A2E25] text-white h-[56px] rounded-xl font-sans font-bold tracking-wide shadow-md hover:bg-black transition-all flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Verifying...' : 'Confirm Payment'}
+                </button>
+              </form>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

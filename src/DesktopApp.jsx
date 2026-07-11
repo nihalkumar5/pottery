@@ -65,6 +65,10 @@ function DesktopApp({ setCurrentPage, currentPage }) {
   // Checkout States
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState(1);
+  const [paymentMethod, setPaymentMethod] = useState('online');
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
+  const [utrNumber, setUtrNumber] = useState('');
+  const [qrError, setQrError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [formData, setFormData] = useState({
@@ -117,13 +121,39 @@ function DesktopApp({ setCurrentPage, currentPage }) {
 
   const handleCheckoutSubmit = async (e) => {
     e.preventDefault();
+    if (paymentMethod === 'online') {
+      setIsQrModalOpen(true);
+      return;
+    }
     setIsSubmitting(true);
     try {
-      await submitOrder(formData);
+      await submitOrder(formData, 'cod');
       setOrderSuccess(true);
     } catch (error) {
       const errMsg = error.response?.data?.message || error.message || 'Unknown error';
       alert('Failed to place order: ' + errMsg);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleQrSubmit = async (e) => {
+    e.preventDefault();
+    if (!utrNumber.trim()) {
+      setQrError('Please enter your Transaction ID / UTR number.');
+      return;
+    }
+    
+    setIsSubmitting(true);
+    setQrError('');
+    try {
+      await submitOrder(formData, 'online', { utr: utrNumber });
+      setOrderSuccess(true);
+      setIsQrModalOpen(false);
+      setUtrNumber('');
+    } catch (error) {
+      const errMsg = error.response?.data?.message || error.message || 'Unknown error';
+      setQrError('Failed to place order: ' + errMsg);
     } finally {
       setIsSubmitting(false);
     }
@@ -310,9 +340,47 @@ function DesktopApp({ setCurrentPage, currentPage }) {
                   <>
                     <div className="form-group">
                       <label>Payment Method</label>
-                      <div style={{padding: '1rem', border: '1px solid #1A2E25', borderRadius: '8px', background: '#f8f6f2', fontWeight: 600}}>
-                        <input type="radio" checked readOnly style={{marginRight: '0.5rem'}} /> 
-                        Cash on Delivery (COD)
+                      <div style={{display: 'flex', flexDirection: 'column', gap: '0.75rem'}}>
+                        <label 
+                          style={{
+                            padding: '1rem', 
+                            border: paymentMethod === 'online' ? '2px solid #82634F' : '1px solid #ccc', 
+                            borderRadius: '8px', 
+                            background: paymentMethod === 'online' ? '#82634F0A' : '#fff', 
+                            fontWeight: 600,
+                            display: 'flex',
+                            alignItems: 'center',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          <input 
+                            type="radio" 
+                            checked={paymentMethod === 'online'} 
+                            onChange={() => setPaymentMethod('online')}
+                            style={{marginRight: '0.75rem', accentColor: '#82634F', width: '1.2rem', height: '1.2rem'}} 
+                          /> 
+                          Online Payment (UPI/QR)
+                        </label>
+                        <label 
+                          style={{
+                            padding: '1rem', 
+                            border: paymentMethod === 'cod' ? '2px solid #82634F' : '1px solid #ccc', 
+                            borderRadius: '8px', 
+                            background: paymentMethod === 'cod' ? '#82634F0A' : '#fff', 
+                            fontWeight: 600,
+                            display: 'flex',
+                            alignItems: 'center',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          <input 
+                            type="radio" 
+                            checked={paymentMethod === 'cod'} 
+                            onChange={() => setPaymentMethod('cod')}
+                            style={{marginRight: '0.75rem', accentColor: '#82634F', width: '1.2rem', height: '1.2rem'}} 
+                          /> 
+                          Cash on Delivery (COD)
+                        </label>
                       </div>
                     </div>
                     
@@ -808,7 +876,76 @@ function DesktopApp({ setCurrentPage, currentPage }) {
           </div>
           <p className="premium-footer-copyright">© 2026 Clay & Craft. All rights reserved.</p>
         </div>
-      </footer>
+      </div>
+
+      {/* QR Code Payment Modal for Desktop */}
+      {isQrModalOpen && (
+        <div className="checkout-modal-overlay open" style={{zIndex: 1000}}>
+          <div className="checkout-modal" style={{maxWidth: '400px', padding: 0, overflow: 'hidden'}}>
+            <button 
+              className="close-modal" 
+              onClick={() => setIsQrModalOpen(false)}
+              style={{background: 'rgba(255,255,255,0.2)', color: '#fff', top: '15px', right: '15px'}}
+            >
+              &times;
+            </button>
+            
+            <div style={{background: '#82634F', color: '#fff', padding: '2rem 1.5rem', textAlign: 'center'}}>
+              <h3 style={{fontSize: '1.5rem', margin: '0 0 0.5rem 0'}}>Online Payment</h3>
+              <p style={{margin: 0, opacity: 0.9}}>Scan the QR code below to pay</p>
+              <div style={{fontSize: '2rem', fontWeight: 'bold', marginTop: '1rem'}}>
+                ₹{cartTotal.toFixed(2)}
+              </div>
+            </div>
+            
+            <form onSubmit={handleQrSubmit} style={{padding: '1.5rem'}}>
+              <div style={{display: 'flex', justifyContent: 'center', marginBottom: '1.5rem'}}>
+                <img 
+                  src="/assets/qrcode.jpeg" 
+                  alt="Payment QR Code" 
+                  style={{width: '200px', height: '200px', objectFit: 'contain', border: '1px solid #eee', borderRadius: '12px'}}
+                  onError={(e) => {
+                    e.target.onerror = null; 
+                    e.target.src = 'https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';
+                  }}
+                />
+              </div>
+              
+              <div className="form-group" style={{marginBottom: '1.5rem'}}>
+                <label style={{fontSize: '0.85rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.05em'}}>
+                  Transaction ID / UTR Number <span style={{color: '#e53e3e'}}>*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={utrNumber}
+                  onChange={(e) => {
+                    setUtrNumber(e.target.value);
+                    setQrError('');
+                  }}
+                  placeholder="Enter 12-digit UTR number"
+                  className="form-input"
+                  style={{background: '#f8f6f2'}}
+                />
+                {qrError && (
+                  <p style={{color: '#e53e3e', fontSize: '0.8rem', marginTop: '0.5rem', margin: 0}}>
+                    {qrError}
+                  </p>
+                )}
+              </div>
+              
+              <button
+                type="submit"
+                disabled={isSubmitting || !utrNumber.trim()}
+                className="btn-checkout"
+                style={{width: '100%', opacity: (isSubmitting || !utrNumber.trim()) ? 0.6 : 1}}
+              >
+                {isSubmitting ? 'Verifying...' : 'Confirm Payment'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -149,12 +149,13 @@ export const ShopProvider = ({ children }) => {
   const cartItemCount = cart.reduce((count, item) => count + (item.quantity || 1), 0);
 
   // Checkout API Call
-  const submitOrder = async (formData) => {
+  const submitOrder = async (formData, paymentMethod = 'cod', paymentData = {}) => {
     const orderData = {
-      payment_method: 'cod',
-      payment_method_title: 'Cash on Delivery',
+      payment_method: paymentMethod === 'online' ? 'bacs' : 'cod',
+      payment_method_title: paymentMethod === 'online' ? 'Direct Bank Transfer (UPI/QR)' : 'Cash on Delivery',
       set_paid: false,
       status: 'processing',
+      customer_note: paymentMethod === 'online' ? `Payment via QR. UTR/Transaction ID: ${paymentData.utr}` : '',
       billing: {
         first_name: formData.firstName,
         last_name: formData.lastName,
