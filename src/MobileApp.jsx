@@ -1851,27 +1851,27 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                 <X className="w-5 h-5" />
               </button>
               
-              <div className="bg-[#82634F] text-white p-6 text-center pb-8">
-                <h3 className="font-serif text-[22px] font-bold mb-1">Online Payment</h3>
-                <p className="text-white/80 text-[14px]">Scan the QR code below to pay</p>
-                <div className="text-[32px] font-bold mt-4 tracking-tight">
+              <div className="bg-[#82634F] text-white p-4 text-center pb-6">
+                <h3 className="font-serif text-[20px] font-bold mb-1">Online Payment</h3>
+                <p className="text-white/80 text-[13px]">Scan the QR code below to pay</p>
+                <div className="text-[24px] font-bold mt-2 tracking-tight">
                   ₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}
                 </div>
               </div>
               
-              <form onSubmit={handleQrSubmit} className="p-6 pt-0 -mt-4 relative z-10">
-                <div className="bg-white p-4 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.06)] flex flex-col mb-6">
-                  <div className="w-full mb-4 bg-[#82634F]/10 border border-[#82634F]/20 text-[#82634F] p-3 rounded-lg text-sm text-center font-medium">
+              <form onSubmit={handleQrSubmit} className="p-4 pt-0 -mt-3 relative z-10">
+                <div className="bg-white p-3 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.06)] flex flex-col mb-4">
+                  <div className="w-full mb-3 bg-[#82634F]/10 border border-[#82634F]/20 text-[#82634F] p-2 rounded-lg text-xs text-center font-medium">
                     ⚠️ Please ensure the receiver name shows as <strong className="text-[#1A2E25]">Mamta kumari</strong> before paying.
                   </div>
                   
-                  <div className="w-full mb-5">
-                    <h4 className="font-bold text-[#1A2E25] text-sm mb-2 border-b pb-1">Option 1: Scan QR Code</h4>
+                  <div className="w-full mb-3">
+                    <h4 className="font-bold text-[#1A2E25] text-[13px] mb-2 border-b pb-1">Option 1: Scan QR Code</h4>
                     <div className="flex justify-center">
                       <img 
                         src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(`upi://pay?pa=7209741066-2@ybl&pn=Mamta%20kumari&am=${(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}&cu=INR`)}`}
                         alt="Payment QR Code" 
-                        className="w-40 h-40 object-contain rounded-xl border border-gray-100"
+                        className="w-28 h-28 object-contain rounded-xl border border-gray-100"
                         onError={(e) => {
                           e.target.onerror = null; 
                           e.target.src = '/assets/qrcode.jpeg';
@@ -1880,9 +1880,9 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                     </div>
                   </div>
 
-                  <div className="w-full mb-5">
-                    <h4 className="font-bold text-[#1A2E25] text-sm mb-2 border-b pb-1">Option 2: Pay via UPI ID</h4>
-                    <div className="bg-[#f8f6f2] p-3 rounded-xl flex items-center justify-center gap-2 text-[14px] font-medium text-[#1A2E25] border border-[#eee]">
+                  <div className="w-full mb-3">
+                    <h4 className="font-bold text-[#1A2E25] text-[13px] mb-2 border-b pb-1">Option 2: Pay via UPI ID</h4>
+                    <div className="bg-[#f8f6f2] p-2 rounded-xl flex items-center justify-center gap-2 text-[13px] font-medium text-[#1A2E25] border border-[#eee]">
                       <span>7209741066-2@ybl</span>
                       <button 
                         type="button"
@@ -1900,8 +1900,8 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                   </div>
 
                   <div className="w-full">
-                    <h4 className="font-bold text-[#1A2E25] text-sm mb-2 border-b pb-1">Option 3: Bank Transfer</h4>
-                    <div className="bg-[#f8f6f2] p-3 rounded-xl text-[13px] leading-relaxed text-[#1A2E25] border border-[#eee]">
+                    <h4 className="font-bold text-[#1A2E25] text-[13px] mb-1 border-b pb-1">Option 3: Bank Transfer</h4>
+                    <div className="bg-[#f8f6f2] p-2 rounded-xl text-[12px] leading-relaxed text-[#1A2E25] border border-[#eee]">
                       <div className="flex justify-between mb-1"><span className="text-gray-500">Name:</span> <span className="font-bold">Mamta kumari</span></div>
                       <div className="flex justify-between mb-1"><span className="text-gray-500">A/c No:</span> <span className="font-bold">39983163990</span></div>
                       <div className="flex justify-between"><span className="text-gray-500">IFSC:</span> <span className="font-bold">SBIN0014280</span></div>
@@ -1909,7 +1909,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                   </div>
                 </div>
                 
-                <div className="mb-6">
+                <div className="mb-4">
                   <label className="block text-[13px] font-bold text-gray-700 uppercase tracking-wider mb-2">
                     Transaction ID / UTR Number <span className="text-red-500">*</span>
                   </label>

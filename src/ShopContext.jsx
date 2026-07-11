@@ -77,7 +77,7 @@ export const ShopProvider = ({ children }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/wc/v3/products', {
+        const response = await axios.get('https://orders.clayandcraft.in/wp-json/wc/v3/products', {
           params: {
             consumer_key: import.meta.env.VITE_WC_CONSUMER_KEY,
             consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET,
@@ -172,7 +172,7 @@ export const ShopProvider = ({ children }) => {
       }))
     };
 
-    const response = await axios.post('https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/wc/v3/orders', orderData, {
+    const response = await axios.post('https://orders.clayandcraft.in/wp-json/wc/v3/orders', orderData, {
       params: {
         consumer_key: import.meta.env.VITE_WC_CONSUMER_KEY,
         consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET
@@ -184,7 +184,7 @@ export const ShopProvider = ({ children }) => {
 
   // Track Order API Call
   const trackOrder = async (orderId, email) => {
-    const response = await axios.get(`https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/wc/v3/orders/${orderId}`, {
+    const response = await axios.get(`https://orders.clayandcraft.in/wp-json/wc/v3/orders/${orderId}`, {
       params: {
         consumer_key: import.meta.env.VITE_WC_CONSUMER_KEY,
         consumer_secret: import.meta.env.VITE_WC_CONSUMER_SECRET
@@ -203,7 +203,7 @@ export const ShopProvider = ({ children }) => {
     try {
       // Use the 'search' parameter to find orders by email. 
       // This ensures we also find guest orders placed before the user created their account!
-      const ordersRes = await axios.get('https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/wc/v3/orders', {
+      const ordersRes = await axios.get('https://orders.clayandcraft.in/wp-json/wc/v3/orders', {
         params: {
           search: userEmail,
           consumer_key: import.meta.env.VITE_WC_CONSUMER_KEY,
@@ -224,7 +224,7 @@ export const ShopProvider = ({ children }) => {
   // JWT Auth Methods
   const login = async (username, password) => {
     try {
-      const response = await axios.post('https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/jwt-auth/v1/token', {
+      const response = await axios.post('https://orders.clayandcraft.in/wp-json/jwt-auth/v1/token', {
         username,
         password
       });
@@ -259,7 +259,7 @@ export const ShopProvider = ({ children }) => {
   const register = async (email, password, username) => {
     try {
       // Create user using WooCommerce Customers API (requires Consumer Keys)
-      const response = await axios.post('https://lightskyblue-squirrel-970388.hostingersite.com/wp-json/wc/v3/customers', {
+      const response = await axios.post('https://orders.clayandcraft.in/wp-json/wc/v3/customers', {
         email,
         password,
         username,

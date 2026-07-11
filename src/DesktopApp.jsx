@@ -903,27 +903,27 @@ function DesktopApp({ setCurrentPage, currentPage }) {
               &times;
             </button>
             
-            <div style={{background: '#82634F', color: '#fff', padding: '2rem 1.5rem', textAlign: 'center'}}>
-              <h3 style={{fontSize: '1.5rem', margin: '0 0 0.5rem 0'}}>Online Payment</h3>
-              <p style={{margin: 0, opacity: 0.9}}>Scan the QR code below to pay</p>
-              <div style={{fontSize: '2rem', fontWeight: 'bold', marginTop: '1rem'}}>
+            <div style={{background: '#82634F', color: '#fff', padding: '1rem 1.5rem', textAlign: 'center'}}>
+              <h3 style={{fontSize: '1.3rem', margin: '0 0 0.5rem 0'}}>Online Payment</h3>
+              <p style={{margin: 0, opacity: 0.9, fontSize: '0.9rem'}}>Scan the QR code below to pay</p>
+              <div style={{fontSize: '1.5rem', fontWeight: 'bold', marginTop: '0.5rem'}}>
                 ₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}
               </div>
             </div>
             
-            <form onSubmit={handleQrSubmit} style={{padding: '1.5rem'}}>
-              <div style={{display: 'flex', flexDirection: 'column', marginBottom: '1.5rem'}}>
-                <div style={{width: '100%', marginBottom: '1rem', background: 'rgba(130, 99, 79, 0.1)', border: '1px solid rgba(130, 99, 79, 0.2)', color: '#82634F', padding: '0.75rem', borderRadius: '8px', fontSize: '0.85rem', textAlign: 'center', fontWeight: '500'}}>
+            <form onSubmit={handleQrSubmit} style={{padding: '1rem 1.5rem'}}>
+              <div style={{display: 'flex', flexDirection: 'column', marginBottom: '1rem'}}>
+                <div style={{width: '100%', marginBottom: '0.75rem', background: 'rgba(130, 99, 79, 0.1)', border: '1px solid rgba(130, 99, 79, 0.2)', color: '#82634F', padding: '0.5rem', borderRadius: '8px', fontSize: '0.75rem', textAlign: 'center', fontWeight: '500'}}>
                   ⚠️ Please ensure the receiver name shows as <strong style={{color: '#1A2E25'}}>Mamta kumari</strong> before paying.
                 </div>
                 
-                <div style={{marginBottom: '1rem'}}>
-                  <h4 style={{margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: '#1A2E25', borderBottom: '1px solid #eee', paddingBottom: '0.25rem'}}>Option 1: Scan QR Code</h4>
+                <div style={{marginBottom: '0.75rem'}}>
+                  <h4 style={{margin: '0 0 0.5rem 0', fontSize: '0.85rem', color: '#1A2E25', borderBottom: '1px solid #eee', paddingBottom: '0.25rem'}}>Option 1: Scan QR Code</h4>
                   <div style={{display: 'flex', justifyContent: 'center'}}>
                     <img 
                       src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(`upi://pay?pa=7209741066-2@ybl&pn=Mamta%20kumari&am=${(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}&cu=INR`)}`}
                       alt="Payment QR Code" 
-                      style={{width: '180px', height: '180px', objectFit: 'contain', border: '1px solid #eee', borderRadius: '12px'}}
+                      style={{width: '120px', height: '120px', objectFit: 'contain', border: '1px solid #eee', borderRadius: '12px'}}
                       onError={(e) => {
                         e.target.onerror = null; 
                         e.target.src = '/assets/qrcode.jpeg';
@@ -932,9 +932,9 @@ function DesktopApp({ setCurrentPage, currentPage }) {
                   </div>
                 </div>
 
-                <div style={{marginBottom: '1rem'}}>
-                  <h4 style={{margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: '#1A2E25', borderBottom: '1px solid #eee', paddingBottom: '0.25rem'}}>Option 2: Pay via UPI ID</h4>
-                  <div style={{background: '#f8f6f2', padding: '0.75rem', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', fontSize: '0.9rem', fontWeight: '500', color: '#1A2E25', border: '1px solid #eee'}}>
+                <div style={{marginBottom: '0.75rem'}}>
+                  <h4 style={{margin: '0 0 0.5rem 0', fontSize: '0.85rem', color: '#1A2E25', borderBottom: '1px solid #eee', paddingBottom: '0.25rem'}}>Option 2: Pay via UPI ID</h4>
+                  <div style={{background: '#f8f6f2', padding: '0.5rem', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', fontSize: '0.85rem', fontWeight: '500', color: '#1A2E25', border: '1px solid #eee'}}>
                     <span>7209741066-2@ybl</span>
                     <button 
                       type="button"
