@@ -1852,12 +1852,12 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                     <h4 className="font-bold text-[#1A2E25] text-sm mb-2 border-b pb-1">Option 1: Scan QR Code</h4>
                     <div className="flex justify-center">
                       <img 
-                        src="/assets/qrcode.jpeg" 
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(`upi://pay?pa=7209741066-2@ybl&pn=Mamta%20kumari&am=${(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}&cu=INR`)}`}
                         alt="Payment QR Code" 
                         className="w-40 h-40 object-contain rounded-xl border border-gray-100"
                         onError={(e) => {
                           e.target.onerror = null; 
-                          e.target.src = 'https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';
+                          e.target.src = '/assets/qrcode.jpeg';
                         }}
                       />
                     </div>

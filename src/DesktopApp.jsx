@@ -899,7 +899,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
               <h3 style={{fontSize: '1.5rem', margin: '0 0 0.5rem 0'}}>Online Payment</h3>
               <p style={{margin: 0, opacity: 0.9}}>Scan the QR code below to pay</p>
               <div style={{fontSize: '2rem', fontWeight: 'bold', marginTop: '1rem'}}>
-                ₹{cartTotal.toFixed(2)}
+                ₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}
               </div>
             </div>
             
@@ -913,12 +913,12 @@ function DesktopApp({ setCurrentPage, currentPage }) {
                   <h4 style={{margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: '#1A2E25', borderBottom: '1px solid #eee', paddingBottom: '0.25rem'}}>Option 1: Scan QR Code</h4>
                   <div style={{display: 'flex', justifyContent: 'center'}}>
                     <img 
-                      src="/assets/qrcode.jpeg" 
+                      src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(`upi://pay?pa=7209741066-2@ybl&pn=Mamta%20kumari&am=${(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}&cu=INR`)}`}
                       alt="Payment QR Code" 
                       style={{width: '180px', height: '180px', objectFit: 'contain', border: '1px solid #eee', borderRadius: '12px'}}
                       onError={(e) => {
                         e.target.onerror = null; 
-                        e.target.src = 'https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';
+                        e.target.src = '/assets/qrcode.jpeg';
                       }}
                     />
                   </div>
