@@ -1843,22 +1843,40 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
               </div>
               
               <form onSubmit={handleQrSubmit} className="p-6 pt-0 -mt-4 relative z-10">
-                <div className="bg-white p-4 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.06)] flex flex-col items-center justify-center mb-6">
-                  {/* Placeholder QR Code image */}
-                  <img 
-                    src="/assets/qrcode.jpeg" 
-                    alt="Payment QR Code" 
-                    className="w-48 h-48 object-contain rounded-xl mb-4"
-                    onError={(e) => {
-                      e.target.onerror = null; 
-                      e.target.src = 'https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg'; // Fallback dummy QR
-                    }}
-                  />
-                  <div className="bg-[#f8f6f2] w-full p-4 rounded-xl text-[13px] leading-relaxed text-[#1A2E25] border border-[#eee]">
-                    <span className="font-bold">UPI ID:</span> 7209741066-2@ybl<br />
-                    <span className="font-bold">Name:</span> Mamta kumari<br />
-                    <span className="font-bold">A/c No:</span> 39983163990<br />
-                    <span className="font-bold">IFSC Code:</span> SBIN0014280
+                <div className="bg-white p-4 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.06)] flex flex-col mb-6">
+                  <div className="w-full mb-4 bg-[#82634F]/10 border border-[#82634F]/20 text-[#82634F] p-3 rounded-lg text-sm text-center font-medium">
+                    ⚠️ Please ensure the receiver name shows as <strong className="text-[#1A2E25]">Mamta kumari</strong> before paying.
+                  </div>
+                  
+                  <div className="w-full mb-5">
+                    <h4 className="font-bold text-[#1A2E25] text-sm mb-2 border-b pb-1">Option 1: Scan QR Code</h4>
+                    <div className="flex justify-center">
+                      <img 
+                        src="/assets/qrcode.jpeg" 
+                        alt="Payment QR Code" 
+                        className="w-40 h-40 object-contain rounded-xl border border-gray-100"
+                        onError={(e) => {
+                          e.target.onerror = null; 
+                          e.target.src = 'https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="w-full mb-5">
+                    <h4 className="font-bold text-[#1A2E25] text-sm mb-2 border-b pb-1">Option 2: Pay via UPI ID</h4>
+                    <div className="bg-[#f8f6f2] p-3 rounded-xl text-[14px] text-center font-medium text-[#1A2E25] border border-[#eee]">
+                      7209741066-2@ybl
+                    </div>
+                  </div>
+
+                  <div className="w-full">
+                    <h4 className="font-bold text-[#1A2E25] text-sm mb-2 border-b pb-1">Option 3: Bank Transfer</h4>
+                    <div className="bg-[#f8f6f2] p-3 rounded-xl text-[13px] leading-relaxed text-[#1A2E25] border border-[#eee]">
+                      <div className="flex justify-between mb-1"><span className="text-gray-500">Name:</span> <span className="font-bold">Mamta kumari</span></div>
+                      <div className="flex justify-between mb-1"><span className="text-gray-500">A/c No:</span> <span className="font-bold">39983163990</span></div>
+                      <div className="flex justify-between"><span className="text-gray-500">IFSC:</span> <span className="font-bold">SBIN0014280</span></div>
+                    </div>
                   </div>
                 </div>
                 

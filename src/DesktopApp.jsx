@@ -904,21 +904,40 @@ function DesktopApp({ setCurrentPage, currentPage }) {
             </div>
             
             <form onSubmit={handleQrSubmit} style={{padding: '1.5rem'}}>
-              <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '1.5rem'}}>
-                <img 
-                  src="/assets/qrcode.jpeg" 
-                  alt="Payment QR Code" 
-                  style={{width: '200px', height: '200px', objectFit: 'contain', border: '1px solid #eee', borderRadius: '12px', marginBottom: '1rem'}}
-                  onError={(e) => {
-                    e.target.onerror = null; 
-                    e.target.src = 'https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';
-                  }}
-                />
-                <div style={{background: '#f8f6f2', padding: '1rem', borderRadius: '8px', width: '100%', fontSize: '0.85rem', lineHeight: '1.6', color: '#1A2E25', border: '1px solid #eee'}}>
-                  <strong>UPI ID:</strong> 7209741066-2@ybl<br />
-                  <strong>Name:</strong> Mamta kumari<br />
-                  <strong>A/c No:</strong> 39983163990<br />
-                  <strong>IFSC Code:</strong> SBIN0014280
+              <div style={{display: 'flex', flexDirection: 'column', marginBottom: '1.5rem'}}>
+                <div style={{width: '100%', marginBottom: '1rem', background: 'rgba(130, 99, 79, 0.1)', border: '1px solid rgba(130, 99, 79, 0.2)', color: '#82634F', padding: '0.75rem', borderRadius: '8px', fontSize: '0.85rem', textAlign: 'center', fontWeight: '500'}}>
+                  ⚠️ Please ensure the receiver name shows as <strong style={{color: '#1A2E25'}}>Mamta kumari</strong> before paying.
+                </div>
+                
+                <div style={{marginBottom: '1rem'}}>
+                  <h4 style={{margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: '#1A2E25', borderBottom: '1px solid #eee', paddingBottom: '0.25rem'}}>Option 1: Scan QR Code</h4>
+                  <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <img 
+                      src="/assets/qrcode.jpeg" 
+                      alt="Payment QR Code" 
+                      style={{width: '180px', height: '180px', objectFit: 'contain', border: '1px solid #eee', borderRadius: '12px'}}
+                      onError={(e) => {
+                        e.target.onerror = null; 
+                        e.target.src = 'https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div style={{marginBottom: '1rem'}}>
+                  <h4 style={{margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: '#1A2E25', borderBottom: '1px solid #eee', paddingBottom: '0.25rem'}}>Option 2: Pay via UPI ID</h4>
+                  <div style={{background: '#f8f6f2', padding: '0.75rem', borderRadius: '8px', textAlign: 'center', fontSize: '0.9rem', fontWeight: '500', color: '#1A2E25', border: '1px solid #eee'}}>
+                    7209741066-2@ybl
+                  </div>
+                </div>
+
+                <div>
+                  <h4 style={{margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: '#1A2E25', borderBottom: '1px solid #eee', paddingBottom: '0.25rem'}}>Option 3: Bank Transfer</h4>
+                  <div style={{background: '#f8f6f2', padding: '0.75rem', borderRadius: '8px', fontSize: '0.85rem', lineHeight: '1.6', color: '#1A2E25', border: '1px solid #eee'}}>
+                    <div style={{display: 'flex', justifyContent: 'space-between'}}><span>Name:</span> <strong>Mamta kumari</strong></div>
+                    <div style={{display: 'flex', justifyContent: 'space-between'}}><span>A/c No:</span> <strong>39983163990</strong></div>
+                    <div style={{display: 'flex', justifyContent: 'space-between'}}><span>IFSC:</span> <strong>SBIN0014280</strong></div>
+                  </div>
                 </div>
               </div>
               
