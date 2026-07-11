@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, Check, PackageSearch, ArrowLeft, Snowflake, Droplets, Leaf, ShieldCheck, Lock, Truck, RotateCcw, Smartphone, Banknote, Grid, HandHeart, Flower2 } from 'lucide-react';
 import { useShop } from './ShopContext';
@@ -33,6 +33,18 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
   
   const [isScrolled, setIsScrolled] = useState(false);
   const [isModalScrolled, setIsModalScrolled] = useState(false);
+  const lastScrollY = useRef(0);
+  const lastModalScrollY = useRef(0);
+
+  const handleModalScroll = (e) => {
+    const currentScrollTop = e.target.scrollTop;
+    if (currentScrollTop > lastModalScrollY.current && currentScrollTop > 50) {
+      setIsModalScrolled(true); // scrolling down
+    } else if (currentScrollTop < lastModalScrollY.current) {
+      setIsModalScrolled(false); // scrolling up
+    }
+    lastModalScrollY.current = currentScrollTop;
+  };
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -171,9 +183,15 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY.current && currentScrollY > 50) {
+        setIsScrolled(true);
+      } else if (currentScrollY < lastScrollY.current) {
+        setIsScrolled(false);
+      }
+      lastScrollY.current = currentScrollY;
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -1471,7 +1489,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
 
             <div 
               className="flex-1 overflow-y-auto px-6 pb-40"
-              onScroll={(e) => setIsModalScrolled(e.target.scrollTop > 50)}
+              onScroll={handleModalScroll}
             >
               <div className="grid grid-cols-2 gap-4">
                 {products
