@@ -1253,9 +1253,13 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                             <p className="text-[12px] font-medium flex items-center gap-1.5">
                               <Lock className="w-3 h-3" /> 100% Secure Payment
                             </p>
-                            <div className="flex items-center gap-1.5 opacity-90 mt-1">
-                              <span className="text-[10px] tracking-wide uppercase">Secured by</span>
-                              <span className="text-[13px] font-sans font-extrabold tracking-tight text-[#0D2366]">100% SECURE</span>
+                            <div className="flex flex-col items-center gap-1 opacity-90 mt-1">
+                              <span className="text-[10px] tracking-wide uppercase text-gray-400">Accepted Payments</span>
+                              <div className="flex gap-2 items-center">
+                                <span className="text-[12px] font-sans font-extrabold tracking-tight text-[#0D2366]">BHIM UPI</span>
+                                <span className="text-[10px] text-gray-300">&bull;</span>
+                                <span className="text-[12px] font-sans font-extrabold tracking-tight text-[#0D2366]">BANK TRANSFER</span>
+                              </div>
                             </div>
                           </div>
                         </div>
