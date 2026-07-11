@@ -73,15 +73,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [formData, setFormData] = useState(() => {
     const saved = localStorage.getItem('tierra_checkout_form');
-    return saved ? JSON.parse(saved) : {
-      email: '',
-      phone: '',
-      firstName: '',
-      lastName: '',
-      address: '',
-      city: '',
-      postcode: ''
-    };
+    return saved ? JSON.parse(saved) : { firstName: '', lastName: '', email: '', phone: '', address: '', address2: '', city: '', state: '', postcode: '' };
   });
 
   useEffect(() => {
@@ -336,13 +328,19 @@ function DesktopApp({ setCurrentPage, currentPage }) {
                       <input type="text" name="address" required className="form-input" value={formData.address} onChange={handleInputChange} />
                     </div>
                     <div style={{display: 'flex', gap: '1rem'}}>
-                      <div className="form-group" style={{flex: 2}}>
+                      <div className="form-group" style={{gridColumn: '1 / -1'}}>
                         <label>City</label>
                         <input type="text" name="city" required className="form-input" value={formData.city} onChange={handleInputChange} />
                       </div>
-                      <div className="form-group" style={{flex: 1}}>
-                        <label>PIN Code</label>
-                        <input type="text" name="postcode" required className="form-input" value={formData.postcode} onChange={handleInputChange} />
+                      <div className="form-group" style={{gridColumn: '1 / -1', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem'}}>
+                        <div>
+                          <label>State (e.g. MH, UP)</label>
+                          <input type="text" name="state" required className="form-input" value={formData.state || ''} onChange={handleInputChange} />
+                        </div>
+                        <div>
+                          <label>PIN Code</label>
+                          <input type="text" name="postcode" required className="form-input" value={formData.postcode} onChange={handleInputChange} />
+                        </div>
                       </div>
                     </div>
                     <button type="submit" className="btn-checkout">

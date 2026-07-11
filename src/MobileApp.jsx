@@ -163,15 +163,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
   const [orderSuccess, setOrderSuccess] = useState(false);
   const [formData, setFormData] = useState(() => {
     const saved = localStorage.getItem('tierra_checkout_form');
-    return saved ? JSON.parse(saved) : {
-      email: '',
-      phone: '',
-      firstName: '',
-      lastName: '',
-      address: '',
-      city: '',
-      postcode: ''
-    };
+    return saved ? JSON.parse(saved) : { firstName: '', lastName: '', email: '', phone: '', address: '', address2: '', city: '', state: '', postcode: '' };
   });
 
   useEffect(() => {
@@ -1123,11 +1115,11 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                             <div className="flex gap-4">
                               <div className="relative group w-2/3">
                                 <label className="text-[11px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">City</label>
-                                <input type="text" name="city" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.city} onChange={handleInputChange} />
+                                <input type="text" name="city" required placeholder="City" className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.city} onChange={handleInputChange} />
                               </div>
-                              <div className="relative group w-1/3">
-                                <label className="text-[11px] font-semibold text-gray-500 block mb-1.5 uppercase tracking-wide">PIN</label>
-                                <input type="text" name="postcode" required className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.postcode} onChange={handleInputChange} />
+                              <div className="grid grid-cols-2 gap-4 mb-4">
+                                <input type="text" name="state" required placeholder="State (e.g. MH, UP, DL)" className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.state || ''} onChange={handleInputChange} />
+                                <input type="text" name="postcode" required placeholder="PIN Code" className="w-full bg-white border border-[#D8D4CC] rounded-xl px-4 py-3 focus:outline-none focus:border-[#263228] focus:ring-1 focus:ring-[#263228] transition-all text-[14px] text-gray-900 shadow-sm" value={formData.postcode} onChange={handleInputChange} />
                               </div>
                             </div>
                           </div>
