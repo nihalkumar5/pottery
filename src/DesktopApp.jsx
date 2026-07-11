@@ -876,7 +876,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
           </div>
           <p className="premium-footer-copyright">© 2026 Clay & Craft. All rights reserved.</p>
         </div>
-      </div>
+      </footer>
 
       {/* QR Code Payment Modal for Desktop */}
       {isQrModalOpen && (
