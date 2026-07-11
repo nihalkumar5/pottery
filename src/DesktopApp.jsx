@@ -904,16 +904,22 @@ function DesktopApp({ setCurrentPage, currentPage }) {
             </div>
             
             <form onSubmit={handleQrSubmit} style={{padding: '1.5rem'}}>
-              <div style={{display: 'flex', justifyContent: 'center', marginBottom: '1.5rem'}}>
+              <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '1.5rem'}}>
                 <img 
                   src="/assets/qrcode.jpeg" 
                   alt="Payment QR Code" 
-                  style={{width: '200px', height: '200px', objectFit: 'contain', border: '1px solid #eee', borderRadius: '12px'}}
+                  style={{width: '200px', height: '200px', objectFit: 'contain', border: '1px solid #eee', borderRadius: '12px', marginBottom: '1rem'}}
                   onError={(e) => {
                     e.target.onerror = null; 
                     e.target.src = 'https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg';
                   }}
                 />
+                <div style={{background: '#f8f6f2', padding: '1rem', borderRadius: '8px', width: '100%', fontSize: '0.85rem', lineHeight: '1.6', color: '#1A2E25', border: '1px solid #eee'}}>
+                  <strong>UPI ID:</strong> 7209741066-2@ybl<br />
+                  <strong>Name:</strong> Mamta kumari<br />
+                  <strong>A/c No:</strong> 39983163990<br />
+                  <strong>IFSC Code:</strong> SBIN0014280
+                </div>
               </div>
               
               <div className="form-group" style={{marginBottom: '1.5rem'}}>

@@ -1843,17 +1843,23 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
               </div>
               
               <form onSubmit={handleQrSubmit} className="p-6 pt-0 -mt-4 relative z-10">
-                <div className="bg-white p-4 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.06)] flex justify-center mb-6">
+                <div className="bg-white p-4 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.06)] flex flex-col items-center justify-center mb-6">
                   {/* Placeholder QR Code image */}
                   <img 
                     src="/assets/qrcode.jpeg" 
                     alt="Payment QR Code" 
-                    className="w-48 h-48 object-contain rounded-xl"
+                    className="w-48 h-48 object-contain rounded-xl mb-4"
                     onError={(e) => {
                       e.target.onerror = null; 
                       e.target.src = 'https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg'; // Fallback dummy QR
                     }}
                   />
+                  <div className="bg-[#f8f6f2] w-full p-4 rounded-xl text-[13px] leading-relaxed text-[#1A2E25] border border-[#eee]">
+                    <span className="font-bold">UPI ID:</span> 7209741066-2@ybl<br />
+                    <span className="font-bold">Name:</span> Mamta kumari<br />
+                    <span className="font-bold">A/c No:</span> 39983163990<br />
+                    <span className="font-bold">IFSC Code:</span> SBIN0014280
+                  </div>
                 </div>
                 
                 <div className="mb-6">
