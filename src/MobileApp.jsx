@@ -506,7 +506,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
               onClick={() => { setSelectedProduct(item); setActiveImageIndex(0); }}
               className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm pb-4 h-full"
             >
-              <div className="w-full aspect-[4/5] relative bg-[#F5F5F5] overflow-hidden">
+              <div className="w-full aspect-square relative bg-[#F5F5F5] overflow-hidden">
                 <img src={item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
               </div>
               <div className="px-4 pt-3 flex flex-col flex-1">
@@ -1476,7 +1476,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                   .filter(product => selectedCategory === 'All' || product.category === selectedCategory)
                   .map(product => (
                   <div key={product.id} className="bg-white rounded-2xl overflow-hidden shadow-sm flex flex-col h-full group" onClick={() => setSelectedProduct(product)}>
-                    <div className="relative aspect-[4/5] overflow-hidden bg-[#F5F5F5]">
+                    <div className="relative aspect-square overflow-hidden bg-[#F5F5F5]">
                       <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       <button 
                         onClick={(e) => { e.stopPropagation(); toggleWishlist(product); }}
