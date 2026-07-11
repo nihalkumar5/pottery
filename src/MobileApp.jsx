@@ -1439,7 +1439,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                 <button onClick={() => setIsShopOpen(false)} className="absolute top-14 right-6 p-2 z-20 opacity-80 hover:opacity-100 transition-opacity">
                   <X className="w-6 h-6 text-[#1A2E25]" />
                 </button>
-                <div className="relative z-10 text-center px-4 mt-4">
+                <div className="relative z-10 text-center px-4 mt-10">
                   <h2 className="font-serif text-[22px] text-[#F8F6F2] mb-1 leading-tight">Handcrafted with Love</h2>
                   <p className="text-[#E6DEC8] text-[10px] uppercase tracking-[0.2em] font-medium">Explore the collection</p>
                 </div>
