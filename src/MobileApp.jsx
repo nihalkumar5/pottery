@@ -1764,9 +1764,14 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
             <span className="text-[10px] font-medium tracking-wide">Shop</span>
           </div>
           
-          <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => setIsCartOpen(true)}>
+          <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors relative" onClick={() => setIsCartOpen(true)}>
             <ShoppingBag className="w-5 h-5" />
             <span className="text-[10px] font-medium tracking-wide">Bag</span>
+            {cartItemCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-accent text-white text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full shadow-sm">
+                {cartItemCount}
+              </span>
+            )}
           </div>
           
           <div className="flex flex-col items-center gap-1 cursor-pointer text-primary hover:text-accent transition-colors" onClick={() => { setIsProfileOpen(true); setIsWishlistOpen(false); setIsTrackOrderOpen(false); setIsShopOpen(false); setSelectedProduct(null); }}>
