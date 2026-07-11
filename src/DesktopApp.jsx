@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useShop } from './ShopContext';
-import { ArrowRight, Heart, Plus, Minus, ShoppingBag, User, Truck, ShieldCheck, HandHeart, Leaf, Flower2, Star } from 'lucide-react';
+import { ArrowRight, Heart, Plus, Minus, ShoppingBag, User, Truck, ShieldCheck, HandHeart, Leaf, Flower2, Star, Copy } from 'lucide-react';
 import DesktopCollections from './DesktopCollections';
 import DesktopAbout from './DesktopAbout';
 import DesktopContact from './DesktopContact';
@@ -926,8 +926,21 @@ function DesktopApp({ setCurrentPage, currentPage }) {
 
                 <div style={{marginBottom: '1rem'}}>
                   <h4 style={{margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: '#1A2E25', borderBottom: '1px solid #eee', paddingBottom: '0.25rem'}}>Option 2: Pay via UPI ID</h4>
-                  <div style={{background: '#f8f6f2', padding: '0.75rem', borderRadius: '8px', textAlign: 'center', fontSize: '0.9rem', fontWeight: '500', color: '#1A2E25', border: '1px solid #eee'}}>
-                    7209741066-2@ybl
+                  <div style={{background: '#f8f6f2', padding: '0.75rem', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', fontSize: '0.9rem', fontWeight: '500', color: '#1A2E25', border: '1px solid #eee'}}>
+                    <span>7209741066-2@ybl</span>
+                    <button 
+                      type="button"
+                      onClick={(e) => {
+                        navigator.clipboard.writeText('7209741066-2@ybl');
+                        const icon = e.currentTarget;
+                        icon.style.color = '#0A4736';
+                        setTimeout(() => icon.style.color = '#82634F', 2000);
+                      }}
+                      style={{background: 'none', border: 'none', cursor: 'pointer', padding: '4px', color: '#82634F', transition: 'color 0.3s'}}
+                      title="Copy UPI ID"
+                    >
+                      <Copy size={16} />
+                    </button>
                   </div>
                 </div>
 

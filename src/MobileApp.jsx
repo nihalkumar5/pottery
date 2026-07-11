@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, Check, PackageSearch, ArrowLeft, Snowflake, Droplets, Leaf, ShieldCheck, Lock, Truck, RotateCcw, Smartphone, Banknote, Grid, HandHeart, Flower2 } from 'lucide-react';
+import { Menu, Search, Heart, ShoppingBag, Plus, Minus, User, ArrowRight, Star, X, CheckCircle, Check, PackageSearch, ArrowLeft, Snowflake, Droplets, Leaf, ShieldCheck, Lock, Truck, RotateCcw, Smartphone, Banknote, Grid, HandHeart, Flower2, Copy } from 'lucide-react';
 import { useShop } from './ShopContext';
 import DesktopAbout from './DesktopAbout';
 import DesktopContact from './DesktopContact';
@@ -1865,8 +1865,20 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
 
                   <div className="w-full mb-5">
                     <h4 className="font-bold text-[#1A2E25] text-sm mb-2 border-b pb-1">Option 2: Pay via UPI ID</h4>
-                    <div className="bg-[#f8f6f2] p-3 rounded-xl text-[14px] text-center font-medium text-[#1A2E25] border border-[#eee]">
-                      7209741066-2@ybl
+                    <div className="bg-[#f8f6f2] p-3 rounded-xl flex items-center justify-center gap-2 text-[14px] font-medium text-[#1A2E25] border border-[#eee]">
+                      <span>7209741066-2@ybl</span>
+                      <button 
+                        type="button"
+                        onClick={(e) => {
+                          navigator.clipboard.writeText('7209741066-2@ybl');
+                          const icon = e.currentTarget;
+                          icon.style.color = '#0A4736';
+                          setTimeout(() => icon.style.color = '#82634F', 2000);
+                        }}
+                        className="p-1 text-[#82634F] hover:text-[#0A4736] transition-colors"
+                      >
+                        <Copy size={16} />
+                      </button>
                     </div>
                   </div>
 
