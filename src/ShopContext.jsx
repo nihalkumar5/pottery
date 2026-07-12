@@ -113,6 +113,11 @@ export const ShopProvider = ({ children }) => {
         
         if (fetchedProducts.length > 0) {
           setProducts(fetchedProducts);
+          setCart(prevCart => 
+            prevCart.filter(cartItem => 
+              fetchedProducts.some(p => p.id === cartItem.id)
+            )
+          );
         }
       } catch (error) {
         console.log("WooCommerce API fetch failed, using mock data.");
