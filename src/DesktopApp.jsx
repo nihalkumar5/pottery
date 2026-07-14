@@ -129,6 +129,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
   const handleCheckoutSubmit = async (e) => {
     e.preventDefault();
     if (paymentMethod === 'online') {
+      setIsCheckoutOpen(false);
       setIsQrModalOpen(true);
       return;
     }
@@ -898,109 +899,214 @@ function DesktopApp({ setCurrentPage, currentPage }) {
         </div>
       </footer>
 
-      {/* QR Code Payment Modal for Desktop */}
+      {/* QR Code Payment Modal for Desktop - Redesigned */}
       {isQrModalOpen && (
-        <div className="checkout-modal-overlay open" style={{zIndex: 1000}}>
-          <div className="checkout-modal" style={{maxWidth: '400px', padding: 0, overflow: 'hidden'}}>
-            <button 
-              className="close-modal" 
-              onClick={() => setIsQrModalOpen(false)}
-              style={{background: 'rgba(255,255,255,0.2)', color: '#fff', top: '15px', right: '15px'}}
-            >
-              &times;
-            </button>
-            
-            <div style={{background: '#82634F', color: '#fff', padding: '1rem 1.5rem', textAlign: 'center'}}>
-              <h3 style={{fontSize: '1.3rem', margin: '0 0 0.5rem 0'}}>Online Payment</h3>
-              <p style={{margin: 0, opacity: 0.9, fontSize: '0.9rem'}}>Scan the QR code below to pay</p>
-              <div style={{fontSize: '1.5rem', fontWeight: 'bold', marginTop: '0.5rem'}}>
-                ₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}
+        <div
+          className="checkout-modal-overlay open"
+          style={{zIndex: 1000}}
+          onClick={(e) => { if (e.target === e.currentTarget) { setIsQrModalOpen(false); setIsCheckoutOpen(true); } }}
+        >
+          <div style={{
+            background: '#fff', borderRadius: '20px', width: '820px',
+            maxWidth: '95vw', maxHeight: '90vh', overflowY: 'auto',
+            boxShadow: '0 30px 80px rgba(0,0,0,0.35)', position: 'relative',
+            display: 'flex', flexDirection: 'column', animation: 'fadeInUp 0.3s ease',
+          }}>
+
+            {/* Header */}
+            <div style={{
+              background: 'linear-gradient(135deg, #82634F 0%, #4e3020 100%)',
+              borderRadius: '20px 20px 0 0', padding: '1.5rem 2rem',
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              position: 'relative',
+            }}>
+              <div>
+                <div style={{display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '4px'}}>
+                  <span style={{fontSize: '1.2rem'}}>🔒</span>
+                  <h3 style={{color: '#fff', fontSize: '1.35rem', margin: 0, fontWeight: '700', letterSpacing: '0.02em'}}>Secure Online Payment</h3>
+                </div>
+                <p style={{color: 'rgba(255,255,255,0.7)', margin: 0, fontSize: '0.82rem'}}>Clay & Craft · Handcrafted Ceramics</p>
+              </div>
+              <div style={{textAlign: 'right'}}>
+                <div style={{color: 'rgba(255,255,255,0.65)', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '2px'}}>Total Amount</div>
+                <div style={{color: '#fff', fontSize: '2.2rem', fontWeight: '800', letterSpacing: '-0.03em', lineHeight: 1}}>
+                  ₹{(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}
+                </div>
+              </div>
+              <button
+                onClick={() => { setIsQrModalOpen(false); setIsCheckoutOpen(true); }}
+                style={{
+                  position: 'absolute', top: '14px', right: '14px',
+                  background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)',
+                  borderRadius: '50%', width: '34px', height: '34px', fontSize: '1.1rem',
+                  color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center',
+                  justifyContent: 'center', backdropFilter: 'blur(4px)', transition: 'background 0.2s',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.28)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Warning strip */}
+            <div style={{
+              background: '#fff8f0', borderLeft: '4px solid #e07b39',
+              padding: '0.6rem 2rem', fontSize: '0.81rem', color: '#7a4a1e',
+              display: 'flex', alignItems: 'center', gap: '0.4rem',
+            }}>
+              ⚠️&nbsp;Ensure receiver name shows as&nbsp;<strong style={{color: '#2d1a0e'}}>Mamta kumari</strong>&nbsp;before paying.
+            </div>
+
+            {/* Two-column body */}
+            <div style={{display: 'flex', minHeight: '420px'}}>
+
+              {/* LEFT — QR + UPI */}
+              <div style={{
+                width: '300px', flexShrink: 0, background: '#faf7f4',
+                borderRight: '1px solid #ede8e2', padding: '1.75rem 1.5rem',
+                display: 'flex', flexDirection: 'column', alignItems: 'center',
+                borderRadius: '0 0 0 20px',
+              }}>
+                <p style={{margin: '0 0 0.75rem 0', fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#82634F'}}>Scan QR Code</p>
+                <div style={{
+                  background: '#fff', borderRadius: '16px', padding: '12px',
+                  boxShadow: '0 4px 24px rgba(130,99,79,0.15)', border: '2px solid #ede8e2',
+                  marginBottom: '1rem',
+                }}>
+                  <img
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(`upi://pay?pa=7209741066-2@ybl&pn=Mamta%20kumari&am=${(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}&cu=INR`)}`}
+                    alt="UPI QR Code"
+                    style={{width: '176px', height: '176px', display: 'block', borderRadius: '8px'}}
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/assets/qrcode.jpeg'; }}
+                  />
+                </div>
+                <p style={{color: '#aaa', fontSize: '0.77rem', margin: '0 0 1.2rem 0', textAlign: 'center'}}>📱 Works with PhonePe, GPay, Paytm & all UPI apps</p>
+
+                <div style={{width: '100%', display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem'}}>
+                  <div style={{flex: 1, height: '1px', background: '#e0d8d0'}}></div>
+                  <span style={{fontSize: '0.72rem', color: '#bbb', whiteSpace: 'nowrap'}}>OR UPI ID</span>
+                  <div style={{flex: 1, height: '1px', background: '#e0d8d0'}}></div>
+                </div>
+
+                <div style={{
+                  width: '100%', background: '#fff', border: '1.5px solid #ede8e2',
+                  borderRadius: '12px', padding: '0.6rem 0.9rem',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                }}>
+                  <div>
+                    <div style={{fontSize: '0.68rem', color: '#bbb', letterSpacing: '0.06em', textTransform: 'uppercase'}}>UPI ID</div>
+                    <div style={{fontSize: '0.9rem', fontWeight: '700', color: '#1A2E25'}}>7209741066-2@ybl</div>
+                  </div>
+                  <button
+                    type="button"
+                    id="copy-upi-btn"
+                    onClick={(e) => {
+                      navigator.clipboard.writeText('7209741066-2@ybl');
+                      const btn = e.currentTarget;
+                      btn.style.background = '#e8f5e9'; btn.style.color = '#2e7d32'; btn.textContent = '✓ Copied';
+                      setTimeout(() => { btn.style.background = '#f0ece8'; btn.style.color = '#82634F'; btn.textContent = 'Copy'; }, 2000);
+                    }}
+                    style={{
+                      background: '#f0ece8', border: 'none', borderRadius: '8px',
+                      padding: '5px 12px', fontSize: '0.75rem', fontWeight: '600',
+                      color: '#82634F', cursor: 'pointer', transition: 'all 0.25s',
+                    }}
+                  >Copy</button>
+                </div>
+              </div>
+
+              {/* RIGHT — Bank Details + UTR */}
+              <div style={{flex: 1, padding: '1.75rem 2rem', display: 'flex', flexDirection: 'column'}}>
+
+                {/* Bank section */}
+                <div style={{marginBottom: '1.5rem'}}>
+                  <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.85rem'}}>
+                    <div style={{
+                      width: '30px', height: '30px',
+                      background: 'linear-gradient(135deg, #82634F, #4e3020)',
+                      borderRadius: '8px', display: 'flex', alignItems: 'center',
+                      justifyContent: 'center', fontSize: '0.9rem',
+                    }}>🏦</div>
+                    <span style={{fontWeight: '700', fontSize: '0.95rem', color: '#1A2E25'}}>Bank Transfer Details</span>
+                  </div>
+                  <div style={{background: '#f8f5f1', borderRadius: '14px', border: '1px solid #ece7e0', overflow: 'hidden'}}>
+                    {[
+                      {label: 'Account Holder', value: 'Mamta kumari'},
+                      {label: 'Account Number', value: '39983163990'},
+                      {label: 'IFSC Code', value: 'SBIN0014280'},
+                      {label: 'Bank', value: 'State Bank of India'},
+                    ].map(({label, value}, i, arr) => (
+                      <div key={label} style={{
+                        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                        padding: '0.65rem 1.1rem',
+                        borderBottom: i < arr.length - 1 ? '1px solid #ece7e0' : 'none',
+                      }}>
+                        <span style={{color: '#9a8880', fontSize: '0.82rem'}}>{label}</span>
+                        <span style={{fontWeight: '700', fontSize: '0.87rem', color: '#1A2E25', letterSpacing: '0.02em'}}>{value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div style={{display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem'}}>
+                  <div style={{flex: 1, height: '1px', background: '#ece7e0'}}></div>
+                  <span style={{fontSize: '0.75rem', color: '#bbb', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.06em'}}>After Payment</span>
+                  <div style={{flex: 1, height: '1px', background: '#ece7e0'}}></div>
+                </div>
+
+                {/* UTR form */}
+                <form onSubmit={handleQrSubmit} style={{flex: 1, display: 'flex', flexDirection: 'column'}}>
+                  <label style={{
+                    fontSize: '0.78rem', fontWeight: '700', textTransform: 'uppercase',
+                    letterSpacing: '0.09em', color: '#1A2E25', marginBottom: '0.5rem', display: 'block',
+                  }}>
+                    Transaction ID / UTR Number <span style={{color: '#e53e3e'}}>*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={utrNumber}
+                    onChange={(e) => { setUtrNumber(e.target.value); setQrError(''); }}
+                    placeholder="Enter 12-digit UTR / Transaction ID"
+                    style={{
+                      width: '100%', padding: '0.82rem 1rem',
+                      border: '1.5px solid #e0d8d0', borderRadius: '12px',
+                      fontSize: '0.95rem', color: '#1A2E25', background: '#faf8f6',
+                      outline: 'none', boxSizing: 'border-box', marginBottom: '0.6rem',
+                      fontFamily: 'inherit',
+                    }}
+                    onFocus={(e) => e.target.style.borderColor = '#82634F'}
+                    onBlur={(e) => e.target.style.borderColor = '#e0d8d0'}
+                  />
+                  {qrError && (
+                    <p style={{color: '#e53e3e', fontSize: '0.8rem', marginBottom: '0.6rem', margin: '0 0 0.6rem 0'}}>⚠ {qrError}</p>
+                  )}
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || !utrNumber.trim()}
+                    style={{
+                      width: '100%', padding: '0.9rem',
+                      background: (isSubmitting || !utrNumber.trim())
+                        ? '#d0c8c0'
+                        : 'linear-gradient(135deg, #82634F 0%, #4e3020 100%)',
+                      color: '#fff', border: 'none', borderRadius: '12px',
+                      fontSize: '1rem', fontWeight: '700', cursor: (isSubmitting || !utrNumber.trim()) ? 'not-allowed' : 'pointer',
+                      letterSpacing: '0.03em', transition: 'all 0.3s',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+                      marginTop: 'auto', marginBottom: '0.75rem',
+                      boxShadow: (!isSubmitting && utrNumber.trim()) ? '0 4px 16px rgba(130,99,79,0.4)' : 'none',
+                    }}
+                  >
+                    {isSubmitting ? '⏳ Verifying...' : '✓ Confirm Payment & Place Order'}
+                  </button>
+                  <p style={{textAlign: 'center', color: '#bbb', fontSize: '0.74rem', margin: 0}}>
+                    🔒 Payment verified manually within 30 min · Safe & Secure
+                  </p>
+                </form>
               </div>
             </div>
-            
-            <form onSubmit={handleQrSubmit} style={{padding: '1rem 1.5rem'}}>
-              <div style={{display: 'flex', flexDirection: 'column', marginBottom: '1rem'}}>
-                <div style={{width: '100%', marginBottom: '0.75rem', background: 'rgba(130, 99, 79, 0.1)', border: '1px solid rgba(130, 99, 79, 0.2)', color: '#82634F', padding: '0.5rem', borderRadius: '8px', fontSize: '0.75rem', textAlign: 'center', fontWeight: '500'}}>
-                  ⚠️ Please ensure the receiver name shows as <strong style={{color: '#1A2E25'}}>Mamta kumari</strong> before paying.
-                </div>
-                
-                <div style={{marginBottom: '0.75rem'}}>
-                  <h4 style={{margin: '0 0 0.5rem 0', fontSize: '0.85rem', color: '#1A2E25', borderBottom: '1px solid #eee', paddingBottom: '0.25rem'}}>Option 1: Scan QR Code</h4>
-                  <div style={{display: 'flex', justifyContent: 'center'}}>
-                    <img 
-                      src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(`upi://pay?pa=7209741066-2@ybl&pn=Mamta%20kumari&am=${(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}&cu=INR`)}`}
-                      alt="Payment QR Code" 
-                      style={{width: '120px', height: '120px', objectFit: 'contain', border: '1px solid #eee', borderRadius: '12px'}}
-                      onError={(e) => {
-                        e.target.onerror = null; 
-                        e.target.src = '/assets/qrcode.jpeg';
-                      }}
-                    />
-                  </div>
-                </div>
-
-                <div style={{marginBottom: '0.75rem'}}>
-                  <h4 style={{margin: '0 0 0.5rem 0', fontSize: '0.85rem', color: '#1A2E25', borderBottom: '1px solid #eee', paddingBottom: '0.25rem'}}>Option 2: Pay via UPI ID</h4>
-                  <div style={{background: '#f8f6f2', padding: '0.5rem', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', fontSize: '0.85rem', fontWeight: '500', color: '#1A2E25', border: '1px solid #eee'}}>
-                    <span>7209741066-2@ybl</span>
-                    <button 
-                      type="button"
-                      onClick={(e) => {
-                        navigator.clipboard.writeText('7209741066-2@ybl');
-                        const icon = e.currentTarget;
-                        icon.style.color = '#0A4736';
-                        setTimeout(() => icon.style.color = '#82634F', 2000);
-                      }}
-                      style={{background: 'none', border: 'none', cursor: 'pointer', padding: '4px', color: '#82634F', transition: 'color 0.3s'}}
-                      title="Copy UPI ID"
-                    >
-                      <Copy size={16} />
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  <h4 style={{margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: '#1A2E25', borderBottom: '1px solid #eee', paddingBottom: '0.25rem'}}>Option 3: Bank Transfer</h4>
-                  <div style={{background: '#f8f6f2', padding: '0.75rem', borderRadius: '8px', fontSize: '0.85rem', lineHeight: '1.6', color: '#1A2E25', border: '1px solid #eee'}}>
-                    <div style={{display: 'flex', justifyContent: 'space-between'}}><span>Name:</span> <strong>Mamta kumari</strong></div>
-                    <div style={{display: 'flex', justifyContent: 'space-between'}}><span>A/c No:</span> <strong>39983163990</strong></div>
-                    <div style={{display: 'flex', justifyContent: 'space-between'}}><span>IFSC:</span> <strong>SBIN0014280</strong></div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="form-group" style={{marginBottom: '1.5rem'}}>
-                <label style={{fontSize: '0.85rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.05em'}}>
-                  Transaction ID / UTR Number <span style={{color: '#e53e3e'}}>*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={utrNumber}
-                  onChange={(e) => {
-                    setUtrNumber(e.target.value);
-                    setQrError('');
-                  }}
-                  placeholder="Enter 12-digit UTR number"
-                  className="form-input"
-                  style={{background: '#f8f6f2'}}
-                />
-                {qrError && (
-                  <p style={{color: '#e53e3e', fontSize: '0.8rem', marginTop: '0.5rem', margin: 0}}>
-                    {qrError}
-                  </p>
-                )}
-              </div>
-              
-              <button
-                type="submit"
-                disabled={isSubmitting || !utrNumber.trim()}
-                className="btn-checkout"
-                style={{width: '100%', opacity: (isSubmitting || !utrNumber.trim()) ? 0.6 : 1}}
-              >
-                {isSubmitting ? 'Verifying...' : 'Confirm Payment'}
-              </button>
-            </form>
           </div>
         </div>
       )}
