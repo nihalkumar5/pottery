@@ -364,7 +364,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
   return (
     <div className="desktop-root">
 
-      <nav className={`navbar ${!isScrolled ? 'transparent' : ''}`}>
+      <nav className={`navbar ${(!isScrolled && currentPage === 'home' && !selectedProduct) ? 'transparent' : ''}`}>
         <div 
           className="logo" 
           style={{ textTransform: 'none', fontWeight: 300, letterSpacing: '0.05em', fontSize: '1.5rem', cursor: 'pointer' }}
