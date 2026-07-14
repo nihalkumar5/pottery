@@ -5,7 +5,7 @@ import DesktopCollections from './DesktopCollections';
 import DesktopAbout from './DesktopAbout';
 import DesktopContact from './DesktopContact';
 
-function DesktopProductPage({ product, onBack, addToCart }) {
+function DesktopProductPage({ product, onBack, addToCart, onProductClick }) {
   const { products } = useShop();
   const [qty, setQty] = React.useState(1);
   const [added, setAdded] = React.useState(false);
@@ -24,7 +24,7 @@ function DesktopProductPage({ product, onBack, addToCart }) {
   }, [product]);
 
   return (
-    <div style={{ background: '#F8F6F2', minHeight: '100vh', paddingTop: '120px' }}>
+    <div style={{ background: '#F8F6F2', minHeight: '100vh', paddingTop: '90px', position: 'relative', zIndex: 1 }}>
       {/* Breadcrumb */}
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 3rem 1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.82rem', color: '#9a8880' }}>
         <button onClick={onBack} style={{ background: 'none', border: 'none', color: '#82634F', cursor: 'pointer', fontWeight: '600', fontSize: '0.82rem', padding: 0, display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -37,7 +37,7 @@ function DesktopProductPage({ product, onBack, addToCart }) {
       </div>
 
       {/* Main Section */}
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 3rem 4rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'start' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 3rem 4rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'start', minHeight: '500px' }}>
         {/* Left - Image */}
         <div>
           <div style={{ borderRadius: '24px', overflow: 'hidden', background: '#fff', boxShadow: '0 8px 40px rgba(0,0,0,0.08)', height: '560px', position: 'relative' }}>
@@ -129,7 +129,7 @@ function DesktopProductPage({ product, onBack, addToCart }) {
               {related.map(p => (
                 <div
                   key={p.id}
-                  onClick={() => { onBack(); }}
+                  onClick={() => { if (onProductClick) onProductClick(p); }}
                   style={{ cursor: 'pointer', borderRadius: '16px', overflow: 'hidden', background: '#F8F6F2', transition: 'transform 0.3s' }}
                   onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-6px)'}
                   onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
@@ -979,9 +979,14 @@ function DesktopApp({ setCurrentPage, currentPage }) {
       </section>
         </>
       ) : selectedProduct ? (
-        <DesktopProductPage product={selectedProduct} onBack={() => setSelectedProduct(null)} addToCart={addToCart} />
+        <DesktopProductPage
+          product={selectedProduct}
+          onBack={() => { setSelectedProduct(null); }}
+          onProductClick={(p) => { setSelectedProduct(p); window.scrollTo(0,0); }}
+          addToCart={addToCart}
+        />
       ) : currentPage === 'shop' ? (
-        <DesktopCollections initialCategory={selectedCategory || 'All'} onProductClick={(p) => setSelectedProduct(p)} />
+        <DesktopCollections initialCategory={selectedCategory || 'All'} onProductClick={(p) => { setSelectedProduct(p); window.scrollTo(0,0); }} />
       ) : currentPage === 'about' || currentPage === 'About Us' ? (
         <DesktopAbout onShopClick={() => { setCurrentPage('shop'); window.scrollTo(0, 0); }} />
       ) : currentPage === 'Contact Us' ? (
