@@ -24,7 +24,11 @@ function DesktopProductPage({ product, onBack, addToCart, onProductClick }) {
   }, [product]);
 
   return (
-    <div style={{ background: '#F8F6F2', minHeight: '100vh', paddingTop: '90px', position: 'relative', zIndex: 1 }}>
+    <div style={{ background: '#F8F6F2', minHeight: '100vh', position: 'relative', zIndex: 1 }}>
+      {/* Dark background strip for the transparent navbar */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '100px', background: '#1A2E25', zIndex: -1 }}></div>
+      <div style={{ paddingTop: '120px' }}>
+
       {/* Breadcrumb */}
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 3rem 1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.82rem', color: '#9a8880' }}>
         <button onClick={onBack} style={{ background: 'none', border: 'none', color: '#82634F', cursor: 'pointer', fontWeight: '600', fontSize: '0.82rem', padding: 0, display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -148,6 +152,7 @@ function DesktopProductPage({ product, onBack, addToCart, onProductClick }) {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }
@@ -364,7 +369,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
   return (
     <div className="desktop-root">
 
-      <nav className={`navbar ${(!isScrolled && currentPage === 'home' && !selectedProduct) ? 'transparent' : ''}`}>
+      <nav className={`navbar ${!isScrolled ? 'transparent' : ''}`}>
         <div 
           className="logo" 
           style={{ textTransform: 'none', fontWeight: 300, letterSpacing: '0.05em', fontSize: '1.5rem', cursor: 'pointer' }}
