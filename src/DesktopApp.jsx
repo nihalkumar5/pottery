@@ -989,6 +989,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
           </div>
         </div>
       </section>
+        </>
       ) : currentPage === 'shop' ? (
         <DesktopCollections initialCategory={selectedCategory || 'All'} onProductClick={(p) => { setSelectedProduct(p); window.scrollTo(0,0); }} />
       ) : currentPage === 'about' || currentPage === 'About Us' ? (
