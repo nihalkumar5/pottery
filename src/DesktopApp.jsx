@@ -71,6 +71,8 @@ function DesktopApp({ setCurrentPage, currentPage }) {
   const [qrError, setQrError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState(false);
+  const [isCouponApplied, setIsCouponApplied] = useState(false);
+  const [couponCode, setCouponCode] = useState('');
   const [formData, setFormData] = useState(() => {
     const saved = localStorage.getItem('tierra_checkout_form');
     return saved ? JSON.parse(saved) : { firstName: '', lastName: '', email: '', phone: '', address: '', address2: '', city: '', state: '', postcode: '' };
