@@ -26,8 +26,8 @@ function DesktopProductPage({ product, onBack, addToCart, onProductClick }) {
   return (
     <div style={{ background: '#F8F6F2', minHeight: '100vh', position: 'relative', zIndex: 1 }}>
       {/* Dark background strip for the transparent navbar */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '100px', background: '#1A2E25', zIndex: -1 }}></div>
-      <div style={{ paddingTop: '120px' }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '75px', background: '#82634F', zIndex: -1 }}></div>
+      <div style={{ paddingTop: '100px' }}>
 
       {/* Breadcrumb */}
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 3rem 1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.82rem', color: '#9a8880' }}>
@@ -101,7 +101,7 @@ function DesktopProductPage({ product, onBack, addToCart, onProductClick }) {
             disabled={!isInStock}
             style={{
               width: '100%', padding: '1rem 2rem',
-              background: added ? '#2e7d32' : (!isInStock ? '#ccc' : 'linear-gradient(135deg, #1A2E25 0%, #2d5040 100%)'),
+              background: added ? '#2e7d32' : (!isInStock ? '#ccc' : '#82634F'),
               color: '#fff', border: 'none', borderRadius: '14px',
               fontSize: '1rem', fontWeight: '700', cursor: !isInStock ? 'not-allowed' : 'pointer',
               letterSpacing: '0.05em', transition: 'all 0.3s',
