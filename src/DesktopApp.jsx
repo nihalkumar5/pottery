@@ -717,7 +717,14 @@ function DesktopApp({ setCurrentPage, currentPage }) {
         </div>
       </div>
 
-      {currentPage === 'home' ? (
+      {selectedProduct ? (
+        <DesktopProductPage
+          product={selectedProduct}
+          onBack={() => { setSelectedProduct(null); }}
+          onProductClick={(p) => { setSelectedProduct(p); window.scrollTo(0,0); }}
+          addToCart={addToCart}
+        />
+      ) : currentPage === 'home' ? (
         <>
           {/* Hero Section */}
       <header className="hero">
@@ -820,8 +827,8 @@ function DesktopApp({ setCurrentPage, currentPage }) {
               key={product.id} 
               className="cursor-pointer group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow pb-5 h-full"
               onClick={() => {
-                // optional: go to product detail if we had one
-                // for now just add to cart or keep as is
+                setSelectedProduct(product);
+                window.scrollTo(0, 0);
               }}
             >
               <div className="w-full h-[320px] relative shrink-0">
@@ -982,14 +989,6 @@ function DesktopApp({ setCurrentPage, currentPage }) {
           </div>
         </div>
       </section>
-        </>
-      ) : selectedProduct ? (
-        <DesktopProductPage
-          product={selectedProduct}
-          onBack={() => { setSelectedProduct(null); }}
-          onProductClick={(p) => { setSelectedProduct(p); window.scrollTo(0,0); }}
-          addToCart={addToCart}
-        />
       ) : currentPage === 'shop' ? (
         <DesktopCollections initialCategory={selectedCategory || 'All'} onProductClick={(p) => { setSelectedProduct(p); window.scrollTo(0,0); }} />
       ) : currentPage === 'about' || currentPage === 'About Us' ? (
