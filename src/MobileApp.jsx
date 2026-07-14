@@ -48,7 +48,19 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
   const [isCartOpen, setIsCartOpen] = useState(() => sessionStorage.getItem('isCartOpen') === 'true');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(() => sessionStorage.getItem('isProfileOpen') === 'true');
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedProduct, setSelectedProduct] = useState(() => {
+    const saved = sessionStorage.getItem('mobile_selectedProduct');
+    return saved ? JSON.parse(saved) : null;
+  });
+
+  useEffect(() => {
+    if (selectedProduct) {
+      sessionStorage.setItem('mobile_selectedProduct', JSON.stringify(selectedProduct));
+    } else {
+      sessionStorage.removeItem('mobile_selectedProduct');
+    }
+  }, [selectedProduct]);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isAdding, setIsAdding] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(() => sessionStorage.getItem('isWishlistOpen') === 'true');

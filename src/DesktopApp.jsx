@@ -162,7 +162,18 @@ function DesktopApp({ setCurrentPage, currentPage }) {
 
   const [isCartOpen, setIsCartOpen] = useState(() => sessionStorage.getItem('desktop_isCartOpen') === 'true');
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(() => {
+    const saved = sessionStorage.getItem('desktop_selectedProduct');
+    return saved ? JSON.parse(saved) : null;
+  });
+
+  useEffect(() => {
+    if (selectedProduct) {
+      sessionStorage.setItem('desktop_selectedProduct', JSON.stringify(selectedProduct));
+    } else {
+      sessionStorage.removeItem('desktop_selectedProduct');
+    }
+  }, [selectedProduct]);
 
   // Compute categories dynamically based on fetched products
   const CATEGORIES = useMemo(() => {
