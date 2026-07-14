@@ -5,11 +5,159 @@ import DesktopCollections from './DesktopCollections';
 import DesktopAbout from './DesktopAbout';
 import DesktopContact from './DesktopContact';
 
+function DesktopProductPage({ product, onBack, addToCart }) {
+  const { products } = useShop();
+  const [qty, setQty] = React.useState(1);
+  const [added, setAdded] = React.useState(false);
+
+  const isInStock = product.stock_status === 'instock' || product.purchasable || !product.stock_status;
+  const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
+
+  const handleAdd = () => {
+    for (let i = 0; i < qty; i++) addToCart(product);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [product]);
+
+  return (
+    <div style={{ background: '#F8F6F2', minHeight: '100vh', paddingTop: '120px' }}>
+      {/* Breadcrumb */}
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 3rem 1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.82rem', color: '#9a8880' }}>
+        <button onClick={onBack} style={{ background: 'none', border: 'none', color: '#82634F', cursor: 'pointer', fontWeight: '600', fontSize: '0.82rem', padding: 0, display: 'flex', alignItems: 'center', gap: '4px' }}>
+          ← Back to Collections
+        </button>
+        <span>/</span>
+        <span style={{ color: '#bbb' }}>{product.category}</span>
+        <span>/</span>
+        <span style={{ color: '#1A2E25', fontWeight: '500' }}>{product.name}</span>
+      </div>
+
+      {/* Main Section */}
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 3rem 4rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'start' }}>
+        {/* Left - Image */}
+        <div>
+          <div style={{ borderRadius: '24px', overflow: 'hidden', background: '#fff', boxShadow: '0 8px 40px rgba(0,0,0,0.08)', height: '560px', position: 'relative' }}>
+            <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            {product.regular_price > product.price && (
+              <div style={{ position: 'absolute', top: '20px', left: '20px', background: '#1A2E25', color: '#fff', borderRadius: '50px', padding: '6px 14px', fontSize: '0.75rem', fontWeight: '700', letterSpacing: '0.05em' }}>SALE</div>
+            )}
+          </div>
+        </div>
+
+        {/* Right - Details */}
+        <div style={{ paddingTop: '1rem' }}>
+          <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#82634F', fontWeight: '600' }}>{product.category}</span>
+          <h1 style={{ fontFamily: 'serif', fontSize: '2.6rem', color: '#1A2E25', margin: '0.5rem 0 1rem', lineHeight: 1.2, fontWeight: '400' }}>{product.name}</h1>
+
+          {/* Price */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+            <span style={{ fontSize: '2rem', fontWeight: '700', color: '#82634F' }}>₹{product.price.toFixed(2)}</span>
+            {product.regular_price > product.price && (
+              <span style={{ fontSize: '1.3rem', color: '#bbb', textDecoration: 'line-through' }}>₹{product.regular_price.toFixed(2)}</span>
+            )}
+            {product.regular_price > product.price && (
+              <span style={{ background: '#e8f5e9', color: '#2e7d32', borderRadius: '50px', padding: '4px 12px', fontSize: '0.78rem', fontWeight: '700' }}>
+                {Math.round((1 - product.price / product.regular_price) * 100)}% OFF
+              </span>
+            )}
+          </div>
+
+          {/* Description */}
+          {product.description && (
+            <div style={{ color: '#6b5f58', fontSize: '0.95rem', lineHeight: '1.8', marginBottom: '2rem', borderTop: '1px solid #e8e2da', paddingTop: '1.5rem' }}
+              dangerouslySetInnerHTML={{ __html: product.description.replace(/<[^>]*>/g, '') }}
+            />
+          )}
+
+          {/* Stock */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: isInStock ? '#4caf50' : '#e53e3e' }}></div>
+            <span style={{ fontSize: '0.82rem', color: isInStock ? '#2e7d32' : '#e53e3e', fontWeight: '600' }}>
+              {isInStock ? 'In Stock' : 'Out of Stock'}
+            </span>
+          </div>
+
+          {/* Qty */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+            <span style={{ fontSize: '0.82rem', fontWeight: '700', color: '#1A2E25', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Qty</span>
+            <div style={{ display: 'flex', alignItems: 'center', border: '1.5px solid #e0d8d0', borderRadius: '50px', overflow: 'hidden' }}>
+              <button onClick={() => setQty(q => Math.max(1, q - 1))} style={{ width: '40px', height: '40px', background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: '#82634F' }}>−</button>
+              <span style={{ width: '36px', textAlign: 'center', fontWeight: '700', color: '#1A2E25' }}>{qty}</span>
+              <button onClick={() => setQty(q => q + 1)} style={{ width: '40px', height: '40px', background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: '#82634F' }}>+</button>
+            </div>
+          </div>
+
+          {/* Add to Cart */}
+          <button
+            onClick={handleAdd}
+            disabled={!isInStock}
+            style={{
+              width: '100%', padding: '1rem 2rem',
+              background: added ? '#2e7d32' : (!isInStock ? '#ccc' : 'linear-gradient(135deg, #1A2E25 0%, #2d5040 100%)'),
+              color: '#fff', border: 'none', borderRadius: '14px',
+              fontSize: '1rem', fontWeight: '700', cursor: !isInStock ? 'not-allowed' : 'pointer',
+              letterSpacing: '0.05em', transition: 'all 0.3s',
+              boxShadow: isInStock ? '0 4px 20px rgba(26,46,37,0.3)' : 'none',
+              marginBottom: '1rem',
+            }}
+          >
+            {added ? '✓ Added to Cart!' : !isInStock ? 'Out of Stock' : '🛒 Add to Cart'}
+          </button>
+
+          {/* Trust badges */}
+          <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', borderTop: '1px solid #e8e2da', paddingTop: '1.5rem' }}>
+            {[{ icon: '🌿', text: 'Eco-Friendly' }, { icon: '🤲', text: 'Handcrafted' }, { icon: '🚚', text: 'Free Ship ₹499+' }].map(({ icon, text }) => (
+              <div key={text} style={{ flex: 1, textAlign: 'center', background: '#fff', borderRadius: '12px', padding: '0.75rem', border: '1px solid #ede8e2' }}>
+                <div style={{ fontSize: '1.2rem', marginBottom: '4px' }}>{icon}</div>
+                <div style={{ fontSize: '0.72rem', color: '#82634F', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{text}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Related Products */}
+      {related.length > 0 && (
+        <div style={{ background: '#fff', padding: '4rem 3rem' }}>
+          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+            <h2 style={{ fontFamily: 'serif', fontSize: '2rem', color: '#1A2E25', marginBottom: '2.5rem', fontWeight: '400' }}>You May Also Like</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem' }}>
+              {related.map(p => (
+                <div
+                  key={p.id}
+                  onClick={() => { onBack(); }}
+                  style={{ cursor: 'pointer', borderRadius: '16px', overflow: 'hidden', background: '#F8F6F2', transition: 'transform 0.3s' }}
+                  onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-6px)'}
+                  onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+                >
+                  <div style={{ aspectRatio: '4/5', overflow: 'hidden' }}>
+                    <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
+                  <div style={{ padding: '1rem' }}>
+                    <div style={{ fontSize: '0.7rem', color: '#82634F', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px' }}>{p.category}</div>
+                    <div style={{ fontFamily: 'serif', fontSize: '1.05rem', color: '#1A2E25', marginBottom: '6px' }}>{p.name}</div>
+                    <div style={{ fontWeight: '700', color: '#82634F' }}>₹{p.price.toFixed(2)}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function DesktopApp({ setCurrentPage, currentPage }) {
   const { products, cart, addToCart, removeFromCart, decreaseQuantity, cartItemCount, cartTotal, submitOrder, trackOrder, fetchUserOrders, user, login, logout, register } = useShop();
 
   const [isCartOpen, setIsCartOpen] = useState(() => sessionStorage.getItem('desktop_isCartOpen') === 'true');
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   // Compute categories dynamically based on fetched products
   const CATEGORIES = useMemo(() => {
@@ -830,8 +978,10 @@ function DesktopApp({ setCurrentPage, currentPage }) {
         </div>
       </section>
         </>
+      ) : selectedProduct ? (
+        <DesktopProductPage product={selectedProduct} onBack={() => setSelectedProduct(null)} addToCart={addToCart} />
       ) : currentPage === 'shop' ? (
-        <DesktopCollections initialCategory={selectedCategory || 'All'} />
+        <DesktopCollections initialCategory={selectedCategory || 'All'} onProductClick={(p) => setSelectedProduct(p)} />
       ) : currentPage === 'about' || currentPage === 'About Us' ? (
         <DesktopAbout onShopClick={() => { setCurrentPage('shop'); window.scrollTo(0, 0); }} />
       ) : currentPage === 'Contact Us' ? (

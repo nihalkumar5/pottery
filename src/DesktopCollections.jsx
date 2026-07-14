@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useShop } from './ShopContext';
 import { ArrowLeft, ShoppingBag } from 'lucide-react';
 
-export default function DesktopCollections({ initialCategory = 'All' }) {
+export default function DesktopCollections({ initialCategory = 'All', onProductClick }) {
   const { products, cartItemCount, addToCart } = useShop();
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
 
@@ -67,7 +67,7 @@ export default function DesktopCollections({ initialCategory = 'All' }) {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
               {filteredProducts.map(product => (
-                <div key={product.id} className="collection-product-card group cursor-pointer">
+                <div key={product.id} className="collection-product-card group cursor-pointer" onClick={() => onProductClick && onProductClick(product)}>
                   <div className="product-image-wrapper relative aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-white/50">
                     <img 
                       src={product.image} 
