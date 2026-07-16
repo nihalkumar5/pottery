@@ -1146,7 +1146,7 @@ function DesktopApp({ setCurrentPage, currentPage }) {
                   marginBottom: '1rem',
                 }}>
                   <img
-                    src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(`upi://pay?pa=7209741066-2@ybl&pn=Mamta%20kumari&am=${(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}&cu=INR`)}`}
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(`upi://pay?pa=Clayandcraft.@ybl&pn=Mamta%20kumari&am=${(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}&cu=INR`)}`}
                     alt="UPI QR Code"
                     style={{width: '176px', height: '176px', display: 'block', borderRadius: '8px'}}
                     onError={(e) => { e.target.onerror = null; e.target.src = '/assets/qrcode.jpeg'; }}
@@ -1167,13 +1167,13 @@ function DesktopApp({ setCurrentPage, currentPage }) {
                 }}>
                   <div>
                     <div style={{fontSize: '0.68rem', color: '#bbb', letterSpacing: '0.06em', textTransform: 'uppercase'}}>UPI ID</div>
-                    <div style={{fontSize: '0.9rem', fontWeight: '700', color: '#1A2E25'}}>7209741066-2@ybl</div>
+                    <div style={{fontSize: '0.9rem', fontWeight: '700', color: '#1A2E25'}}>Clayandcraft.@ybl</div>
                   </div>
                   <button
                     type="button"
                     id="copy-upi-btn"
                     onClick={(e) => {
-                      navigator.clipboard.writeText('7209741066-2@ybl');
+                      navigator.clipboard.writeText('Clayandcraft.@ybl');
                       const btn = e.currentTarget;
                       btn.style.background = '#e8f5e9'; btn.style.color = '#2e7d32'; btn.textContent = '✓ Copied';
                       setTimeout(() => { btn.style.background = '#f0ece8'; btn.style.color = '#82634F'; btn.textContent = 'Copy'; }, 2000);
