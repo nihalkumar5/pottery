@@ -1876,6 +1876,7 @@ export default function MobileApp({ setCurrentPage, currentPage }) {
                   <div className="w-full mb-3">
                     <h4 className="font-bold text-[#1A2E25] text-[13px] mb-2 border-b pb-1">Option 1: Scan QR Code</h4>
                     <div className="flex justify-center">
+                      <img 
                         src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(`upi://pay?pa=Clayandcraft.@ybl&pn=Mamta%20kumari&am=${(cartTotal + (cartTotal >= 499 ? 0 : 99) - (isCouponApplied ? (couponCode === 'FIRST100' ? 100 : cartTotal * 0.1) : 0)).toFixed(2)}&cu=INR`)}`}
                         alt="Payment QR Code"
                         className="w-28 h-28 object-contain rounded-xl border border-gray-100"
